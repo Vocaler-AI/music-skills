@@ -19,7 +19,8 @@ Other harnesses: https://skills.vocaler.ai/install/
 
 Most skills work the same with any music model. The model-aware ones (marked below) ship with
 `references/models.md`, which covers Suno v6, Udio, Google Flow Music (Lyria 3.5), ACE Music and ACE-Step, Mureka, ElevenLabs Eleven Music, MiniMax Music 3 and YuE2 (checked 17 Nov 2026),
-and write in the exact format of the model you name. Comparison: https://skills.vocaler.ai/models/
+and adapt to the named model where it affects the task. The prompt engineer and song formatter
+produce model-specific formats. Comparison: https://skills.vocaler.ai/models/
 
 ## Skills
 
@@ -27,9 +28,9 @@ and write in the exact format of the model you name. Comparison: https://skills.
 
 | Skill | What it does |
 |---|---|
-| [lyrics-writer](skills/lyrics-writer/SKILL.md) *model-aware* | Writes complete, singable lyrics from a topic, a story or a title, in any genre, with verses that move and a chorus that lands. |
-| [rhyme-checker](skills/rhyme-checker/SKILL.md) | Maps the rhyme scheme, counts syllables, flags forced or tired rhymes and offers better options that keep the meaning and the meter. |
-| [chorus-builder](skills/chorus-builder/SKILL.md) | Writes choruses that feel like the payoff: the title in the right place, repetition that sticks and a lift above the verse. |
+| [lyrics-writer](skills/lyrics-writer/SKILL.md) *model-aware* | Drafts, continues or revises singable lyrics in any genre and language, keeping your fixed lines and saving each reveal for its section. |
+| [rhyme-checker](skills/rhyme-checker/SKILL.md) | Checks rhyme, syllable count, stress and flow, finds rhymes by sound, and fixes a line without losing its meaning, end rhyme or meter. |
+| [chorus-builder](skills/chorus-builder/SKILL.md) | Writes or revises a chorus that pays off the verse: the title in the right place, repetition that sticks, and options when you ask. |
 | [song-structure](skills/song-structure/SKILL.md) *model-aware* | Plans the form of a song bar by bar: when the chorus hits, how energy rises and where a bridge or drop earns its place. |
 | [hook-writer](skills/hook-writer/SKILL.md) | Writes the line people remember: title hooks, rhythmic hooks and post-chorus chants, each tested for repeatability and fit. |
 

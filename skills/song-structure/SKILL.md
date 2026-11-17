@@ -1,11 +1,11 @@
 ---
 name: song-structure
-description: "Designs and diagnoses song structure: section order, lengths in bars, timing of the first chorus, energy curve. Use when the user asks how to structure a song, whether their song is too long, where to put the bridge, or for a genre's typical form."
+description: "Plans or edits song form, including section order, bar counts, hook timing and runtime. Use when the user asks where sections should go, what to cut, or how to meet a target duration."
 license: MIT
 compatibility: "Model-aware: Suno v6, Udio, Google Flow Music (Lyria 3.5), ACE Music and ACE-Step, Mureka, ElevenLabs Eleven Music, MiniMax Music 3 and YuE2. Details per model in references/models.md."
 metadata:
   author: Vocaler
-  version: "1.1.0"
+  version: "1.2.0"
   category: songwriting
   homepage: https://skills.vocaler.ai/song-structure/
   repository: https://github.com/Vocaler-AI/music-skills
@@ -23,26 +23,25 @@ Plans the form of a song bar by bar: when the chorus hits, how energy rises and 
 
 ## What to look for in the request
 
-- Genre, tempo, target length.
-- Existing lyrics or section list, if any.
-- Where it will be heard (streaming, radio, short-form video, live, club).
+- Genre and listening context, tempo, meter and the note value counted by the BPM.
+- Existing sections or timestamps, including any pickup, count-in or tail that counts toward runtime.
+- Target duration, hook deadline, required sections and any tempo or meter changes.
 
 Do not interview the user. If something is missing, make a sensible assumption, state it in one line, and deliver. Ask only when the answer would change the result completely.
 
 ## Workflow
 
-1. Pick the reference form for the genre and context (pop, hip-hop, EDM, rock, ballad, folk, K-pop each have conventions).
-2. Lay out sections with bar counts and timestamps calculated from the tempo (bars x 4 beats x 60 / BPM seconds, in 4/4).
-3. Draw the energy curve 1-10 per section. Every chorus should be at least as high as the last; the final chorus highest.
-4. Check key timings: the hook or chorus within 30-45 seconds for streaming, 10-15 seconds for short-form.
-5. Suggest cuts or additions and give the new total length.
+1. For an edit, map the current form and note where it misses the brief. For a new plan, choose a form that serves the genre and the intended payoff.
+2. Calculate seconds per bar as beats per bar (counted in the BPM's beat unit) × 60 ÷ BPM. In 6/8 with a dotted-quarter BPM, use two beats per bar. Calculate each constant-tempo and meter span independently. Sum unrounded timings and add any pickup or tail outside the counted bars once.
+3. Work back from hard limits. Set aside time for fixed sections and any included pickup or tail, then allocate the remaining bars. Check the first hook at its actual entry, which can fall inside a section.
+4. Give every section a purpose. Place the peak where the song needs it. Emotional intensity and arrangement density can diverge, such as in a stripped final chorus.
+5. Show the resulting section starts and total. For edits, name the cuts or additions and why they work. If fixed constraints conflict, identify the conflict and the smallest tradeoff that would make the plan fit.
 
 ## Rules
 
-- Always show your timing math; do not guess durations.
-- Section lengths are usually 4, 8 or 16 bars. Odd lengths need a reason.
-- Contrast beats repetition: the second verse can be shorter; a bridge can drop instruments.
-- Respect the genre: a drill track and a folk ballad do not share a form.
+- Show the timing calculation and label any assumed meter, beat unit or tempo. For free or changing tempo without enough timing information, label the timestamps as estimates or use supplied section times.
+- Use the phrase lengths the music needs. Four-, eight- and sixteen-bar sections are useful defaults in many styles.
+- Treat hook timing by listening context as a preference unless the user gives a deadline.
 
 ## Model compatibility
 
@@ -56,20 +55,22 @@ Some choices here depend on the music model the user generates with. Look for th
 ## Output format
 
 ```markdown
-| Section | Bars | Starts | Energy | Purpose |
-|---------|------|--------|--------|---------|
+| Section | Bars | Start | Purpose and energy |
+|---------|------|-------|--------------------|
 
-**Total:** [m:ss at N BPM]
-**First chorus at:** [m:ss]
-**Notes:** ...
+**Timing** — [meter, BPM beat unit, seconds per bar, total including any tail]
+**First hook or chorus** — [time, when present]
+**Changes** — [for an edit, cuts or additions and why]
 ```
 
 ## Example
 
-**Request:** Pop song at 120 BPM, I want it under 3 minutes.
+**Request:** Cut a 4/4 song at 100 quarter-note BPM to 45 seconds including a 0.8-second tail. Keep both verses and choruses, with the first chorus by 15 seconds. Current bars are 4 / 8 / 8 / 4 / 8.
 
 **Response (abridged):**
 
 ```
-Intro 4 bars (0:00) · V1 8 (0:08) · Pre 4 (0:24) · Ch 8 (0:32) · V2 8 (0:48) · Pre 4 (1:04) · Ch 8 (1:12) · Bridge 8 (1:28) · Ch x2 16 (1:44) · Outro 4 (2:16) — 2:24 total, first chorus at 0:32.
+At 2.4 s per bar, 44.2 s of music allows 18 full bars.
+Intro 2 (0.0 s) → V1 4 (4.8 s) → Chorus 4 (14.4 s) → V2 4 (24.0 s) → Final chorus 4 (33.6 s).
+Total 44.0 s with tail. Cut the intro and first verse to reach the first chorus sooner. Use the strongest four-bar phrase of each chorus.
 ```

@@ -44,7 +44,7 @@ REPO = "https://github.com/Vocaler-AI/music-skills"
 REPO_SLUG = "Vocaler-AI/music-skills"
 VOCALER = "https://vocaler.ai"
 LICENSE = "MIT"
-VERSION = "1.1.0"
+VERSION = "1.2.0"
 NOINDEX = True  # the internal preview; the public build (--site) turns it off
 
 # Category key -> URL slug (the words people search for).
@@ -94,6 +94,11 @@ MARK = ('<svg class="mark" width="18" height="18" viewBox="0 0 324 324" aria-hid
         '<circle cx="161.5" cy="162" r="115.5" fill="var(--red)"/></svg>')
 
 e = html.escape
+
+
+def inline(text):
+    """Escape for HTML, then render the one Markdown mark skills use in lists: **bold**."""
+    return re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", e(text))
 
 
 def utm(campaign, path=""):
@@ -386,6 +391,7 @@ ol.how{padding:0; margin:0}
 .prose ul, .prose ol{padding-left:1.2em; margin:0}
 .prose li{margin:0 0 8px}
 .prose li::marker{color:var(--fg-3)}
+.prose li b{color:var(--fg); font-weight:600}
 .ex{border:1px solid var(--smoke); border-radius:var(--r); overflow:hidden; background:var(--graphite)}
 .ex div{padding:16px 18px}
 .ex div + div{border-top:1px solid var(--smoke)}
@@ -660,9 +666,9 @@ def page_skill(s, md):
          "license": f"https://opensource.org/licenses/{LICENSE}", "version": VERSION, "author": {"@id": ORG["@id"]},
          "keywords": f"AI skill, {c['name']}, {s['title']}, SKILL.md, Claude, Codex, agent skills"}]}
     req, ans = s["example"]
-    use = "".join(f"<li>{e(x)}</li>" for x in s["use"])
-    steps = "".join(f"<li>{e(x)}</li>" for x in s["steps"])
-    rules = "".join(f"<li>{e(x)}</li>" for x in s["rules"])
+    use = "".join(f"<li>{inline(x)}</li>" for x in s["use"])
+    steps = "".join(f"<li>{inline(x)}</li>" for x in s["steps"])
+    rules = "".join(f"<li>{inline(x)}</li>" for x in s["rules"])
     rows = "".join(
         f'<div class="row"><h3>{e(h)}</h3><p>{e(w)}</p>{copybox(cmd, raw=cmd.startswith("http") or cmd.startswith("/"))}</div>'
         for h, w, cmd in installs(s["name"])[:5])
@@ -836,7 +842,8 @@ def readme():
         "",
         f"Most skills work the same with any music model. The model-aware ones (marked below) ship with",
         f"`references/models.md`, which covers {MODEL_LIST} (checked {MODELS_CHECKED}),",
-        f"and write in the exact format of the model you name. Comparison: {BASE}/models/",
+        "and adapt to the named model where it affects the task. The prompt engineer and song formatter",
+        f"produce model-specific formats. Comparison: {BASE}/models/",
         "",
         "## Skills",
         "",

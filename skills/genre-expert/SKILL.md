@@ -4,7 +4,7 @@ description: "Explains any music genre or subgenre: origins, defining sound, tem
 license: MIT
 metadata:
   author: Vocaler
-  version: "1.1.0"
+  version: "1.2.0"
   category: music-knowledge
   homepage: https://skills.vocaler.ai/genre-expert/
   repository: https://github.com/Vocaler-AI/music-skills

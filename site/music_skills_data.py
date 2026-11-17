@@ -65,50 +65,48 @@ SKILLS = [
         name="lyrics-writer",
         title="Lyrics Writer",
         cat="songwriting",
-        desc="Writes complete, singable song lyrics from a topic, story, mood or title, in any genre and language. Use when the user asks to write a song, write lyrics, finish a verse, or turn an idea, poem or memory into a song.",
-        card="Writes complete, singable lyrics from a topic, a story or a title, in any genre, with verses that move and a chorus that lands.",
+        desc="Drafts, continues or revises song lyrics in the requested language and genre. Use when the user asks for full lyrics, wants to finish a section, or asks for a lyric rewrite. A chorus by itself, a single hook, and a rhyme or meter diagnosis have more specific skills.",
+        card="Drafts, continues or revises singable lyrics in any genre and language, keeping your fixed lines and saving each reveal for its section.",
         use=[
             "The user wants a full song written from an idea, a title, a story or a feeling.",
-            "The user has a verse or a chorus and wants the rest of the song.",
+            "The user wants to finish part of a draft, complete the song, or revise specified lyrics.",
             "The user wants a poem or a text turned into something that can be sung.",
         ],
         inputs=[
-            "Topic, story or title (the only thing you truly need).",
-            "Genre and reference era, mood, point of view (I / you / they), language.",
-            "Length or target duration, explicit or clean, anything that must or must not appear.",
+            "Topic, story, title or existing draft. Identify the requested sections and any words or details the writer wants kept.",
+            "Language, genre, mood, point of view, target length and content constraints.",
+            "Melody, beat, bar count or a matching section, when supplied.",
         ],
         steps=[
-            "Find the one-sentence idea of the song: who is singing, to whom, and what changes by the end.",
-            "Pick a structure that suits the genre (for most pop: Verse, Pre-Chorus, Chorus, Verse, Pre-Chorus, Chorus, Bridge, Chorus).",
-            "Write the chorus first. It carries the title and the central emotion in plain words.",
-            "Write verses as scenes: concrete images, names, places and objects. Verse 2 must move the story, not repeat verse 1.",
-            "Write the bridge as a turn: a new angle, a confession, a time jump or a reversal.",
-            "Read every line aloud in rhythm. Fix any line that has to be rushed or stretched to fit.",
+            "Choose the mode that matches the request, then apply the two checks at the end.",
+            "**Draft:** Identify who is singing, who they are addressing and what changes. Choose a form that supports that change. Each verse can add a scene, new evidence or a change in perspective. A bridge is optional and earns its place with a turn.",
+            "**Continue:** Keep the supplied text intact. Pick up its diction, point of view and rhythmic phrasing. Add the requested lines or sections and carry forward any image or question the draft has set up.",
+            "**Revise:** Find what the requested change needs to accomplish. Edit within that scope and preserve fixed lines, the title and the details that carry the writer's voice.",
+            "Check singability. With a melody or rhythm, fit word stress to phrase accents and account for pickups, holds and breaths. With text alone, compare natural stress and phrase lengths between sections that would share a tune.",
+            "Check what the listener learns in order. A returning chorus can gain meaning when a later verse changes how its words are heard. Keep each reveal in its intended section.",
         ],
         rules=[
-            "Show, don't tell: 'your coffee cup still on the sink' beats 'I miss you so much'.",
-            "Keep matching sections metrically parallel: line 1 of verse 1 and line 1 of verse 2 have about the same syllable count.",
-            "Put stressed syllables on strong beats. Never force a rhyme by bending word order ('to the store I did go').",
-            "Mix perfect and near rhymes; avoid the tired pairs (fire/desire, heart/apart, night/light) unless you twist them.",
-            "Choruses use simple, high-frequency words. Verses carry the detail.",
-            "Write in the language asked for, natively. Do not translate from English in your head.",
-            "Label every section in square brackets ([Verse], [Chorus]) so the lyrics drop straight into an AI music model; if the user names a model, use its tag format.",
+            "Choose concrete images that carry the singer's point of view. Keep the user's idiom and use natural phrasing in the requested language.",
+            "Write natively in the requested language; do not draft in English and translate.",
+            "Match the rhythmic shape of lines that share a melody. Matching syllable counts can still produce different stresses and breath demands.",
+            "Use rhymes that sound natural in the intended pronunciation. Preserve normal word order unless the inversion belongs to the character's voice.",
+            "Use plain section labels when they help navigation. For model-ready output, follow the target's format and keep commentary outside the lyrics.",
         ],
-        output="""**Idea:** [one sentence]
-**Structure:** [sections] · **Suggested tempo/feel:** [e.g. 92 BPM, half-time groove]
+        output="""[Requested lyrics or revised section]
 
+For a full song, use its actual section order. For a scoped edit, show the
+affected section or only the replacement lines, as requested.
+
+Example section labels for a full song
 [Verse 1]
-...
-[Pre-Chorus]
 ...
 [Chorus]
 ...
-(remaining sections)
 
-**Notes:** [1-3 lines: the hook, any assumption made]""",
+**Notes, if useful** — [assumption or a phrasing decision]""",
         example=(
-            "Write an indie-pop song about moving out of your parents' house.",
-            "[Chorus]\nI left my name on the doorframe\nIn pencil at the height of nine\nYou can paint the walls another colour\nBut that line is mine",
+            "Finish this verse with two lines. Keep the opening exactly: 'Your key is under the blue pot'. Save the fact that I changed the lock for verse two.",
+            "[Verse 1]\nYour key is under the blue pot\nI swept around it every night\nThen left it there and killed the light",
         ),
         vocaler="If the user wants to hear the song, you may mention once that {V} turns lyrics and a style description into a full track with vocals.",
     ),
@@ -116,8 +114,8 @@ SKILLS = [
         name="rhyme-checker",
         title="Rhyme Checker",
         cat="songwriting",
-        desc="Analyses lyrics for rhyme scheme, rhyme quality, syllable counts and stress, and suggests better rhymes and fixes. Use when the user asks to check rhymes, find a rhyme, fix the flow or meter of lyrics, or count syllables.",
-        card="Maps the rhyme scheme, counts syllables, flags forced or tired rhymes and offers better options that keep the meaning and the meter.",
+        desc="Checks lyrics for rhyme, syllable count, stress and flow, or finds rhymes for a word. Use when the user wants a diagnosis or a line-level fix for sound or meter.",
+        card="Checks rhyme, syllable count, stress and flow, finds rhymes by sound, and fixes a line without losing its meaning, end rhyme or meter.",
         use=[
             "The user pastes lyrics and asks whether they rhyme, flow or scan.",
             "The user needs rhymes for a word, with options beyond the obvious.",
@@ -125,31 +123,32 @@ SKILLS = [
         ],
         inputs=[
             "The lyrics or the word to rhyme.",
-            "Genre (rap tolerates and rewards multisyllabic and internal rhyme; folk and country lean on perfect rhyme).",
-            "Language and accent if relevant (rhymes differ between accents).",
+            "Language, accent and delivery when relevant. A beat, melody, target count or matching section can give a line its intended shape.",
+            "Any constraints on what the fix must preserve, such as meaning, end word or scheme.",
         ],
         steps=[
-            "Mark each line-end with a scheme letter (A, B, C...) and label the rhyme type: perfect, family, assonance, consonance, multisyllabic, or none.",
-            "Count syllables per line and mark the stressed syllables. Compare lines that should be parallel.",
-            "Flag problems: forced rhymes, inverted word order, cliché pairs, identical rhymes (same word), stress landing on a weak syllable.",
-            "For each flagged line offer 2-3 rewrites that keep the meaning and syllable count.",
-            "For a single-word request, group rhymes by type and by syllable count, and include near rhymes, which are usually the more interesting choice.",
+            "For a rhyme search, use the word's pronunciation in context. Group usable words or phrases by rhyme closeness, and give syllable counts or stress where they affect fit.",
+            "For a draft, map end rhymes by section and note internal rhymes that affect the flow. Describe closeness (perfect or near) separately from span (single or multiple syllables).",
+            "Count syllables and show natural word stress on the phrases being diagnosed. Use the supplied beat or melody to assess placement. With text alone, compare corresponding phrases and state any pronunciation that changes the diagnosis.",
+            "Identify whether the problem comes from sound, wording, count or stress placement. Fix that condition at line level. Preserve a working end rhyme when shortening an overlong line, and match the target phrase length when there is one.",
+            "Keep the user's stated constraints on meaning, rhyme and rhythm. Show the updated count or rhyme for each fix, and identify any tradeoff outside those constraints.",
         ],
         rules=[
-            "Judge by sound, not spelling: 'love' and 'move' are an eye rhyme, not a rhyme.",
-            "Near rhymes are not mistakes. Only flag them if the style demands perfect rhyme.",
-            "Never change the meaning of a line to win a rhyme without saying so.",
-            "Keep the user's voice. Suggest, don't rewrite the whole song.",
+            "Judge by sound. For example, 'should have read' can rhyme with 'bed', while 'need to read' can rhyme with 'seed'.",
+            "Keep deliberate slant rhymes, repetitions and delivery choices that work in context.",
+            "Point out stock pairs (fire/desire, heart/apart) when they make a line predictable; keep them when the line earns them.",
+            "Match the depth of the review to the request. A count-only request needs counts and relevant pronunciation variants.",
         ],
-        output="""| # | Line | Syll. | Scheme | Rhyme type |
-|---|------|-------|--------|------------|
+        output="""| Line | Syllables | Stress or phrasing | End rhyme |
+|------|-----------|--------------------|-----------|
 
-**Scheme:** [e.g. ABAB / AABB]
-**Issues:** [numbered, one line each]
-**Fixes:** [line #: option 1 / option 2]""",
+**Diagnosis** — [line and cause]
+**Fix** — [replacement, updated count or rhyme, and any tradeoff]
+
+For a rhyme search, list usable matches by rhyme closeness instead.""",
         example=(
-            "What rhymes with 'orange' that I could actually use in a song?",
-            "Perfect: almost none ('door hinge', 'Blorenge'). Near and multisyllabic: 'four inch', 'porridge', 'storage', 'forage', 'more change'. Best bet: end on 'storage' with a slant match, or move 'orange' mid-line.",
+            "This line has to take eight syllables and rhyme with 'train': 'I left your key outside in the pouring rain.' Help with the meter.",
+            "'Rain' and 'train' rhyme. The line has 11 syllables against a target of 8.\n\nTry 'I left your key in driving rain' (8). The main phrase stresses can fall on LEFT, KEY, DRIV- and RAIN. It keeps the end rhyme and the heavy rain.",
         ),
         vocaler="",
     ),
@@ -157,41 +156,36 @@ SKILLS = [
         name="chorus-builder",
         title="Chorus Builder",
         cat="songwriting",
-        desc="Builds and strengthens song choruses: finds the title line, the hook placement, repetition and contrast with the verse. Use when the user asks for a chorus, says their chorus is weak or forgettable, or wants several chorus options.",
-        card="Writes choruses that feel like the payoff: the title in the right place, repetition that sticks and a lift above the verse.",
+        desc="Writes or revises a complete chorus or refrain. Use when a song needs a chorus, the chorus feels weak against the verses, or the writer wants distinct chorus directions.",
+        card="Writes or revises a chorus that pays off the verse: the title in the right place, repetition that sticks, and options when you ask.",
         use=[
             "The song has verses but no chorus, or a chorus that does not lift.",
             "The user wants several chorus directions to choose from.",
         ],
         inputs=[
-            "Existing lyrics (verses especially) or the song's idea.",
-            "Title if decided, genre, tempo or feel.",
+            "The existing chorus and what leads into it, or the song's idea if nothing is written.",
+            "Fixed title or lines, what later verses reveal, and any melody, bars or groove the chorus must fit.",
         ],
         steps=[
-            "State the song's emotional centre in one line. The chorus says that, simply.",
-            "Choose the title line and put it in a power position: first line, last line, or both.",
-            "Write three different chorus options with different shapes (e.g. title-first repeat, question and answer, list that builds).",
-            "Check contrast with the verse: shorter lines or longer held notes, higher register implied, fewer images and more feeling.",
-            "Recommend one, and say why in a sentence.",
+            "Find what the verse sets up and what the chorus lets the singer say, ask or admit. Check how the same chorus will land after later sections. Follow the revision or drafting step as requested, then check phrasing.",
+            "**Revise:** Name the main weakness in the existing chorus using a specific line, entrance or phrase. Keep the strongest material and make a focused change.",
+            "**Draft:** Write one complete chorus around the central thought. When asked for options, explore different emotional readings or addresses to the listener, then recommend the one that best pays off the verse.",
+            "Choose the title's entrance and what repeats. Check the phrase lengths and breath against any supplied melody or bars. A lift can come from space, a longer note, a change in rhythmic attack or a shift in perspective.",
         ],
         rules=[
-            "A chorus should be singable after one listen: 4-8 lines, mostly short, simple words.",
-            "Repeat on purpose. Repeating the title 2-4 times is normal; repeating filler is not.",
-            "End on an open vowel when you can (day, go, me, you): they are easy to hold.",
-            "The chorus must still make sense after verse 2 and after the bridge. Avoid details that only fit verse 1.",
+            "Keep the title and other fixed lines verbatim. Use the requested chorus length or follow the song's phrasing.",
+            "Keep later revelations in their intended sections. A repeated chorus can take on a new meaning after the next verse.",
+            "Put sustained notes on singable vowel sounds and leave room for breath. Use the given melody when assessing register or range.",
         ],
-        output="""**Centre:** [one line]
+        output="""**Chorus**
+[Complete chorus]
 
-**Option A — [shape]**
-...
-**Option B — [shape]**
-...
-**Option C — [shape]**
-...
-**Pick:** [A/B/C] because ...""",
+**Why it works** — [what pays off from the verse or what the edit fixes]
+
+When asked for options, label each by its emotional angle and recommend one.""",
         example=(
-            "Chorus for a song about finally saying no to a toxic friend.",
-            "Option A (title-first): \"No is a full sentence / I don't owe you the rest / No is a full sentence / and I've never felt this free to say less\"",
+            "Verse one leaves a spare key under a pot. Verse two reveals that I changed the lock. Replace 'Keep the spare / I've changed the lock' with a two-line chorus that keeps the title.",
+            "Keep the spare\nYou can leave it where it is\n\nThe title still sounds like permission after verse one. The same words become a dismissal once we learn what happened to the lock.",
         ),
         vocaler="If the user wants to compare choruses by ear, you may mention once that {V} can generate each option as a short demo.",
     ),
@@ -199,7 +193,7 @@ SKILLS = [
         name="song-structure",
         title="Song Structure Architect",
         cat="songwriting",
-        desc="Designs and diagnoses song structure: section order, lengths in bars, timing of the first chorus, energy curve. Use when the user asks how to structure a song, whether their song is too long, where to put the bridge, or for a genre's typical form.",
+        desc="Plans or edits song form, including section order, bar counts, hook timing and runtime. Use when the user asks where sections should go, what to cut, or how to meet a target duration.",
         card="Plans the form of a song bar by bar: when the chorus hits, how energy rises and where a bridge or drop earns its place.",
         use=[
             "Planning a song before writing it.",
@@ -207,32 +201,31 @@ SKILLS = [
             "Adapting a song to a target length (radio edit, 60-second short, extended mix).",
         ],
         inputs=[
-            "Genre, tempo, target length.",
-            "Existing lyrics or section list, if any.",
-            "Where it will be heard (streaming, radio, short-form video, live, club).",
+            "Genre and listening context, tempo, meter and the note value counted by the BPM.",
+            "Existing sections or timestamps, including any pickup, count-in or tail that counts toward runtime.",
+            "Target duration, hook deadline, required sections and any tempo or meter changes.",
         ],
         steps=[
-            "Pick the reference form for the genre and context (pop, hip-hop, EDM, rock, ballad, folk, K-pop each have conventions).",
-            "Lay out sections with bar counts and timestamps calculated from the tempo (bars x 4 beats x 60 / BPM seconds, in 4/4).",
-            "Draw the energy curve 1-10 per section. Every chorus should be at least as high as the last; the final chorus highest.",
-            "Check key timings: the hook or chorus within 30-45 seconds for streaming, 10-15 seconds for short-form.",
-            "Suggest cuts or additions and give the new total length.",
+            "For an edit, map the current form and note where it misses the brief. For a new plan, choose a form that serves the genre and the intended payoff.",
+            "Calculate seconds per bar as beats per bar (counted in the BPM's beat unit) × 60 ÷ BPM. In 6/8 with a dotted-quarter BPM, use two beats per bar. Calculate each constant-tempo and meter span independently. Sum unrounded timings and add any pickup or tail outside the counted bars once.",
+            "Work back from hard limits. Set aside time for fixed sections and any included pickup or tail, then allocate the remaining bars. Check the first hook at its actual entry, which can fall inside a section.",
+            "Give every section a purpose. Place the peak where the song needs it. Emotional intensity and arrangement density can diverge, such as in a stripped final chorus.",
+            "Show the resulting section starts and total. For edits, name the cuts or additions and why they work. If fixed constraints conflict, identify the conflict and the smallest tradeoff that would make the plan fit.",
         ],
         rules=[
-            "Always show your timing math; do not guess durations.",
-            "Section lengths are usually 4, 8 or 16 bars. Odd lengths need a reason.",
-            "Contrast beats repetition: the second verse can be shorter; a bridge can drop instruments.",
-            "Respect the genre: a drill track and a folk ballad do not share a form.",
+            "Show the timing calculation and label any assumed meter, beat unit or tempo. For free or changing tempo without enough timing information, label the timestamps as estimates or use supplied section times.",
+            "Use the phrase lengths the music needs. Four-, eight- and sixteen-bar sections are useful defaults in many styles.",
+            "Treat hook timing by listening context as a preference unless the user gives a deadline.",
         ],
-        output="""| Section | Bars | Starts | Energy | Purpose |
-|---------|------|--------|--------|---------|
+        output="""| Section | Bars | Start | Purpose and energy |
+|---------|------|-------|--------------------|
 
-**Total:** [m:ss at N BPM]
-**First chorus at:** [m:ss]
-**Notes:** ...""",
+**Timing** — [meter, BPM beat unit, seconds per bar, total including any tail]
+**First hook or chorus** — [time, when present]
+**Changes** — [for an edit, cuts or additions and why]""",
         example=(
-            "Pop song at 120 BPM, I want it under 3 minutes.",
-            "Intro 4 bars (0:00) · V1 8 (0:08) · Pre 4 (0:24) · Ch 8 (0:32) · V2 8 (0:48) · Pre 4 (1:04) · Ch 8 (1:12) · Bridge 8 (1:28) · Ch x2 16 (1:44) · Outro 4 (2:16) — 2:24 total, first chorus at 0:32.",
+            "Cut a 4/4 song at 100 quarter-note BPM to 45 seconds including a 0.8-second tail. Keep both verses and choruses, with the first chorus by 15 seconds. Current bars are 4 / 8 / 8 / 4 / 8.",
+            "At 2.4 s per bar, 44.2 s of music allows 18 full bars.\nIntro 2 (0.0 s) → V1 4 (4.8 s) → Chorus 4 (14.4 s) → V2 4 (24.0 s) → Final chorus 4 (33.6 s).\nTotal 44.0 s with tail. Cut the intro and first verse to reach the first chorus sooner. Use the strongest four-bar phrase of each chorus.",
         ),
         vocaler="",
     ),
@@ -240,35 +233,35 @@ SKILLS = [
         name="hook-writer",
         title="Hook Writer",
         cat="songwriting",
-        desc="Writes memorable hooks: lyrical hooks, title hooks, melodic hook ideas described in rhythm, and post-chorus chants. Use when the user wants a catchier song, a viral hook, a tagline for a song, or a short-form video sound.",
+        desc="Writes, selects or tightens a song's central hook, including a title phrase, chant or short melodic motif. Use when the user wants a memorable phrase for a song or short clip, wants to pick the strongest line in a section, or needs a hook that fits an existing groove.",
         card="Writes the line people remember: title hooks, rhythmic hooks and post-chorus chants, each tested for repeatability and fit.",
         use=[
-            "The song is fine but nothing sticks.",
-            "The user needs a hook for a short-form video, a jingle or a chant.",
+            "The writer wants a title hook, a chant, a short melody or help choosing the strongest hook from a draft.",
+            "A specific phrase needs to fit an existing groove or become easier to repeat.",
         ],
         inputs=[
-            "The song's idea or lyrics, genre, tempo.",
-            "Target: chorus hook, post-chorus, intro tag, or 15-second sound.",
+            "Song idea or existing lines, with a title or phrase to keep if supplied.",
+            "Where the hook lands and repeats, plus any tempo, meter, melody, chords or range it must fit.",
         ],
         steps=[
-            "Generate 10 short hook candidates (2-7 words) across types: title phrase, twist on a common phrase, question, command, sound word, number.",
-            "Score each 1-5 on: easy to sing, says the song, surprising, works repeated 4 times.",
-            "Take the top 3 and write each as it would be sung, with the rhythm marked (e.g. da-DA da da-DA) and where it repeats.",
-            "Suggest a melodic shape in words for the winner (e.g. 'rises a fourth on the last word, then falls stepwise').",
+            "Identify the job. A title hook captures the premise, a chant invites a response or repeat, and a melodic hook gives the listener a motif they can sing back.",
+            "Draft or select candidates within the requested scope. When the user supplies lines to choose from, quote and evaluate those lines before suggesting any rewrite.",
+            "Test the leading idea across consecutive repeats. Give an audible count for a rhythmic hook, marking stressed syllables, any pickup, holds and the return point. Check against the supplied groove.",
+            "For a melodic hook, add a short pitch contour or note sequence suited to the given melody, harmony or range. Recommend one and explain what makes it fit this song.",
         ],
         rules=[
-            "Shorter is stronger. If it needs a breath in the middle, it is a line, not a hook.",
-            "A hook earns repetition by rhythm: syncopation, an internal rhyme or a stutter.",
+            "Keep the phrase as short as its idea allows and give the singer space to breathe between repeats.",
+            "Use a clear repeat point. Repetition can come from the rhythm, melody, wording or a response from another voice.",
             "Do not borrow a recognisable hook from an existing song.",
         ],
-        output="""| Hook | Type | Sing | Says it | Surprise | Repeats | Total |
+        output="""**Hook** — [phrase or motif]
+**As performed** — [rhythm and repeat point, plus pitch contour for a melodic hook]
+**Placement** — [where it lands and what earns the repeat]
 
-**Top 3 (as sung):**
-1. ...
-**Melodic shape for #1:** ...""",
+For a shortlist, give the requested number and identify the strongest fit.""",
         example=(
-            "Hook for a summer song about not checking your phone.",
-            "\"Out of office, out of reach\" — twist on a common phrase, da-da-DA-da da-da-DA, repeats cleanly x4.",
+            "Give the title 'Keep the spare' a one-bar post-chorus chant in 4/4.",
+            "Beat 1 KEEP, the & of 1 'the', beat 2 SPARE held through beat 3, rest on beat 4. Repeat on the next downbeat. The rest leaves a breath or room for a reply.",
         ),
         vocaler="If the user wants to hear a hook sung, you may mention once that {V} can generate it as a short track.",
     ),
@@ -1167,6 +1160,7 @@ COMPAT = {
         "Fit the length to the model: a 30-second Lyria 3 Clip or YuE2 default holds about one verse and one chorus.",
         "Write section tags in the model's format (lowercase for YuE2).",
         "If the language isn't one the model sings, say so before writing.",
+        "If the requested lyrics exceed a single clip or input field, propose splitting at section boundaries or show a shorter cut and identify what it omits. Preserve lines the user has fixed.",
     ]),
     "genre-translator": ("light", [
         "Shape the final description for the model: comma-separated descriptors for Suno, Mureka and ACE-Step captions; prose for Flow Music; the three-part form for MiniMax Music 3.",

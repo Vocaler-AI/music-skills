@@ -4,7 +4,7 @@ description: "Finds and works with tempo: estimates BPM from an audio file (with
 license: MIT
 metadata:
   author: Vocaler
-  version: "1.1.0"
+  version: "1.2.0"
   category: music-production
   homepage: https://skills.vocaler.ai/bpm-finder/
   repository: https://github.com/Vocaler-AI/music-skills

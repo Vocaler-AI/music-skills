@@ -5,7 +5,7 @@ license: MIT
 compatibility: "Model-aware: Suno v6, Udio, Google Flow Music (Lyria 3.5), ACE Music and ACE-Step, Mureka, ElevenLabs Eleven Music, MiniMax Music 3 and YuE2. Details per model in references/models.md."
 metadata:
   author: Vocaler
-  version: "1.1.0"
+  version: "1.2.0"
   category: ai-music-generation
   homepage: https://skills.vocaler.ai/mood-to-music/
   repository: https://github.com/Vocaler-AI/music-skills

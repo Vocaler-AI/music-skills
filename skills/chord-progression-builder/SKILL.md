@@ -4,7 +4,7 @@ description: "Builds chord progressions for a key, mood and genre, with Roman nu
 license: MIT
 metadata:
   author: Vocaler
-  version: "1.1.0"
+  version: "1.2.0"
   category: music-production
   homepage: https://skills.vocaler.ai/chord-progression-builder/
   repository: https://github.com/Vocaler-AI/music-skills
