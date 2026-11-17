@@ -1,6 +1,6 @@
 ---
 name: hook-writer
-description: "Writes memorable hooks: lyrical hooks, title hooks, melodic hook ideas described in rhythm, and post-chorus chants. Use when the user wants a catchier song, a viral hook, a tagline for a song, or a short-form video sound."
+description: "Writes, selects or tightens a song's central hook, including a title phrase, chant or short melodic motif. Use when the user wants a memorable phrase for a song or short clip, wants to pick the strongest line in a section, or needs a hook that fits an existing groove."
 license: MIT
 metadata:
   author: Vocaler
@@ -16,47 +16,47 @@ Writes the line people remember: title hooks, rhythmic hooks and post-chorus cha
 
 ## When to use
 
-- The song is fine but nothing sticks.
-- The user needs a hook for a short-form video, a jingle or a chant.
+- The writer wants a title hook, a chant, a short melody or help choosing the strongest hook from a draft.
+- A specific phrase needs to fit an existing groove or become easier to repeat.
 
 ## What to look for in the request
 
-- The song's idea or lyrics, genre, tempo.
-- Target: chorus hook, post-chorus, intro tag, or 15-second sound.
+- Song idea or existing lines, with a title or phrase to keep if supplied.
+- Where the hook lands and repeats, plus any tempo, meter, melody, chords or range it must fit.
 
 Do not interview the user. If something is missing, make a sensible assumption, state it in one line, and deliver. Ask only when the answer would change the result completely.
 
 ## Workflow
 
-1. Generate 10 short hook candidates (2-7 words) across types: title phrase, twist on a common phrase, question, command, sound word, number.
-2. Score each 1-5 on: easy to sing, says the song, surprising, works repeated 4 times.
-3. Take the top 3 and write each as it would be sung, with the rhythm marked (e.g. da-DA da da-DA) and where it repeats.
-4. Suggest a melodic shape in words for the winner (e.g. 'rises a fourth on the last word, then falls stepwise').
+1. Identify the job. A title hook captures the premise, a chant invites a response or repeat, and a melodic hook gives the listener a motif they can sing back.
+2. Draft or select candidates within the requested scope. When the user supplies lines to choose from, quote and evaluate those lines before suggesting any rewrite.
+3. Test the leading idea across consecutive repeats. Give an audible count for a rhythmic hook, marking stressed syllables, any pickup, holds and the return point. Check against the supplied groove.
+4. For a melodic hook, add a short pitch contour or note sequence suited to the given melody, harmony or range. Recommend one and explain what makes it fit this song.
 
 ## Rules
 
-- Shorter is stronger. If it needs a breath in the middle, it is a line, not a hook.
-- A hook earns repetition by rhythm: syncopation, an internal rhyme or a stutter.
+- Keep the phrase as short as its idea allows and give the singer space to breathe between repeats.
+- Use a clear repeat point. Repetition can come from the rhythm, melody, wording or a response from another voice.
 - Do not borrow a recognisable hook from an existing song.
 
 ## Output format
 
 ```markdown
-| Hook | Type | Sing | Says it | Surprise | Repeats | Total |
+**Hook** — [phrase or motif]
+**As performed** — [rhythm and repeat point, plus pitch contour for a melodic hook]
+**Placement** — [where it lands and what earns the repeat]
 
-**Top 3 (as sung):**
-1. ...
-**Melodic shape for #1:** ...
+For a shortlist, give the requested number and identify the strongest fit.
 ```
 
 ## Example
 
-**Request:** Hook for a summer song about not checking your phone.
+**Request:** Give the title 'Keep the spare' a one-bar post-chorus chant in 4/4.
 
 **Response (abridged):**
 
 ```
-"Out of office, out of reach" — twist on a common phrase, da-da-DA-da da-da-DA, repeats cleanly x4.
+Beat 1 KEEP, the & of 1 'the', beat 2 SPARE held through beat 3, rest on beat 4. Repeat on the next downbeat. The rest leaves a breath or room for a reply.
 ```
 
 ## Going further

@@ -1,6 +1,6 @@
 ---
 name: chorus-builder
-description: "Builds and strengthens song choruses: finds the title line, the hook placement, repetition and contrast with the verse. Use when the user asks for a chorus, says their chorus is weak or forgettable, or wants several chorus options."
+description: "Writes or revises a complete chorus or refrain. Use when a song needs a chorus, the chorus feels weak against the verses, or the writer wants distinct chorus directions."
 license: MIT
 metadata:
   author: Vocaler
@@ -21,48 +21,46 @@ Writes choruses that feel like the payoff: the title in the right place, repetit
 
 ## What to look for in the request
 
-- Existing lyrics (verses especially) or the song's idea.
-- Title if decided, genre, tempo or feel.
+- The existing chorus and what leads into it, or the song's idea if nothing is written.
+- Fixed title or lines, what later verses reveal, and any melody, bars or groove the chorus must fit.
 
 Do not interview the user. If something is missing, make a sensible assumption, state it in one line, and deliver. Ask only when the answer would change the result completely.
 
 ## Workflow
 
-1. State the song's emotional centre in one line. The chorus says that, simply.
-2. Choose the title line and put it in a power position: first line, last line, or both.
-3. Write three different chorus options with different shapes (e.g. title-first repeat, question and answer, list that builds).
-4. Check contrast with the verse: shorter lines or longer held notes, higher register implied, fewer images and more feeling.
-5. Recommend one, and say why in a sentence.
+1. Find what the verse sets up and what the chorus lets the singer say, ask or admit. Check how the same chorus will land after later sections. Follow the revision or drafting step as requested, then check phrasing.
+2. **Revise:** Name the main weakness in the existing chorus using a specific line, entrance or phrase. Keep the strongest material and make a focused change.
+3. **Draft:** Write one complete chorus around the central thought. When asked for options, explore different emotional readings or addresses to the listener, then recommend the one that best pays off the verse.
+4. Choose the title's entrance and what repeats. Check the phrase lengths and breath against any supplied melody or bars. A lift can come from space, a longer note, a change in rhythmic attack or a shift in perspective.
 
 ## Rules
 
-- A chorus should be singable after one listen: 4-8 lines, mostly short, simple words.
-- Repeat on purpose. Repeating the title 2-4 times is normal; repeating filler is not.
-- End on an open vowel when you can (day, go, me, you): they are easy to hold.
-- The chorus must still make sense after verse 2 and after the bridge. Avoid details that only fit verse 1.
+- Keep the title and other fixed lines verbatim. Use the requested chorus length or follow the song's phrasing.
+- Keep later revelations in their intended sections. A repeated chorus can take on a new meaning after the next verse.
+- Put sustained notes on singable vowel sounds and leave room for breath. Use the given melody when assessing register or range.
 
 ## Output format
 
 ```markdown
-**Centre:** [one line]
+**Chorus**
+[Complete chorus]
 
-**Option A — [shape]**
-...
-**Option B — [shape]**
-...
-**Option C — [shape]**
-...
-**Pick:** [A/B/C] because ...
+**Why it works** — [what pays off from the verse or what the edit fixes]
+
+When asked for options, label each by its emotional angle and recommend one.
 ```
 
 ## Example
 
-**Request:** Chorus for a song about finally saying no to a toxic friend.
+**Request:** Verse one leaves a spare key under a pot. Verse two reveals that I changed the lock. Replace 'Keep the spare / I've changed the lock' with a two-line chorus that keeps the title.
 
 **Response (abridged):**
 
 ```
-Option A (title-first): "No is a full sentence / I don't owe you the rest / No is a full sentence / and I've never felt this free to say less"
+Keep the spare
+You can leave it where it is
+
+The title still sounds like permission after verse one. The same words become a dismissal once we learn what happened to the lock.
 ```
 
 ## Going further

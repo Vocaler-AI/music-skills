@@ -19,7 +19,8 @@ Other harnesses: https://skills.vocaler.ai/install/
 
 Most skills work the same with any music model. The model-aware ones (marked below) ship with
 `references/models.md`, which covers Suno v6, Udio, Google Flow Music (Lyria 3.5), ACE Music and ACE-Step, Mureka, ElevenLabs Eleven Music, MiniMax Music 3 and YuE2 (checked 17 Nov 2026),
-and write in the exact format of the model you name. Comparison: https://skills.vocaler.ai/models/
+and adapt to the named model where it affects the task. The prompt engineer and song formatter
+produce model-specific formats. Comparison: https://skills.vocaler.ai/models/
 
 ## Skills
 
