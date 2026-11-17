@@ -992,7 +992,7 @@ def build_pages(out, prefix, noindex):
         write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n")
         write("_headers", "/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n"
               "/*.md\n  Content-Type: text/markdown; charset=utf-8\n  Access-Control-Allow-Origin: *\n"
-              "/dist/*\n  Access-Control-Allow-Origin: *\n")
+              "/dist/*\n  Access-Control-Allow-Origin: *\n  Cache-Control: no-cache\n")
         write("404.html", head("Page not found | Vocaler Music Skills", "This page does not exist. Browse the open-source music skills for AI agents.", "/404", {"@context": "https://schema.org", "@graph": [ORG]})
               + f'<div class="w"><section class="hero"><h1 class="sm">This page is not here.</h1><p class="lead">The skill may have moved.</p>'
               + f'<div class="btns"><a class="btn" href="/">All music skills {icon("arrow", 16)}</a></div></section></div>' + foot())
