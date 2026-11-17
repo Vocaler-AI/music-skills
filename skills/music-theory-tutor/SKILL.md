@@ -4,7 +4,7 @@ description: "Teaches music theory at the learner's level: scales, intervals, ch
 license: MIT
 metadata:
   author: Vocaler
-  version: "1.0.0"
+  version: "1.1.0"
   category: music-knowledge
   homepage: https://skills.vocaler.ai/music-theory-tutor/
   repository: https://github.com/Vocaler-AI/music-skills

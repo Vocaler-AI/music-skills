@@ -2,9 +2,10 @@
 name: lyrics-writer
 description: "Writes complete, singable song lyrics from a topic, story, mood or title, in any genre and language. Use when the user asks to write a song, write lyrics, finish a verse, or turn an idea, poem or memory into a song."
 license: MIT
+compatibility: "Model-aware: Suno v6, Udio, Google Flow Music (Lyria 3.5), ACE Music and ACE-Step, Mureka, ElevenLabs Eleven Music, MiniMax Music 3 and YuE2. Details per model in references/models.md."
 metadata:
   author: Vocaler
-  version: "1.0.0"
+  version: "1.1.0"
   category: songwriting
   homepage: https://skills.vocaler.ai/lyrics-writer/
   repository: https://github.com/Vocaler-AI/music-skills
@@ -45,7 +46,17 @@ Do not interview the user. If something is missing, make a sensible assumption, 
 - Mix perfect and near rhymes; avoid the tired pairs (fire/desire, heart/apart, night/light) unless you twist them.
 - Choruses use simple, high-frequency words. Verses carry the detail.
 - Write in the language asked for, natively. Do not translate from English in your head.
-- Label every section in square brackets so the lyrics drop straight into an AI music model.
+- Label every section in square brackets ([Verse], [Chorus]) so the lyrics drop straight into an AI music model; if the user names a model, use its tag format.
+
+## Model compatibility
+
+Some choices here depend on the music model the user generates with. Look for the model and version in the request (for example "Suno v6", "Flow Music", "ElevenLabs", "Mureka O2", "ACE-Step"). What each model expects is in `references/models.md` (checked 17 Nov 2026); read it when a model is named.
+
+- Fit the length to the model: a 30-second Lyria 3 Clip or YuE2 default holds about one verse and one chorus.
+- Write section tags in the model's format (lowercase for YuE2).
+- If the language isn't one the model sings, say so before writing.
+- No model named: keep the default approach; mention the model only where it changes the advice.
+- A model or version not in the reference: say so, use the model-neutral format, and suggest the user checks that model's current guide.
 
 ## Output format
 

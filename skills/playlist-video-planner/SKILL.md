@@ -2,9 +2,10 @@
 name: playlist-video-planner
 description: "Plans long music compilation videos for YouTube (lo-fi, study, sleep, gaming, focus mixes): track count and order, total length, energy flow, transitions, titles, chapters and thumbnails. Use when a creator wants to make a 1-hour or multi-hour music mix video or a music channel built on compilations."
 license: MIT
+compatibility: "Model-aware: Suno v6, Udio, Google Flow Music (Lyria 3.5), ACE Music and ACE-Step, Mureka, ElevenLabs Eleven Music, MiniMax Music 3 and YuE2. Details per model in references/models.md."
 metadata:
   author: Vocaler
-  version: "1.0.0"
+  version: "1.1.0"
   category: music-for-creators
   homepage: https://skills.vocaler.ai/playlist-video-planner/
   repository: https://github.com/Vocaler-AI/music-skills
@@ -40,6 +41,15 @@ Do not interview the user. If something is missing, make a sensible assumption, 
 
 - Consistency is the product: one palette, one tempo range, one mood.
 - Remind the creator of rights and platform rules on AI music disclosure.
+
+## Model compatibility
+
+Some choices here depend on the music model the user generates with. Look for the model and version in the request (for example "Suno v6", "Flow Music", "ElevenLabs", "Mureka O2", "ACE-Step"). What each model expects is in `references/models.md` (checked 17 Nov 2026); read it when a model is named.
+
+- Generate all tracks on one model and version so the mix stays cohesive.
+- Check downloads and commercial rights for a monetised channel (Udio cannot be downloaded; Suno and ACE Music free plans can't be used commercially).
+- No model named: keep the default approach; mention the model only where it changes the advice.
+- A model or version not in the reference: say so, use the model-neutral format, and suggest the user checks that model's current guide.
 
 ## Output format
 

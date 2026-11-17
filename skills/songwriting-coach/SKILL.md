@@ -4,7 +4,7 @@ description: "Coaches songwriters: honest feedback on a song, exercises for writ
 license: MIT
 metadata:
   author: Vocaler
-  version: "1.0.0"
+  version: "1.1.0"
   category: music-knowledge
   homepage: https://skills.vocaler.ai/songwriting-coach/
   repository: https://github.com/Vocaler-AI/music-skills

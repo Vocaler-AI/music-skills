@@ -2,9 +2,10 @@
 name: podcast-intro
 description: "Designs podcast intro and outro music, stingers and transition beds: length, structure, mood matched to the show, voice-over space, and generation prompts. Use when a podcaster wants theme music, an intro, a sting, or a sonic identity for their show."
 license: MIT
+compatibility: "Model-aware: Suno v6, Udio, Google Flow Music (Lyria 3.5), ACE Music and ACE-Step, Mureka, ElevenLabs Eleven Music, MiniMax Music 3 and YuE2. Details per model in references/models.md."
 metadata:
   author: Vocaler
-  version: "1.0.0"
+  version: "1.1.0"
   category: music-for-creators
   homepage: https://skills.vocaler.ai/podcast-intro/
   repository: https://github.com/Vocaler-AI/music-skills
@@ -39,6 +40,15 @@ Do not interview the user. If something is missing, make a sensible assumption, 
 - Intros of 5-15 seconds keep listeners; longer intros get skipped.
 - If the host talks over it, leave the 1-4 kHz range clear and avoid vocals.
 - Everything should share one motif, key and palette so the show sounds like itself.
+
+## Model compatibility
+
+Some choices here depend on the music model the user generates with. Look for the model and version in the request (for example "Suno v6", "Flow Music", "ElevenLabs", "Mureka O2", "ACE-Step"). What each model expects is in `references/models.md` (checked 17 Nov 2026); read it when a model is named.
+
+- For exact intro and sting lengths, ElevenLabs takes durations to the millisecond; Lyria 3 Clip makes 30 seconds.
+- Check the user's plan allows commercial use and downloads.
+- No model named: keep the default approach; mention the model only where it changes the advice.
+- A model or version not in the reference: say so, use the model-neutral format, and suggest the user checks that model's current guide.
 
 ## Output format
 

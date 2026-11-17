@@ -4,7 +4,7 @@ description: "Analyses lyrics for rhyme scheme, rhyme quality, syllable counts a
 license: MIT
 metadata:
   author: Vocaler
-  version: "1.0.0"
+  version: "1.1.0"
   category: songwriting
   homepage: https://skills.vocaler.ai/rhyme-checker/
   repository: https://github.com/Vocaler-AI/music-skills

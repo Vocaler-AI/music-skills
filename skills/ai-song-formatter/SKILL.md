@@ -1,10 +1,11 @@
 ---
 name: ai-song-formatter
-description: "Formats lyrics for AI music models: section and meta tags ([Intro], [Verse], [Chorus], [Bridge], [Outro], [Instrumental]), performance cues, line lengths, and character limits. Use when the user is about to paste lyrics into Suno, Udio or a similar model, or when generated vocals skip lines, rush, or sing the tags."
+description: "Formats lyrics for the AI music model the user generates with (Suno v6, Udio, Google Flow Music, ACE Music and ACE-Step, Mureka, ElevenLabs, MiniMax Music 3, YuE2): the right section tags and casing, performance cues, line lengths and character limits. Use when the user is about to paste lyrics into a music model, or when generated vocals skip lines, rush, or sing the tags."
 license: MIT
+compatibility: "Model-aware: Suno v6, Udio, Google Flow Music (Lyria 3.5), ACE Music and ACE-Step, Mureka, ElevenLabs Eleven Music, MiniMax Music 3 and YuE2. Details per model in references/models.md."
 metadata:
   author: Vocaler
-  version: "1.0.0"
+  version: "1.1.0"
   category: ai-music-generation
   homepage: https://skills.vocaler.ai/ai-song-formatter/
   repository: https://github.com/Vocaler-AI/music-skills
@@ -12,7 +13,7 @@ metadata:
 
 # AI Song Formatter
 
-Formats lyrics so AI music models sing them right: clean section tags, performance cues, sensible line lengths and no sung stage directions.
+Formats lyrics so each AI music model sings them right: its own section tags, performance cues, line lengths and limits, no sung stage directions.
 
 ## When to use
 
@@ -28,21 +29,34 @@ Do not interview the user. If something is missing, make a sensible assumption, 
 
 ## Workflow
 
-1. Add one section tag per section on its own line, in square brackets.
-2. Move any stage directions into tags (e.g. [Whispered], [Spoken], [Choir]) so they are not sung.
-3. Break long lines: aim for 6-12 syllables a line; long lines get rushed.
-4. Add [Intro] and [Outro] or [End] so the song starts and finishes cleanly.
-5. Remove characters models misread (emoji, stray symbols); spell out numbers and abbreviations as they should be sung.
-6. Check the total against the model's limit and trim repeats if over.
+1. Identify the target model. If none is named, use plain [Verse] / [Chorus] tags, which most models read, and ask which model in one line.
+2. Add one section tag per section on its own line, in the model's tag format.
+3. Move any stage directions into the model's cue syntax (e.g. [Verse | whispered] for Suno) so they are not sung.
+4. Break long lines: aim for 6-12 syllables a line; long lines get rushed.
+5. Add [Intro] and [Outro] or [End] so the song starts and finishes cleanly.
+6. Remove characters models misread (emoji, stray symbols); spell out numbers and abbreviations as they should be sung.
+7. Check the total against the model's lyrics limit and trim repeats if over.
 
 ## Rules
 
 - Never change the lyric content except to make it singable; say if you did.
 - Write pronunciation hints only when a word is likely to be misread (names, foreign words).
 
+## Model compatibility
+
+The output format depends on the music model the user generates with. Look for the model and version in the request (for example "Suno v6", "Flow Music", "ElevenLabs", "Mureka O2", "ACE-Step"). What each model expects is in `references/models.md` (checked 17 Nov 2026); read it when a model is named.
+
+- Use the model's tag names and casing (lowercase for YuE2, [Pre Chorus] for MiniMax Music 2.5).
+- Use the model's performance syntax: cues inside Suno's brackets, UPPERCASE and (backing) for ACE-Step, ## before big lifts for MiniMax Music 3, timestamps for Lyria 3 Pro and 3.5.
+- For ElevenLabs, split the lyrics into composition-plan sections of at most 30 lines and 200 characters per line.
+- Check the length against the model's lyrics limit and trim repeats if over.
+- No model named: write a model-neutral version that works anywhere, and ask in one line which model they use.
+- A model or version not in the reference: say so, use the model-neutral format, and suggest the user checks that model's current guide.
+
 ## Output format
 
 ```markdown
+**Model:** [model + version]
 ```
 [Intro]
 ...
@@ -51,20 +65,19 @@ Do not interview the user. If something is missing, make a sensible assumption, 
 [Chorus]
 ...
 [Outro]
-[End]
 ```
 **Changes made:** ...
-**Length:** n characters
+**Length:** n / [limit] characters
 ```
 
 ## Example
 
-**Request:** Format these lyrics for Suno. (pastes lyrics with (whisper) notes inline)
+**Request:** Format these lyrics for Suno v6. (pastes lyrics with (whisper) notes inline)
 
 **Response (abridged):**
 
 ```
-Moved '(whisper)' to a [Whispered] tag on its own line, split two 16-syllable lines, added [Intro] and [End], 1,840 characters.
+Moved '(whisper)' into the section cue [Bridge | whispered], split two 16-syllable lines, added [Intro] and [Outro]; 1,840 / 5,000 characters.
 ```
 
 ## Going further

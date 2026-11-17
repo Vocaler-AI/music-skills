@@ -2,9 +2,10 @@
 name: genre-translator
 description: "Translates genre names, artist references and vague descriptions into precise, model-safe sound descriptions, and re-imagines a song in another genre. Use when the user names an artist or genre the model will not understand, asks what a genre sounds like in production terms, or wants a song flipped into a different genre."
 license: MIT
+compatibility: "Model-aware: Suno v6, Udio, Google Flow Music (Lyria 3.5), ACE Music and ACE-Step, Mureka, ElevenLabs Eleven Music, MiniMax Music 3 and YuE2. Details per model in references/models.md."
 metadata:
   author: Vocaler
-  version: "1.0.0"
+  version: "1.1.0"
   category: ai-music-generation
   homepage: https://skills.vocaler.ai/genre-translator/
   repository: https://github.com/Vocaler-AI/music-skills
@@ -39,6 +40,15 @@ Do not interview the user. If something is missing, make a sensible assumption, 
 - Never put artist or song names into a generation prompt; describe the sound instead.
 - Be specific about rhythm: it defines most genres more than instruments do (e.g. amapiano log drum; reggaeton dembow; drill sliding 808s and triplet hats).
 - Respect regional genres: describe them accurately, without stereotypes.
+
+## Model compatibility
+
+Some choices here depend on the music model the user generates with. Look for the model and version in the request (for example "Suno v6", "Flow Music", "ElevenLabs", "Mureka O2", "ACE-Step"). What each model expects is in `references/models.md` (checked 17 Nov 2026); read it when a model is named.
+
+- Shape the final description for the model: comma-separated descriptors for Suno, Mureka and ACE-Step captions; prose for Flow Music; the three-part form for MiniMax Music 3.
+- Never pass artist names: ElevenLabs and Flow Music reject them outright, the others ignore or filter them.
+- No model named: keep the default approach; mention the model only where it changes the advice.
+- A model or version not in the reference: say so, use the model-neutral format, and suggest the user checks that model's current guide.
 
 ## Output format
 

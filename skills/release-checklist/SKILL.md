@@ -4,7 +4,7 @@ description: "Builds a dated release plan and checklist for a single, EP or albu
 license: MIT
 metadata:
   author: Vocaler
-  version: "1.0.0"
+  version: "1.1.0"
   category: release-and-publishing
   homepage: https://skills.vocaler.ai/release-checklist/
   repository: https://github.com/Vocaler-AI/music-skills

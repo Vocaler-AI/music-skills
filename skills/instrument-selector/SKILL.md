@@ -4,7 +4,7 @@ description: "Chooses the instrumentation for a track: which instruments, which 
 license: MIT
 metadata:
   author: Vocaler
-  version: "1.0.0"
+  version: "1.1.0"
   category: ai-music-generation
   homepage: https://skills.vocaler.ai/instrument-selector/
   repository: https://github.com/Vocaler-AI/music-skills

@@ -15,37 +15,43 @@ npx skills add Vocaler-AI/music-skills --skill lyrics-writer
 
 Other harnesses: https://skills.vocaler.ai/install/
 
+## Model compatibility
+
+Most skills work the same with any music model. The model-aware ones (marked below) ship with
+`references/models.md`, which covers Suno v6, Udio, Google Flow Music (Lyria 3.5), ACE Music and ACE-Step, Mureka, ElevenLabs Eleven Music, MiniMax Music 3 and YuE2 (checked 17 Nov 2026),
+and write in the exact format of the model you name. Comparison: https://skills.vocaler.ai/models/
+
 ## Skills
 
 ### Songwriting
 
 | Skill | What it does |
 |---|---|
-| [lyrics-writer](skills/lyrics-writer/SKILL.md) | Writes complete, singable lyrics from a topic, a story or a title, in any genre, with verses that move and a chorus that lands. |
+| [lyrics-writer](skills/lyrics-writer/SKILL.md) *model-aware* | Writes complete, singable lyrics from a topic, a story or a title, in any genre, with verses that move and a chorus that lands. |
 | [rhyme-checker](skills/rhyme-checker/SKILL.md) | Maps the rhyme scheme, counts syllables, flags forced or tired rhymes and offers better options that keep the meaning and the meter. |
 | [chorus-builder](skills/chorus-builder/SKILL.md) | Writes choruses that feel like the payoff: the title in the right place, repetition that sticks and a lift above the verse. |
-| [song-structure](skills/song-structure/SKILL.md) | Plans the form of a song bar by bar: when the chorus hits, how energy rises and where a bridge or drop earns its place. |
+| [song-structure](skills/song-structure/SKILL.md) *model-aware* | Plans the form of a song bar by bar: when the chorus hits, how energy rises and where a bridge or drop earns its place. |
 | [hook-writer](skills/hook-writer/SKILL.md) | Writes the line people remember: title hooks, rhythmic hooks and post-chorus chants, each tested for repeatability and fit. |
 
 ### AI music generation
 
 | Skill | What it does |
 |---|---|
-| [music-prompt-engineer](skills/music-prompt-engineer/SKILL.md) | Writes prompts that AI music models follow: genre, tempo, instruments, vocal and production described in the order the model listens. |
-| [genre-translator](skills/genre-translator/SKILL.md) | Turns 'like that artist' or a niche genre name into the instruments, tempo and production words an AI model or a producer can use. |
-| [mood-to-music](skills/mood-to-music/SKILL.md) | Converts a feeling, a scene or a picture into tempo, key, instruments and texture, then into a prompt you can generate. |
+| [music-prompt-engineer](skills/music-prompt-engineer/SKILL.md) *model-aware* | Writes prompts AI music models follow, shaped for each model: Suno v6, Flow Music, ACE, Mureka, ElevenLabs, MiniMax and more. |
+| [genre-translator](skills/genre-translator/SKILL.md) *model-aware* | Turns 'like that artist' or a niche genre name into the instruments, tempo and production words an AI model or a producer can use. |
+| [mood-to-music](skills/mood-to-music/SKILL.md) *model-aware* | Converts a feeling, a scene or a picture into tempo, key, instruments and texture, then into a prompt you can generate. |
 | [instrument-selector](skills/instrument-selector/SKILL.md) | Picks the right instruments and gives each a job, register and articulation so the track sounds full without clashing. |
-| [ai-song-formatter](skills/ai-song-formatter/SKILL.md) | Formats lyrics so AI music models sing them right: clean section tags, performance cues, sensible line lengths and no sung stage directions. |
+| [ai-song-formatter](skills/ai-song-formatter/SKILL.md) *model-aware* | Formats lyrics so each AI music model sings them right: its own section tags, performance cues, line lengths and limits, no sung stage directions. |
 
 ### Music for creators
 
 | Skill | What it does |
 |---|---|
-| [youtube-background-music](skills/youtube-background-music/SKILL.md) | Plans background music for YouTube: the right energy for each chapter, nothing that fights the voice, loop points and ready prompts. |
-| [podcast-intro](skills/podcast-intro/SKILL.md) | Designs a podcast's theme: a 10-30 second intro, matching outro, transition stings and a bed that leaves room for the host's voice. |
-| [game-soundtrack](skills/game-soundtrack/SKILL.md) | Plans a game score: themes per area, adaptive layers for explore, tension and combat, seamless loops and stingers for every event. |
-| [ad-jingle](skills/ad-jingle/SKILL.md) | Writes jingles that say the brand name and stick: lyrics cut to exact ad lengths, a singable hook and a music prompt. |
-| [playlist-video-planner](skills/playlist-video-planner/SKILL.md) | Plans music compilation videos: 10 to 30+ tracks in an order that flows, chapters, titles and a thumbnail idea that gets clicks. |
+| [youtube-background-music](skills/youtube-background-music/SKILL.md) *model-aware* | Plans background music for YouTube: the right energy for each chapter, nothing that fights the voice, loop points and ready prompts. |
+| [podcast-intro](skills/podcast-intro/SKILL.md) *model-aware* | Designs a podcast's theme: a 10-30 second intro, matching outro, transition stings and a bed that leaves room for the host's voice. |
+| [game-soundtrack](skills/game-soundtrack/SKILL.md) *model-aware* | Plans a game score: themes per area, adaptive layers for explore, tension and combat, seamless loops and stingers for every event. |
+| [ad-jingle](skills/ad-jingle/SKILL.md) *model-aware* | Writes jingles that say the brand name and stick: lyrics cut to exact ad lengths, a singable hook and a music prompt. |
+| [playlist-video-planner](skills/playlist-video-planner/SKILL.md) *model-aware* | Plans music compilation videos: 10 to 30+ tracks in an order that flows, chapters, titles and a thumbnail idea that gets clicks. |
 
 ### Music production
 

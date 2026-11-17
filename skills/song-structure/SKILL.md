@@ -2,9 +2,10 @@
 name: song-structure
 description: "Designs and diagnoses song structure: section order, lengths in bars, timing of the first chorus, energy curve. Use when the user asks how to structure a song, whether their song is too long, where to put the bridge, or for a genre's typical form."
 license: MIT
+compatibility: "Model-aware: Suno v6, Udio, Google Flow Music (Lyria 3.5), ACE Music and ACE-Step, Mureka, ElevenLabs Eleven Music, MiniMax Music 3 and YuE2. Details per model in references/models.md."
 metadata:
   author: Vocaler
-  version: "1.0.0"
+  version: "1.1.0"
   category: songwriting
   homepage: https://skills.vocaler.ai/song-structure/
   repository: https://github.com/Vocaler-AI/music-skills
@@ -42,6 +43,15 @@ Do not interview the user. If something is missing, make a sensible assumption, 
 - Section lengths are usually 4, 8 or 16 bars. Odd lengths need a reason.
 - Contrast beats repetition: the second verse can be shorter; a bridge can drop instruments.
 - Respect the genre: a drill track and a folk ballad do not share a form.
+
+## Model compatibility
+
+Some choices here depend on the music model the user generates with. Look for the model and version in the request (for example "Suno v6", "Flow Music", "ElevenLabs", "Mureka O2", "ACE-Step"). What each model expects is in `references/models.md` (checked 17 Nov 2026); read it when a model is named.
+
+- Check the planned length fits the model: Lyria 3 Clip 30 s, Lyria 3 Pro and 3.5 about 3 min, Mureka and MiniMax Music 3 about 5 min, ElevenLabs and ACE-Step up to 10 min.
+- For Lyria 3 Pro and 3.5 the plan can become timestamps; for ElevenLabs, composition-plan sections with exact durations.
+- No model named: keep the default approach; mention the model only where it changes the advice.
+- A model or version not in the reference: say so, use the model-neutral format, and suggest the user checks that model's current guide.
 
 ## Output format
 

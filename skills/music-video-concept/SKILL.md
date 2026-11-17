@@ -4,7 +4,7 @@ description: "Develops music video and visualizer concepts: treatment, shot list
 license: MIT
 metadata:
   author: Vocaler
-  version: "1.0.0"
+  version: "1.1.0"
   category: release-and-publishing
   homepage: https://skills.vocaler.ai/music-video-concept/
   repository: https://github.com/Vocaler-AI/music-skills

@@ -31,6 +31,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from music_skills_data import CATEGORIES, ROADMAP, SKILLS  # noqa: E402
 from music_skills_data import _v  # noqa: E402
+from music_skills_data import COMPAT, MODEL_LIST, MODELS, MODELS_CHECKED  # noqa: E402
 
 HERE = pathlib.Path(__file__).resolve().parent
 ROOT = pathlib.Path(os.environ.get("PLAY_OUT") or pathlib.Path(__file__).resolve().parent.parent / "public")
@@ -43,7 +44,7 @@ REPO = "https://github.com/Vocaler-AI/music-skills"
 REPO_SLUG = "Vocaler-AI/music-skills"
 VOCALER = "https://vocaler.ai"
 LICENSE = "MIT"
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 NOINDEX = True  # the internal preview; the public build (--site) turns it off
 
 # Category key -> URL slug (the words people search for).
@@ -110,7 +111,9 @@ def frontmatter(s):
         f"name: {s['name']}\n"
         f"description: {yaml_str(s['desc'])}\n"
         f"license: {LICENSE}\n"
-        "metadata:\n"
+        + (f"compatibility: {yaml_str('Model-aware: ' + MODEL_LIST + '. Details per model in references/models.md.')}\n"
+           if s["name"] in COMPAT else "")
+        + "metadata:\n"
         "  author: Vocaler\n"
         f"  version: \"{VERSION}\"\n"
         f"  category: {CAT[s['cat']]['slug']}\n"
@@ -136,6 +139,42 @@ def cover_art_body():
     return t.rstrip() + "\n"
 
 
+def compat_md(name):
+    kind, notes = COMPAT[name]
+    lead = ("The output format depends on the music model the user generates with."
+            if kind == "full" else "Some choices here depend on the music model the user generates with.")
+    return [
+        "## Model compatibility", "",
+        f"{lead} Look for the model and version in the request (for example \"Suno v6\", \"Flow Music\", "
+        "\"ElevenLabs\", \"Mureka O2\", \"ACE-Step\"). What each model expects is in `references/models.md` "
+        f"(checked {MODELS_CHECKED}); read it when a model is named.", "",
+    ] + [f"- {x}" for x in notes] + [
+        "- No model named: " + ("write a model-neutral version that works anywhere, and ask in one line which model they use."
+                                if kind == "full" else "keep the default approach; mention the model only where it changes the advice."),
+        "- A model or version not in the reference: say so, use the model-neutral format, and suggest the user checks that model's current guide.",
+        "",
+    ]
+
+
+def models_md():
+    L = ["# Music model reference", "",
+         f"What each AI music model expects. Checked {MODELS_CHECKED}. Models change every few months: if the user's model "
+         "or version is not here, say so and fall back to a model-neutral format.", ""]
+    for m in MODELS:
+        L += [f"## {m['provider']} ({m['product']})", "", f"**Models:** {m['models']}", "", f"**Input:** {m['input']}", ""]
+        L += [f"- {x}" for x in m["limits"] + m["rules"]]
+        L += ["", f"**Rights:** {m['rights']}", "", "Sources: " + " · ".join(f"[{a}]({u})" for a, u in m["sources"]), ""]
+    return "\n".join(L)
+
+
+def skill_files(s, md):
+    """Every file in a skill folder, as (relative path, text)."""
+    files = [("SKILL.md", md)] + [(f"scripts/{f}", src) for f, src in s.get("scripts", {}).items()]
+    if s["name"] in COMPAT:
+        files.append(("references/models.md", models_md()))
+    return files
+
+
 def skill_md(s):
     if s.get("file") == "cover-art-director":
         body = cover_art_body()
@@ -147,6 +186,8 @@ def skill_md(s):
               "state it in one line, and deliver. Ask only when the answer would change the result completely.", ""]
         L += ["## Workflow", ""] + [f"{i}. {x}" for i, x in enumerate(s["steps"], 1)] + [""]
         L += ["## Rules", ""] + [f"- {x}" for x in s["rules"]] + [""]
+        if s["name"] in COMPAT:
+            L += compat_md(s["name"])
         L += ["## Output format", "", "```markdown", s["output"], "```", ""]
         req, ans = s["example"]
         L += ["## Example", "", f"**Request:** {req}", "", "**Response (abridged):**", "", "```", ans, "```", ""]
@@ -279,6 +320,22 @@ h3{font-size:17px; margin:0 0 6px; font-weight:600; letter-spacing:-.01em}
 .card p{margin:0; color:var(--fg-2); font-size:14px; line-height:1.55}
 .card .n{font:12px var(--mono); color:var(--fg-3); margin-top:auto; padding-top:6px; display:flex; align-items:center; gap:6px}
 .card:hover .n{color:var(--fg-2)}
+.tag.ma{color:var(--blue); border-color:color-mix(in srgb, var(--blue) 40%, transparent)}
+.mt{width:100%; border-collapse:collapse; font-size:14px; min-width:560px}
+.mt th,.mt td{text-align:left; vertical-align:top; padding:12px 14px; border-bottom:1px solid var(--smoke); color:var(--fg-2)}
+.mt th{font:500 11px var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--fg-3); background:var(--slate)}
+.mt td:first-child{color:var(--fg); font-weight:500; white-space:nowrap}
+.tw{overflow-x:auto; border:1px solid var(--smoke); border-radius:var(--r); background:var(--graphite)}
+.mt tr:last-child td{border-bottom:0}
+.model{border:1px solid var(--smoke); border-radius:var(--r); background:var(--graphite); padding:20px 22px; margin:0 0 14px; scroll-margin-top:80px}
+.model h2{font-size:21px; margin:0 0 4px}
+.model .prod{font:12px var(--mono); color:var(--fg-3); margin:0 0 14px}
+.model p{margin:0 0 10px; color:var(--fg-2); font-size:14.5px}
+.model p b{color:var(--fg); font-weight:500}
+.model ul{margin:0 0 12px; padding-left:1.2em; color:var(--fg-2); font-size:14.5px}
+.model li{margin:0 0 6px}
+.model .src{font-size:13px; color:var(--fg-3)}
+.model .src a{color:var(--fg-2)}
 .card.soon{background:transparent; border-style:dashed}
 .card.soon h3{color:var(--fg-2)}
 .tag{font:500 10.5px var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--fg-3); border:1px solid var(--smoke); border-radius:999px; padding:2px 8px; align-self:flex-start}
@@ -400,6 +457,7 @@ def head(title, desc, path, ld, og_type="website"):
   <a class="brand" href="{PREFIX}/">{MARK}<span>Vocaler</span><small>Music Skills</small></a>
   <nav class="nav" aria-label="Main">
     <a class="hide-s" href="{PREFIX}/#catalogue">Skills</a>
+    <a class="hide-s" href="{PREFIX}/models/">Models</a>
     <a class="hide-s" href="{PREFIX}/install/">Install</a>
     <a href="{REPO}" rel="noopener">{icon("github", 16)} <span class="hide-s">GitHub</span></a>
     <a class="cta" href="{utm('nav')}">Try Vocaler</a>
@@ -416,7 +474,7 @@ def foot():
   <div><a class="brand" href="{utm('footer')}">{MARK}<span>Vocaler</span></a>
   <p style="margin:10px 0 0">Open-source music skills for AI agents, made by <a href="{utm('footer')}">Vocaler</a>. {LICENSE} licensed.</p></div>
   <nav aria-label="Categories">{cats}</nav>
-  <nav aria-label="Project"><a href="{PREFIX}/install/">Install</a><a href="{REPO}" rel="noopener">GitHub</a><a href="{REPO}/blob/main/CONTRIBUTING.md" rel="noopener">Contribute</a><a href="{utm('footer')}">vocaler.ai</a></nav>
+  <nav aria-label="Project"><a href="{PREFIX}/models/">Models</a><a href="{PREFIX}/install/">Install</a><a href="{REPO}" rel="noopener">GitHub</a><a href="{REPO}/blob/main/CONTRIBUTING.md" rel="noopener">Contribute</a><a href="{utm('footer')}">vocaler.ai</a></nav>
 </div></footer>
 <script>{JS}</script>
 </body>
@@ -433,7 +491,8 @@ def crumbs_ld(items):
 
 
 def card(s):
-    return (f'<a class="card" href="{PREFIX}/{s["name"]}/"><h3>{e(s["title"])}</h3><p>{e(s["card"])}</p>'
+    tag = '<span class="tag ma">Model-aware</span>' if s["name"] in COMPAT else ""
+    return (f'<a class="card" href="{PREFIX}/{s["name"]}/">{tag}<h3>{e(s["title"])}</h3><p>{e(s["card"])}</p>'
             f'<span class="n">{icon("file", 14)} {s["name"]}/SKILL.md</span></a>')
 
 
@@ -610,7 +669,7 @@ def page_skill(s, md):
     related = [x for x in by_cat(s["cat"]) if x["name"] != s["name"]][:3]
     vline = _v(s["vocaler"]).split(" you may mention once that ")[-1] if s["vocaler"] else ""
     vtext = ("Vocaler " + vline.split("(https://vocaler.ai) ", 1)[-1].rstrip(".") + ".") if vline else None
-    files = f"skills/{s['name']}/SKILL.md" + "".join(f"<br>skills/{s['name']}/scripts/{f}" for f in s.get("scripts", {}))
+    files = "<br>".join(f"skills/{s['name']}/{rel}" for rel, _ in skill_files(s, md))
     return head(title, desc, path, ld, og_type="article") + f"""
 <div class="w">
   <p class="crumb"><a href="{PREFIX}/">Music Skills</a> / <a href="{PREFIX}/{c['slug']}/">{e(c['name'])}</a> / {e(s['title'])}</p>
@@ -627,6 +686,8 @@ def page_skill(s, md):
 
       <h2>Example</h2>
       <div class="ex"><div><b>You ask</b><p>{e(req)}</p></div><div class="ans"><b>The agent answers (abridged)</b><p>{e(ans)}</p></div></div>
+
+      {compat_html(s['name'])}
 
       {f'<h2>What it does, step by step</h2><ol>{steps}</ol>' if steps else ''}
       {f'<h2>Rules it follows</h2><ul>{rules}</ul>' if rules else ''}
@@ -648,7 +709,7 @@ def page_skill(s, md):
       <div class="box">
         <h3>Details</h3>
         <dl class="meta"><dt>Name</dt><dd>{s['name']}</dd><dt>Version</dt><dd>{VERSION}</dd><dt>License</dt><dd>{LICENSE}</dd>
-        <dt>Files</dt><dd>{files}</dd><dt>Author</dt><dd><a href="{utm(s['name'])}">Vocaler</a></dd></dl>
+        <dt>Models</dt><dd>{'Model-aware' if s['name'] in COMPAT else 'Any'}</dd><dt>Files</dt><dd>{files}</dd><dt>Author</dt><dd><a href="{utm(s['name'])}">Vocaler</a></dd></dl>
       </div>
       <div class="box">
         <h3>Made by Vocaler</h3>
@@ -659,6 +720,60 @@ def page_skill(s, md):
   </div>
   <section class="sec" style="padding-top:64px"><h2>More {e(c['name'].lower())} skills</h2>
   <div class="grid" style="margin-top:20px">{''.join(card(x) for x in related)}</div></section>
+</div>
+""" + foot()
+
+
+def compat_html(name):
+    if name not in COMPAT:
+        return ('<h2>Model compatibility</h2><p>Works the same whatever music model you use: the craft does not change '
+                f'between models. <a href="{PREFIX}/models/">See how the models differ</a>.</p>')
+    kind, notes = COMPAT[name]
+    rows = "".join(f'<tr><td><a href="{PREFIX}/models/#{m["key"]}">{e(m["provider"])}</a></td><td>{e(m["models"].split(" · ")[0].split(" (")[0])}</td>'
+                   f'<td>{e(m["input"].split(". ")[0].rstrip("."))}.</td></tr>' for m in MODELS)
+    lead = ("Model-aware: the output is written in the exact format of the model you name."
+            if kind == "full" else "Model-aware: it adjusts a few choices to the model you name.")
+    return (f'<h2>Model compatibility</h2><p>{lead} With no model named, it writes a version that works anywhere. '
+            f'The skill ships with <code>references/models.md</code> (checked {MODELS_CHECKED}).</p>'
+            f'<ul>{"".join(f"<li>{e(x)}</li>" for x in notes)}</ul>'
+            f'<div class="tw" style="margin-top:14px"><table class="mt"><thead><tr><th>Provider</th><th>Current model</th><th>Input</th></tr></thead>'
+            f'<tbody>{rows}</tbody></table></div>')
+
+
+def page_models():
+    title = "AI Music Models Compared: Prompts & Limits | Vocaler"
+    desc = ("How Suno v6, Udio, Google Flow Music, ACE Music, Mureka, ElevenLabs, MiniMax Music 3 and YuE2 differ: "
+            "input format, limits, tags and rights.")
+    ld = {"@context": "https://schema.org", "@graph": [
+        ORG, crumbs_ld([("Music Skills", "/"), ("Models", "/models/")]),
+        {"@type": "TechArticle", "headline": "AI music models compared for prompting", "description": desc,
+         "dateModified": "2026-11-17", "author": {"@id": ORG["@id"]}, "url": f"{BASE}/models/"}]}
+    jump = "".join(f'<a class="pill" href="#{m["key"]}" style="text-decoration:none">{e(m["provider"])}</a>' for m in MODELS)
+    rows = "".join(f'<tr><td><a href="#{m["key"]}">{e(m["provider"])}</a></td><td>{e(m["models"])}</td><td>{e(m["rights"])}</td></tr>' for m in MODELS)
+    blocks = "".join(
+        f'<section class="model" id="{m["key"]}"><h2>{e(m["provider"])}</h2><p class="prod">{e(m["product"])}</p>'
+        f'<p><b>Models.</b> {e(m["models"])}</p><p><b>Input.</b> {e(m["input"])}</p>'
+        f'<ul>{"".join(f"<li>{e(x)}</li>" for x in m["limits"] + m["rules"])}</ul>'
+        f'<p><b>Rights.</b> {e(m["rights"])}</p>'
+        f'<p class="src">Sources: {" · ".join(f"<a href={chr(34)}{u}{chr(34)} rel=noopener>{e(a)}</a>" for a, u in m["sources"])}</p></section>'
+        for m in MODELS)
+    aware = "".join(card(s) for s in SKILLS if s["name"] in COMPAT)
+    return head(title, desc, "/models/", ld) + f"""
+<div class="w">
+  <p class="crumb"><a href="{PREFIX}/">Music Skills</a> / Models</p>
+  <section class="hero" style="padding-top:28px">
+    <div class="eyebrow"><b>Models</b><span>&middot;</span><span>checked {MODELS_CHECKED}</span></div>
+    <h1 class="sm">One idea, eight music models, eight formats</h1>
+    <p class="lead">Every AI music model reads a prompt differently: different boxes, tags, limits and rules on artist names and rights. Model-aware skills carry this reference and write for the model you name.</p>
+    <div class="works">{jump}</div>
+  </section>
+  <div class="tw" style="margin-top:36px"><table class="mt"><thead><tr><th>Provider</th><th>Models</th><th>Rights &amp; downloads</th></tr></thead><tbody>{rows}</tbody></table></div>
+  <div style="margin-top:28px">{blocks}</div>
+  <section class="sec" style="padding-top:40px"><h2>Model-aware skills</h2>
+  <p style="color:var(--fg-2);margin:0 0 20px">These skills ship with this reference as <code>references/models.md</code>. All other skills work the same with any model.</p>
+  <div class="grid">{aware}</div></section>
+  <p style="color:var(--fg-3);font-size:13.5px;margin-top:28px">Spotted something out of date? <a href="{REPO}/issues" rel="noopener">Open an issue</a>.</p>
+  {band_small('models', 'Vocaler runs several music models in one place, with cover art and video for every track.')}
 </div>
 """ + foot()
 
@@ -717,12 +832,18 @@ def readme():
         "",
         f"Other harnesses: {BASE}/install/",
         "",
+        "## Model compatibility",
+        "",
+        f"Most skills work the same with any music model. The model-aware ones (marked below) ship with",
+        f"`references/models.md`, which covers {MODEL_LIST} (checked {MODELS_CHECKED}),",
+        f"and write in the exact format of the model you name. Comparison: {BASE}/models/",
+        "",
         "## Skills",
         "",
     ]
     for c in CAT.values():
         lines += [f"### {c['name']}", "", "| Skill | What it does |", "|---|---|"]
-        lines += [f"| [{s['name']}](skills/{s['name']}/SKILL.md) | {s['card']} |" for s in by_cat(c["key"])]
+        lines += [f"| [{s['name']}](skills/{s['name']}/SKILL.md){' *model-aware*' if s['name'] in COMPAT else ''} | {s['card']} |" for s in by_cat(c["key"])]
         lines.append("")
     lines += ["## Planned", ""] + [f"- **{n}**: {l}" for _, n, l in ROADMAP] + [""]
     lines += [
@@ -796,7 +917,7 @@ def check():
         assert s["cat"] in CAT, n
         if not 100 <= len(s["card"]) <= 165:
             print(f"warn: {n} card is {len(s['card'])} chars (meta description wants 110-165)")
-    assert not names & (set(CAT_SLUG.values()) | {"install", "dist"})
+    assert not names & (set(CAT_SLUG.values()) | {"install", "dist", "models"})
 
 
 CONTRIBUTING = f"""# Contributing
@@ -825,7 +946,7 @@ Thanks for helping musicians and creators get more out of their AI agents.
 Be kind and constructive. Music is for everyone.
 """
 
-REPO_GITIGNORE = "__pycache__/\n_site/\n.DS_Store\n"
+REPO_GITIGNORE = "__pycache__/\n_site/\npublic/\n.DS_Store\n"
 
 
 def build_pages(out, prefix, noindex):
@@ -836,13 +957,12 @@ def build_pages(out, prefix, noindex):
         shutil.rmtree(OUT)
     mds = {s["name"]: skill_md(s) for s in SKILLS}
     for s in SKILLS:
-        write(f"{s['name']}/SKILL.md", mds[s["name"]])
-        for f, src in s.get("scripts", {}).items():
-            write(f"{s['name']}/scripts/{f}", src)
+        for rel, text in skill_files(s, mds[s["name"]]):
+            write(f"{s['name']}/{rel}", text)
     (OUT / "dist").mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(OUT / "dist" / "vocaler-music-skills.zip", "w", zipfile.ZIP_DEFLATED) as everything:
         for s in SKILLS:
-            files = [("SKILL.md", mds[s["name"]])] + [(f"scripts/{f}", src) for f, src in s.get("scripts", {}).items()]
+            files = skill_files(s, mds[s["name"]])
             with zipfile.ZipFile(OUT / "dist" / f"{s['name']}.zip", "w", zipfile.ZIP_DEFLATED) as z:
                 for rel, text in files:
                     z.writestr(f"{s['name']}/{rel}", text)
@@ -852,13 +972,14 @@ def build_pages(out, prefix, noindex):
 
     write("index.html", page_index())
     write("install/index.html", page_install())
+    write("models/index.html", page_models())
     for c in CAT.values():
         write(f"{c['slug']}/index.html", page_category(c))
     for s in SKILLS:
         write(f"{s['name']}/index.html", page_skill(s, mds[s["name"]]))
 
     if not noindex:  # the public site: let search engines in, and tell them what is here
-        urls = ["/", "/install/"] + [f"/{c['slug']}/" for c in CAT.values()] + [f"/{s['name']}/" for s in SKILLS]
+        urls = ["/", "/install/", "/models/"] + [f"/{c['slug']}/" for c in CAT.values()] + [f"/{s['name']}/" for s in SKILLS]
         write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
               + "".join(f"  <url><loc>{BASE}{u}</loc></url>\n" for u in urls) + "</urlset>\n")
         write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n")
@@ -881,10 +1002,9 @@ def build_repo(root):
         if d.exists():
             shutil.rmtree(d)
         d.mkdir(parents=True)
-        (d / "SKILL.md").write_text(md, encoding="utf-8")
-        for f, src in s.get("scripts", {}).items():
-            (d / "scripts").mkdir(exist_ok=True)
-            (d / "scripts" / f).write_text(src, encoding="utf-8")
+        for rel, text in skill_files(s, md):
+            (d / rel).parent.mkdir(parents=True, exist_ok=True)
+            (d / rel).write_text(text, encoding="utf-8")
     (root / ".claude-plugin").mkdir(exist_ok=True)
     (root / ".claude-plugin" / "marketplace.json").write_text(marketplace(), encoding="utf-8")
     (root / "README.md").write_text(readme(), encoding="utf-8")

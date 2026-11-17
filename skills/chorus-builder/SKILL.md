@@ -4,7 +4,7 @@ description: "Builds and strengthens song choruses: finds the title line, the ho
 license: MIT
 metadata:
   author: Vocaler
-  version: "1.0.0"
+  version: "1.1.0"
   category: songwriting
   homepage: https://skills.vocaler.ai/chorus-builder/
   repository: https://github.com/Vocaler-AI/music-skills

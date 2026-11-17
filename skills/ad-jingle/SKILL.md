@@ -2,9 +2,10 @@
 name: ad-jingle
 description: "Writes jingles and audio ads: brand-name melody hooks, short lyrics, durations for 6, 15, 30 and 60 second spots, and music prompts. Use when the user needs a jingle, a radio or social ad, a sonic tagline, or a catchy brand song."
 license: MIT
+compatibility: "Model-aware: Suno v6, Udio, Google Flow Music (Lyria 3.5), ACE Music and ACE-Step, Mureka, ElevenLabs Eleven Music, MiniMax Music 3 and YuE2. Details per model in references/models.md."
 metadata:
   author: Vocaler
-  version: "1.0.0"
+  version: "1.1.0"
   category: music-for-creators
   homepage: https://skills.vocaler.ai/ad-jingle/
   repository: https://github.com/Vocaler-AI/music-skills
@@ -39,6 +40,15 @@ Do not interview the user. If something is missing, make a sensible assumption, 
 - The brand name must be easy to sing: put it on a strong beat and an open vowel if possible.
 - One message per spot. Say the brand name at least twice in 30 seconds.
 - Do not make claims the user has not confirmed (prices, 'best', health claims).
+
+## Model compatibility
+
+Some choices here depend on the music model the user generates with. Look for the model and version in the request (for example "Suno v6", "Flow Music", "ElevenLabs", "Mureka O2", "ACE-Step"). What each model expects is in `references/models.md` (checked 17 Nov 2026); read it when a model is named.
+
+- Ad spots need exact lengths: ElevenLabs takes durations to the millisecond; elsewhere generate longer and edit down.
+- Ads are commercial use: confirm the plan allows it; never use Udio for a deliverable.
+- No model named: keep the default approach; mention the model only where it changes the advice.
+- A model or version not in the reference: say so, use the model-neutral format, and suggest the user checks that model's current guide.
 
 ## Output format
 

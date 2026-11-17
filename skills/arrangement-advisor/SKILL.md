@@ -4,7 +4,7 @@ description: "Advises on arrangement: what plays in each section, builds and dro
 license: MIT
 metadata:
   author: Vocaler
-  version: "1.0.0"
+  version: "1.1.0"
   category: music-production
   homepage: https://skills.vocaler.ai/arrangement-advisor/
   repository: https://github.com/Vocaler-AI/music-skills
