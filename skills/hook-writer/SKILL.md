@@ -4,7 +4,7 @@ description: "Writes, selects or tightens a song's central hook, including a tit
 license: MIT
 metadata:
   author: Vocaler
-  version: "1.1.0"
+  version: "1.2.0"
   category: songwriting
   homepage: https://skills.vocaler.ai/hook-writer/
   repository: https://github.com/Vocaler-AI/music-skills

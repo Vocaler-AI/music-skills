@@ -66,7 +66,7 @@ SKILLS = [
         title="Lyrics Writer",
         cat="songwriting",
         desc="Drafts, continues or revises song lyrics in the requested language and genre. Use when the user asks for full lyrics, wants to finish a section, or asks for a lyric rewrite. A chorus by itself, a single hook, and a rhyme or meter diagnosis have more specific skills.",
-        card="Writes complete, singable lyrics from a topic, a story or a title, in any genre, with verses that move and a chorus that lands.",
+        card="Drafts, continues or revises singable lyrics in any genre and language, keeping your fixed lines and saving each reveal for its section.",
         use=[
             "The user wants a full song written from an idea, a title, a story or a feeling.",
             "The user wants to finish part of a draft, complete the song, or revise specified lyrics.",
@@ -87,6 +87,7 @@ SKILLS = [
         ],
         rules=[
             "Choose concrete images that carry the singer's point of view. Keep the user's idiom and use natural phrasing in the requested language.",
+            "Write natively in the requested language; do not draft in English and translate.",
             "Match the rhythmic shape of lines that share a melody. Matching syllable counts can still produce different stresses and breath demands.",
             "Use rhymes that sound natural in the intended pronunciation. Preserve normal word order unless the inversion belongs to the character's voice.",
             "Use plain section labels when they help navigation. For model-ready output, follow the target's format and keep commentary outside the lyrics.",
@@ -114,7 +115,7 @@ Example section labels for a full song
         title="Rhyme Checker",
         cat="songwriting",
         desc="Checks lyrics for rhyme, syllable count, stress and flow, or finds rhymes for a word. Use when the user wants a diagnosis or a line-level fix for sound or meter.",
-        card="Maps the rhyme scheme, counts syllables, flags forced or tired rhymes and offers better options that keep the meaning and the meter.",
+        card="Checks rhyme, syllable count, stress and flow, finds rhymes by sound, and fixes a line without losing its meaning, end rhyme or meter.",
         use=[
             "The user pastes lyrics and asks whether they rhyme, flow or scan.",
             "The user needs rhymes for a word, with options beyond the obvious.",
@@ -135,6 +136,7 @@ Example section labels for a full song
         rules=[
             "Judge by sound. For example, 'should have read' can rhyme with 'bed', while 'need to read' can rhyme with 'seed'.",
             "Keep deliberate slant rhymes, repetitions and delivery choices that work in context.",
+            "Point out stock pairs (fire/desire, heart/apart) when they make a line predictable; keep them when the line earns them.",
             "Match the depth of the review to the request. A count-only request needs counts and relevant pronunciation variants.",
         ],
         output="""| Line | Syllables | Stress or phrasing | End rhyme |
@@ -155,7 +157,7 @@ For a rhyme search, list usable matches by rhyme closeness instead.""",
         title="Chorus Builder",
         cat="songwriting",
         desc="Writes or revises a complete chorus or refrain. Use when a song needs a chorus, the chorus feels weak against the verses, or the writer wants distinct chorus directions.",
-        card="Writes choruses that feel like the payoff: the title in the right place, repetition that sticks and a lift above the verse.",
+        card="Writes or revises a chorus that pays off the verse: the title in the right place, repetition that sticks, and options when you ask.",
         use=[
             "The song has verses but no chorus, or a chorus that does not lift.",
             "The user wants several chorus directions to choose from.",
@@ -205,7 +207,7 @@ When asked for options, label each by its emotional angle and recommend one.""",
         ],
         steps=[
             "For an edit, map the current form and note where it misses the brief. For a new plan, choose a form that serves the genre and the intended payoff.",
-            "Calculate seconds per bar as BPM beats per bar × 60 ÷ BPM. In 6/8 with a dotted-quarter BPM, use two beats per bar. Calculate each constant-tempo and meter span independently. Sum unrounded timings and add any pickup or tail outside the counted bars once.",
+            "Calculate seconds per bar as beats per bar (counted in the BPM's beat unit) × 60 ÷ BPM. In 6/8 with a dotted-quarter BPM, use two beats per bar. Calculate each constant-tempo and meter span independently. Sum unrounded timings and add any pickup or tail outside the counted bars once.",
             "Work back from hard limits. Set aside time for fixed sections and any included pickup or tail, then allocate the remaining bars. Check the first hook at its actual entry, which can fall inside a section.",
             "Give every section a purpose. Place the peak where the song needs it. Emotional intensity and arrangement density can diverge, such as in a stripped final chorus.",
             "Show the resulting section starts and total. For edits, name the cuts or additions and why they work. If fixed constraints conflict, identify the conflict and the smallest tradeoff that would make the plan fit.",

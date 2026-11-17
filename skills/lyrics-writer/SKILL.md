@@ -5,7 +5,7 @@ license: MIT
 compatibility: "Model-aware: Suno v6, Udio, Google Flow Music (Lyria 3.5), ACE Music and ACE-Step, Mureka, ElevenLabs Eleven Music, MiniMax Music 3 and YuE2. Details per model in references/models.md."
 metadata:
   author: Vocaler
-  version: "1.1.0"
+  version: "1.2.0"
   category: songwriting
   homepage: https://skills.vocaler.ai/lyrics-writer/
   repository: https://github.com/Vocaler-AI/music-skills
@@ -13,7 +13,7 @@ metadata:
 
 # Lyrics Writer
 
-Writes complete, singable lyrics from a topic, a story or a title, in any genre, with verses that move and a chorus that lands.
+Drafts, continues or revises singable lyrics in any genre and language, keeping your fixed lines and saving each reveal for its section.
 
 ## When to use
 
@@ -41,6 +41,7 @@ Do not interview the user. If something is missing, make a sensible assumption, 
 ## Rules
 
 - Choose concrete images that carry the singer's point of view. Keep the user's idiom and use natural phrasing in the requested language.
+- Write natively in the requested language; do not draft in English and translate.
 - Match the rhythmic shape of lines that share a melody. Matching syllable counts can still produce different stresses and breath demands.
 - Use rhymes that sound natural in the intended pronunciation. Preserve normal word order unless the inversion belongs to the character's voice.
 - Use plain section labels when they help navigation. For model-ready output, follow the target's format and keep commentary outside the lyrics.

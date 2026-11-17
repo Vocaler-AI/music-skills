@@ -4,7 +4,7 @@ description: "Writes or revises a complete chorus or refrain. Use when a song ne
 license: MIT
 metadata:
   author: Vocaler
-  version: "1.1.0"
+  version: "1.2.0"
   category: songwriting
   homepage: https://skills.vocaler.ai/chorus-builder/
   repository: https://github.com/Vocaler-AI/music-skills
@@ -12,7 +12,7 @@ metadata:
 
 # Chorus Builder
 
-Writes choruses that feel like the payoff: the title in the right place, repetition that sticks and a lift above the verse.
+Writes or revises a chorus that pays off the verse: the title in the right place, repetition that sticks, and options when you ask.
 
 ## When to use
 

@@ -4,7 +4,7 @@ description: "Checks lyrics for rhyme, syllable count, stress and flow, or finds
 license: MIT
 metadata:
   author: Vocaler
-  version: "1.1.0"
+  version: "1.2.0"
   category: songwriting
   homepage: https://skills.vocaler.ai/rhyme-checker/
   repository: https://github.com/Vocaler-AI/music-skills
@@ -12,7 +12,7 @@ metadata:
 
 # Rhyme Checker
 
-Maps the rhyme scheme, counts syllables, flags forced or tired rhymes and offers better options that keep the meaning and the meter.
+Checks rhyme, syllable count, stress and flow, finds rhymes by sound, and fixes a line without losing its meaning, end rhyme or meter.
 
 ## When to use
 
@@ -40,6 +40,7 @@ Do not interview the user. If something is missing, make a sensible assumption, 
 
 - Judge by sound. For example, 'should have read' can rhyme with 'bed', while 'need to read' can rhyme with 'seed'.
 - Keep deliberate slant rhymes, repetitions and delivery choices that work in context.
+- Point out stock pairs (fire/desire, heart/apart) when they make a line predictable; keep them when the line earns them.
 - Match the depth of the review to the request. A count-only request needs counts and relevant pronunciation variants.
 
 ## Output format

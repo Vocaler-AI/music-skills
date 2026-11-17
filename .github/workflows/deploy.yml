@@ -4,6 +4,7 @@ name: Deploy site
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 permissions:
   contents: read
@@ -22,7 +23,7 @@ jobs:
           python3 site/build.py --repo .
           git diff --exit-code -- skills .claude-plugin README.md
       - name: Publish
-        if: ${{ env.HAS_TOKEN == 'true' }}
+        if: ${{ github.event_name != 'pull_request' && env.HAS_TOKEN == 'true' }}
         env:
           HAS_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

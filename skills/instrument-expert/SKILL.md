@@ -4,7 +4,7 @@ description: "Answers questions about instruments: range, tuning, techniques, so
 license: MIT
 metadata:
   author: Vocaler
-  version: "1.1.0"
+  version: "1.2.0"
   category: music-knowledge
   homepage: https://skills.vocaler.ai/instrument-expert/
   repository: https://github.com/Vocaler-AI/music-skills

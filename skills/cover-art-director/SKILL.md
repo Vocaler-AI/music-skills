@@ -4,7 +4,7 @@ description: "Creates cover art concepts and production-ready text-to-image prom
 license: MIT
 metadata:
   author: Vocaler
-  version: "1.1.0"
+  version: "1.2.0"
   category: release-and-publishing
   homepage: https://skills.vocaler.ai/cover-art-director/
   repository: https://github.com/Vocaler-AI/music-skills

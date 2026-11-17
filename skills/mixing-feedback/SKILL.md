@@ -4,7 +4,7 @@ description: "Gives structured mix feedback and fixes: balance, EQ, compression,
 license: MIT
 metadata:
   author: Vocaler
-  version: "1.1.0"
+  version: "1.2.0"
   category: music-production
   homepage: https://skills.vocaler.ai/mixing-feedback/
   repository: https://github.com/Vocaler-AI/music-skills
