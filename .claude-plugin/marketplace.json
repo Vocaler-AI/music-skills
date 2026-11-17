@@ -1,0 +1,49 @@
+{
+  "name": "vocaler-music-skills",
+  "owner": {
+    "name": "Vocaler",
+    "url": "https://vocaler.ai"
+  },
+  "metadata": {
+    "description": "Open-source AI skills for music, made by Vocaler.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "music-skills",
+      "description": "Songwriting, AI music prompts, production, music knowledge and release skills.",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/lyrics-writer",
+        "./skills/rhyme-checker",
+        "./skills/chorus-builder",
+        "./skills/song-structure",
+        "./skills/hook-writer",
+        "./skills/music-prompt-engineer",
+        "./skills/genre-translator",
+        "./skills/mood-to-music",
+        "./skills/instrument-selector",
+        "./skills/ai-song-formatter",
+        "./skills/youtube-background-music",
+        "./skills/podcast-intro",
+        "./skills/game-soundtrack",
+        "./skills/ad-jingle",
+        "./skills/playlist-video-planner",
+        "./skills/bpm-finder",
+        "./skills/chord-progression-builder",
+        "./skills/arrangement-advisor",
+        "./skills/mixing-feedback",
+        "./skills/genre-expert",
+        "./skills/music-theory-tutor",
+        "./skills/instrument-expert",
+        "./skills/songwriting-coach",
+        "./skills/cover-art-director",
+        "./skills/music-metadata",
+        "./skills/release-checklist",
+        "./skills/artist-branding",
+        "./skills/music-video-concept"
+      ]
+    }
+  ]
+}
