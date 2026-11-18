@@ -5,7 +5,7 @@ license: MIT
 compatibility: "Model-aware: Suno v6, Udio, Google Flow Music (Lyria 3.5), ACE Music and ACE-Step, Mureka, ElevenLabs Eleven Music, MiniMax Music 3 and YuE2. Details per model in references/models.md."
 metadata:
   author: Vocaler
-  version: "1.2.0"
+  version: "1.3.0"
   category: songwriting
   homepage: https://skills.vocaler.ai/song-structure/
   repository: https://github.com/Vocaler-AI/music-skills
@@ -27,7 +27,11 @@ Plans the form of a song bar by bar: when the chorus hits, how energy rises and 
 - Existing sections or timestamps, including any pickup, count-in or tail that counts toward runtime.
 - Target duration, hook deadline, required sections and any tempo or meter changes.
 
-Do not interview the user. If something is missing, make a sensible assumption, state it in one line, and deliver. Ask only when the answer would change the result completely.
+Do not interview the user. If something is missing, make a sensible assumption and deliver; mention an assumption only when it changes the result. Ask only when the answer would change the result completely.
+
+Lead with the deliverable and skip closing notes that only restate it. Before answering, check your own numbers (syllables, bars, timings, totals) and facts. Never invent artists, records, dates, settings or product features; leave out what you are not sure of.
+
+Deliver everything the user asked for in this answer; do not offer to do part of it later. Follow explicit requests exactly (named attributes, counts, limits). Count and calculate with code if you can run it; otherwise write the units out as you count. Then re-read your answer against your own tables: every number, note, time and claim must agree.
 
 ## Workflow
 
@@ -41,7 +45,9 @@ Do not interview the user. If something is missing, make a sensible assumption, 
 
 - Show the timing calculation and label any assumed meter, beat unit or tempo. For free or changing tempo without enough timing information, label the timestamps as estimates or use supplied section times.
 - Use the phrase lengths the music needs. Four-, eight- and sixteen-bar sections are useful defaults in many styles.
+- Do not default to verse/chorus pop form. Match the form to the idea: AABA, strophic or verse-and-refrain (folk, storytelling ballads), through-composed, progressive (movements with returning motifs), club and DJ forms (intro and outro for mixing, breakdown, drop), or songs with no chorus.
 - Treat hook timing by listening context as a preference unless the user gives a deadline.
+- Hit requested moments: a section the user times (a climax at 5:30, a drop at 1:00) starts within one bar of that time. Keep phrases regular and add any ring-out or tail as its own short section.
 
 ## Model compatibility
 
@@ -74,3 +80,10 @@ At 2.4 s per bar, 44.2 s of music allows 18 full bars.
 Intro 2 (0.0 s) → V1 4 (4.8 s) → Chorus 4 (14.4 s) → V2 4 (24.0 s) → Final chorus 4 (33.6 s).
 Total 44.0 s with tail. Cut the intro and first verse to reach the first chorus sooner. Use the strongest four-bar phrase of each chorus.
 ```
+
+## Works well with
+
+- `arrangement-advisor` for what plays in each section
+- `lyrics-writer` for writing the sections
+
+Suggest one of these only when the user's next step needs it.

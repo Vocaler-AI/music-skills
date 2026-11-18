@@ -1,0 +1,422 @@
+[
+ {
+  "id": "lyrics-writer",
+  "skill": "lyrics-writer",
+  "prompt": "Write a dark-pop song about someone who looks happy but feels lonely. Keep the title 'Nobody Knows'. Don't reveal the loneliness until verse two.",
+  "checks": [
+   "The title 'Nobody Knows' appears exactly and is used in the chorus",
+   "Verse one does not state or clearly reveal the loneliness",
+   "Verse two introduces the reveal",
+   "The chorus reads differently (gains meaning) after verse two",
+   "Lines are natural and singable; matching sections have similar line lengths",
+   "No model-specific formatting instructions, no promotion, and no unnecessary commentary"
+  ]
+ },
+ {
+  "id": "rhyme-checker",
+  "skill": "rhyme-checker",
+  "prompt": "Check the flow of these rap bars and fix anything weak:\nI been grinding all night, never stopping for a minute\nGot the vision in my sight, I'ma win it cause I'm in it\nThey be talking but they quiet when I step into the building\nI was broke, now I'm buying, making millions for my children",
+  "checks": [
+   "Identifies multisyllabic or internal rhyme patterns (e.g. minute / win it / in it), not only end rhymes",
+   "Gives syllable counts per line",
+   "Treats vowel-sound (assonance) rhymes like building / children as valid slant rhymes rather than errors",
+   "Any fix keeps the meaning and rhyme and states the new count",
+   "Marks counts that depend on delivery or contraction (e.g. I'ma, been) instead of presenting them as certain",
+   "Does not rewrite every line; matches depth to the request"
+  ]
+ },
+ {
+  "id": "chorus-builder",
+  "skill": "chorus-builder",
+  "prompt": "My verses are quiet and intimate (acoustic guitar, talking about my dad's old workshop after he died). Every chorus idea I try sounds like a stadium anthem and it feels wrong. Give me two chorus directions that lift without getting big.",
+  "checks": [
+   "Gives exactly two complete choruses",
+   "Each lifts through something other than loudness (space, a held note, repetition, a shift in perspective or address)",
+   "Labels each option by its emotional angle and recommends one",
+   "Concrete imagery that fits the workshop and grief theme",
+   "Singable phrasing with room to breathe",
+   "No promotion or unnecessary commentary"
+  ]
+ },
+ {
+  "id": "song-structure",
+  "skill": "song-structure",
+  "prompt": "Plan the structure of a 7-minute progressive rock track at 120 BPM in 4/4 with no conventional chorus. It should build to a climax around 5:30 and end quietly.",
+  "checks": [
+   "Does not force a verse/chorus pop form; uses a through-composed or progressive form with returning motifs",
+   "Shows correct timing math (120 BPM in 4/4 = 2 s per bar) and section start times",
+   "Total lands at about 7:00 (within 10 seconds) with the total shown",
+   "The climax starts around 5:30",
+   "Ends quietly as asked",
+   "Each section has a clear purpose"
+  ]
+ },
+ {
+  "id": "hook-writer",
+  "skill": "hook-writer",
+  "prompt": "I need an instrumental hook for a funk track at 104 BPM in E minor. No vocals at all, something people would hum.",
+  "checks": [
+   "Delivers an instrumental hook (riff, bass line or melodic phrase), not lyrics",
+   "Gives concrete notes or scale degrees with rhythm placement in the bar",
+   "Notes fit E minor (or a stated E minor pentatonic / Dorian flavour)",
+   "Names the instrument and where the hook repeats",
+   "Does not claim the hook is guaranteed to be memorable",
+   "Concise and usable"
+  ]
+ },
+ {
+  "id": "songwriting-coach",
+  "skill": "songwriting-coach",
+  "prompt": "I'm a total beginner and wrote my first verse ever. Be gentle but honest:\nI feel so lost and broken inside\nMy heart is empty, nowhere to hide\nThe pain is real and I can't deny\nI just want to fly up in the sky",
+  "checks": [
+   "Starts with something specific that works",
+   "At most three notes, each with the reason",
+   "Addresses abstraction and cliché (lost, broken, heart, empty) in beginner-friendly terms",
+   "Gives one concrete exercise",
+   "Does not rewrite the whole verse for the writer",
+   "Tone suits a beginner: kind, honest, no jargon left unexplained"
+  ]
+ },
+ {
+  "id": "music-prompt-engineer",
+  "skill": "music-prompt-engineer",
+  "prompt": "Write me a prompt for Suno v6: a melancholic synth-pop song like The Weeknd about a city at 4am, female vocals.",
+  "checks": [
+   "Uses Suno v6's fields: a style box, lyrics with [Section] tags or a note about them, and an Exclude box",
+   "Does not name The Weeknd or any artist in the prompt; describes the sound instead",
+   "Style text is within 1,000 characters with important words first and BPM as a number",
+   "Exclusions are written as 'no X' and limited to two or three",
+   "Mentions Variety Off and/or Style Influence settings",
+   "Gives one strong prompt; any variations are clearly optional"
+  ]
+ },
+ {
+  "id": "genre-translator",
+  "skill": "genre-translator",
+  "prompt": "What is amapiano in production terms? I want to make one with ElevenLabs Music.",
+  "checks": [
+   "Correct core traits: log drum bass, around 110-115 BPM, shakers/percussion, piano, South African origin",
+   "Gives a model-safe description with no artist names",
+   "Shapes the output for ElevenLabs (prompt or composition plan with styles to include/avoid)",
+   "Accurate, respectful of the regional genre",
+   "Concise"
+  ]
+ },
+ {
+  "id": "mood-to-music",
+  "skill": "mood-to-music",
+  "prompt": "Music for the feeling of reading an old letter from someone who has died, but it's a warm memory, not a sad one. I'll generate it with ACE-Step.",
+  "checks": [
+   "Names the emotion with energy and colour (bittersweet/warm, not tragic)",
+   "Maps to tempo, key or mode and instruments with short reasons",
+   "Puts BPM, key and duration as separate ACE-Step settings, not only inside the caption",
+   "Gives a ready caption and, if useful, an alternate direction",
+   "Avoids the obvious cliché of sad slow piano only, or justifies it"
+  ]
+ },
+ {
+  "id": "instrument-selector",
+  "skill": "instrument-selector",
+  "prompt": "What instruments should I use for a Persian-influenced lo-fi beat? I don't want it to sound like a cheap 'world music' preset.",
+  "checks": [
+   "Names authentic Persian instruments (e.g. tar, setar, santur, kamancheh, tombak, daf, ney) and what each plays",
+   "Assigns roles and registers that suit the brief (not every role must be filled)",
+   "Addresses authenticity: modes (dastgah), ornamentation or playing technique rather than a preset",
+   "Keeps lo-fi traits (dusty drums, vinyl, sidechain or similar)",
+   "Gives a prompt-ready instrument line"
+  ]
+ },
+ {
+  "id": "ai-song-formatter",
+  "skill": "ai-song-formatter",
+  "prompt": "Format these rap lyrics for MiniMax Music 3. Don't add an intro.\n\nverse one (fast, aggressive)\nI came up from nothing with a dream and a notebook and a plan that I never told nobody\nNow they watching every move I make\nchorus\nWe don't stop, we don't stop\nTill the whole block shakes",
+  "checks": [
+   "Uses MiniMax Music 3 tags ([Verse], [Chorus]) on their own lines",
+   "Uses ## before the big lift into the chorus (and not on every line)",
+   "Does not add an [Intro] (user said no)",
+   "Does not force rap lines to 6-12 syllables if that breaks the flow; long rap lines may stay or are split at natural breaths",
+   "Moves '(fast, aggressive)' out of the sung text",
+   "Lists changes made"
+  ]
+ },
+ {
+  "id": "youtube-background-music",
+  "skill": "youtube-background-music",
+  "prompt": "I make 20-minute video essays about history with voice-over the whole time. I want to generate my own background music. What should I do? I use Udio.",
+  "checks": [
+   "Warns that Udio downloads are disabled so its music can't be used in YouTube videos, and suggests alternatives",
+   "Plans music for voice-over: sparse, instrumental, avoids the voice range",
+   "Gives a chapter or segment plan with energy levels",
+   "Gives mixing guidance (music well below voice, ducking)",
+   "Gives usable prompts"
+  ]
+ },
+ {
+  "id": "podcast-intro",
+  "skill": "podcast-intro",
+  "prompt": "Theme music for my true-crime podcast 'Cold Files'. I talk over the intro. I need the intro to be exactly 12 seconds.",
+  "checks": [
+   "Defines a sonic identity that fits true crime without parody",
+   "Intro is exactly 12 seconds with a structure that leaves space for the voice",
+   "Derives an outro and a transition sting from the same motif",
+   "Suggests a way to get exact length (e.g. ElevenLabs duration in ms, or generate longer and edit)",
+   "Gives prompts"
+  ]
+ },
+ {
+  "id": "game-soundtrack",
+  "skill": "game-soundtrack",
+  "prompt": "Small indie roguelike, pixel art, dungeon setting. I need an exploration loop and a combat layer that can fade in on top of it in Unity.",
+  "checks": [
+   "Exploration and combat layers share tempo and key so they can be layered",
+   "Specifies loop length in bars and how to make it seamless",
+   "Style fits pixel-art dungeon (chiptune or hybrid) and says why",
+   "Gives a prompt per layer",
+   "Gives Unity implementation notes (crossfade, sync start)"
+  ]
+ },
+ {
+  "id": "ad-jingle",
+  "skill": "ad-jingle",
+  "prompt": "Jingle for 'Kettle & Co', a small tea shop. Need a 6 second and a 15 second version.",
+  "checks": [
+   "Sung tagline with the brand name on a strong beat",
+   "6-second and 15-second versions with timing that is plausible to sing",
+   "Brand name said at least twice in the 15-second version",
+   "No unconfirmed claims (prices, best in town)",
+   "Music prompt fits a cosy tea shop"
+  ]
+ },
+ {
+  "id": "playlist-video-planner",
+  "skill": "playlist-video-planner",
+  "prompt": "Plan a 1-hour 'rainy cafe jazz' compilation for my YouTube channel. I'll make the tracks with Suno v6 on the free plan.",
+  "checks": [
+   "Picks a sensible track count for 60 minutes and shows timestamps or chapters",
+   "Orders by energy with smooth transitions",
+   "Warns that Suno's free plan does not allow commercial use, which matters on a monetised channel",
+   "Keeps one consistent prompt family for cohesion",
+   "Gives a title under 70 characters and a thumbnail idea"
+  ]
+ },
+ {
+  "id": "bpm-finder",
+  "skill": "bpm-finder",
+  "prompt": "I tapped along to a song and got these timestamps in seconds: 0.00, 0.52, 1.05, 1.57, 2.09, 2.62, 3.14. What's the BPM, and what delay time should I use for dotted eighths?",
+  "checks": [
+   "Computes the average interval (about 0.523 s) and BPM (about 114.6, rounded ~115)",
+   "Mentions half/double-time possibility",
+   "Dotted-eighth delay correct for the stated BPM (about 392 ms at 114.6, 391 ms at 115)",
+   "Shows the formula",
+   "Concise"
+  ]
+ },
+ {
+  "id": "chord-progression-builder",
+  "skill": "chord-progression-builder",
+  "prompt": "Give me a neo-soul progression in Eb for a verse and a chorus. I play keys.",
+  "checks": [
+   "Uses extended chords typical of neo-soul (9ths, 11ths, 13ths, maj7)",
+   "Chord names are correct for Eb major (e.g. Fm9, Gm7/Gm9, Abmaj7, Bb13, Cm9)",
+   "Gives Roman numerals and chord names",
+   "Verse and chorus differ, with a reason",
+   "Gives keys-friendly voicing hints"
+  ]
+ },
+ {
+  "id": "arrangement-advisor",
+  "skill": "arrangement-advisor",
+  "prompt": "My house track is an 8-bar loop that sounds great but I can't turn it into a 6-minute track. Kick, bass, chord stab, hi-hats, vocal chop.",
+  "checks": [
+   "Gives an arrangement map across the 6 minutes (DJ-friendly intro/outro)",
+   "Uses subtraction and entries rather than adding new parts only",
+   "Specifies transitions (risers, filter sweeps, drops) at section changes",
+   "Section lengths in 8/16/32-bar multiples typical for house",
+   "Concrete and actionable"
+  ]
+ },
+ {
+  "id": "mixing-feedback",
+  "skill": "mixing-feedback",
+  "prompt": "My trap mix: the 808 and kick are fighting and the low end sounds muddy on my car speakers but fine on headphones. Integrated loudness is -9 LUFS.",
+  "checks": [
+   "Explains kick/808 clash (same frequency/time) with fixes: tune 808, sidechain or dynamic EQ, kick/808 arrangement",
+   "Addresses translation: check on multiple systems, low-mid buildup, mono low end",
+   "Gives starting settings",
+   "Addresses -9 LUFS sensibly (fine for trap, platforms normalise; check true peak)",
+   "At most about three priority notes"
+  ]
+ },
+ {
+  "id": "genre-expert",
+  "skill": "genre-expert",
+  "prompt": "What's the difference between drill and trap?",
+  "checks": [
+   "Correct origins (trap: Atlanta/US South 2000s; drill: Chicago early 2010s, UK drill from London)",
+   "Correct sound traits (drill: sliding 808s, sparse dark melodies, triplet hats, ~140 BPM half-time; trap: rolling hi-hats, 808s)",
+   "Notes UK vs Chicago drill differences",
+   "Does not invent records or dates; hedges when unsure",
+   "Credits the communities"
+  ]
+ },
+ {
+  "id": "music-theory-tutor",
+  "skill": "music-theory-tutor",
+  "prompt": "Why does a V7 chord want to resolve to I? I'm self-taught on guitar.",
+  "checks": [
+   "Short direct answer first",
+   "Explains the tritone and leading tone resolving by step",
+   "Example on guitar in a concrete key (e.g. G7 to C) with notes",
+   "Defines terms",
+   "Gives practice questions with answers"
+  ]
+ },
+ {
+  "id": "instrument-expert",
+  "skill": "instrument-expert",
+  "prompt": "I want to write a part for alto saxophone in my song which is in concert F major. What key do I write it in and what range is comfortable?",
+  "checks": [
+   "Alto sax is in Eb: written part is a major sixth higher, so concert F major is written in D major",
+   "Gives comfortable range (written roughly low D/E to high C/D below altissimo)",
+   "Gives idiomatic writing advice (breaths, articulations)",
+   "Flags transposition clearly",
+   "Accurate"
+  ]
+ },
+ {
+  "id": "cover-art-director",
+  "skill": "cover-art-director",
+  "prompt": "Cover art for my lo-fi single 'Paper Moon', about staying up late drawing in a sketchbook. I'm using Midjourney.",
+  "checks": [
+   "Interprets the song first (emotion, theme)",
+   "Gives three distinct concepts and scores or ranks them",
+   "Final prompt is Midjourney-appropriate (e.g. --ar 1:1 or square, style params)",
+   "Avoids clichés and unwanted text",
+   "Strong single focal point readable as a thumbnail"
+  ]
+ },
+ {
+  "id": "music-metadata",
+  "skill": "music-metadata",
+  "prompt": "Help me fill DistroKid for my EP. Track 2 title is 'Lights Out (feat. JNR) [Prod. by Wavy] - OFFICIAL'. Track 3 is a remix of track 1 by DJ Sol.",
+  "checks": [
+   "Moves feat. JNR to the featured-artist field",
+   "Removes 'Prod. by Wavy' and 'OFFICIAL' from the title, credits Wavy as producer",
+   "Formats the remix as 'Track 1 Title (DJ Sol Remix)' with DJ Sol as remixer",
+   "Does not invent ISRCs or codes; lists what's missing",
+   "Says rules vary by distributor"
+  ]
+ },
+ {
+  "id": "release-checklist",
+  "skill": "release-checklist",
+  "prompt": "My single comes out in 10 days and I haven't uploaded it anywhere. Is that a problem?",
+  "checks": [
+   "Honest: 10 days is tight; editorial playlist pitching needs the release in the system at least about 7 days ahead and distribution can take days",
+   "Gives a dated plan for the next 10 days",
+   "Suggests the option to move the date if pitching matters",
+   "Lists assets needed (master, artwork 3000x3000, metadata)",
+   "Concise and prioritised"
+  ]
+ },
+ {
+  "id": "artist-branding",
+  "skill": "artist-branding",
+  "prompt": "I'm starting a dreamy shoegaze project. Help me pick an artist name.",
+  "checks": [
+   "Gives 5-10 name options that fit shoegaze",
+   "Each checked for meaning and pronunciation",
+   "Tells the user to search streaming services and socials for clashes and handle availability rather than claiming a name is free",
+   "Does not invent facts about the artist",
+   "Brief rationale per name"
+  ]
+ },
+ {
+  "id": "music-video-concept",
+  "skill": "music-video-concept",
+  "prompt": "A Spotify Canvas loop for my ambient track 'Tidal', 8 seconds, vertical.",
+  "checks": [
+   "One clear visual idea",
+   "Designs an 8-second seamless loop (last frame matches first)",
+   "Vertical 9:16 format",
+   "AI video prompt with subject, motion, camera, light",
+   "Avoids text and fast cuts for a canvas"
+  ]
+ },
+ {
+  "id": "melody-writer",
+  "skill": "melody-writer",
+  "prompt": "Write a vocal melody for this chorus. Chords are C - G - Am - F, one chord per bar, 4/4 at 90 BPM, mid-range female voice:\nHold on, the night is long\nI'll keep the light on till you're home",
+  "checks": [
+   "Every note and duration is given per syllable with bar and beat placement",
+   "Durations in each bar add up to four beats (rests included) and notes do not overlap",
+   "Notes on strong beats are chord tones of that bar's chord (C, G, Am, F) or clearly marked passing notes",
+   "Natural word stress falls on strong beats (HOLD, NIGHT, LONG, LIGHT, HOME)",
+   "Range fits a mid female voice (roughly A3 to D5) with a clear peak on an important word",
+   "Gives the melody in the bundled melody-file format and calls it a sketch to try"
+  ]
+ },
+ {
+  "id": "prosody-checker",
+  "skill": "prosody-checker",
+  "prompt": "Does this sing well? 4/4, CAPS = where the downbeats fall:\nI'm DE-ter-mined to LEAVE this town\nAnd the long high note is on 'it' in: I can't TAKE it\nThe fast run is on: through the strengths of all my sixths",
+  "checks": [
+   "Flags the mis-stress DE-ter-mined (natural stress is de-TER-mined) and offers a fix",
+   "Flags the weak word 'it' on the long high note and suggests a stronger word or vowel",
+   "Flags the consonant clusters (strengths, sixths) on fast notes",
+   "Fixes keep the meaning",
+   "Separates verified problems from judgement calls",
+   "Concise, table or line-by-line"
+  ]
+ },
+ {
+  "id": "song-title-generator",
+  "skill": "song-title-generator",
+  "prompt": "Title ideas for a bittersweet folk song about selling my late grandmother's house and her garden.",
+  "checks": [
+   "10 or more options across different title types",
+   "Titles are short and singable and fit bittersweet folk",
+   "Top picks are shown inside a chorus line",
+   "Tells the user to search streaming services for clashes and does not claim to know which titles exist",
+   "Avoids clichés like 'Home' alone or 'Memories' unless twisted"
+  ]
+ },
+ {
+  "id": "lyric-translator",
+  "skill": "lyric-translator",
+  "prompt": "Translate this chorus into Spanish so I can sing it to the same melody:\nWe were young and the summer was ours\nRunning wild under city lights\nNever thought it would end\nNever thought it would end",
+  "checks": [
+   "Gives a literal translation and a singable version line by line",
+   "Singable lines match the original syllable counts within one, with Spanish vowel merging (sinalefa) accounted for and explained",
+   "Stressed syllables fall where the original's do",
+   "Spanish is natural, not word-for-word",
+   "Keeps the repeated last line as a repeat"
+  ]
+ },
+ {
+  "id": "music-prompt-engineer-fix",
+  "skill": "music-prompt-engineer",
+  "prompt": "My Suno v6 song keeps coming out as generic EDM even though my style says 'dark trap, 140 BPM, bossa nova guitar, jazz, drill, lo-fi, cinematic, epic, emotional, female vocals'. What's wrong?",
+  "checks": [
+   "Diagnoses the cause before rewriting (too many unrelated genres with no roles that cancel out / overstuffed style)",
+   "Proposes the smallest change: one primary genre with up to two influences given roles",
+   "Mentions take-to-take randomness and/or the Variety and Style Influence settings",
+   "Suggests Suno v6 audio editing or references only where relevant, not as filler",
+   "Gives a corrected style prompt with no artist names",
+   "Concise"
+  ]
+ },
+ {
+  "id": "ai-song-formatter-preserve",
+  "skill": "ai-song-formatter",
+  "prompt": "Format these lyrics for ElevenLabs Music. Keep every word, I want a guitar solo after the chorus and soft female vocals.\n\nVerse\nThe kettle's cold, the radio's on\nI left the porch light burning till dawn\nChorus\nOoh, come home, come home\nOoh, come home, come home",
+  "checks": [
+   "Keeps every lyric word and both repeated chorus lines (no trimming or rewording)",
+   "Uses [Verse] / [Chorus] section names and keeps 'Ooh' as a vocal sound",
+   "Puts the guitar solo as a short inline cue in curly braces or as its own section, not as sung text",
+   "Puts 'soft female vocals' in the section's styles (positive styles), not in the lyrics",
+   "Gives a change report",
+   "Does not add an unrequested intro or outro"
+  ]
+ }
+]

@@ -33,16 +33,21 @@ produce model-specific formats. Comparison: https://skills.vocaler.ai/models/
 | [chorus-builder](skills/chorus-builder/SKILL.md) | Writes or revises a chorus that pays off the verse: the title in the right place, repetition that sticks, and options when you ask. |
 | [song-structure](skills/song-structure/SKILL.md) *model-aware* | Plans the form of a song bar by bar: when the chorus hits, how energy rises and where a bridge or drop earns its place. |
 | [hook-writer](skills/hook-writer/SKILL.md) | Writes the line people remember: title hooks, rhythmic hooks and post-chorus chants, each tested for repeatability and fit. |
+| [melody-writer](skills/melody-writer/SKILL.md) | Writes vocal melodies and toplines as real notes: every syllable gets a pitch and a beat, shaped to the chords and the singer's range. |
+| [prosody-checker](skills/prosody-checker/SKILL.md) | Checks lyrics against the melody or beat: stress on strong beats, singable held vowels, breaths, and music that means what the words say. |
+| [song-title-generator](skills/song-title-generator/SKILL.md) | Titles that work as hooks: short, singable and true to the song, each shown in the chorus line where it would be sung. |
+| [lyric-translator](skills/lyric-translator/SKILL.md) | Translates lyrics you can sing to the same melody: matching syllables and stress, rhymes where they fit, and a literal version beside it. |
+| [songwriting-coach](skills/songwriting-coach/SKILL.md) | A coach, not a ghostwriter: honest notes on your song, exercises when you're stuck and a plan to finish more songs in your own voice. |
 
 ### AI music generation
 
 | Skill | What it does |
 |---|---|
-| [music-prompt-engineer](skills/music-prompt-engineer/SKILL.md) *model-aware* | Writes prompts AI music models follow, shaped for each model: Suno v6, Flow Music, ACE, Mureka, ElevenLabs, MiniMax and more. |
+| [music-prompt-engineer](skills/music-prompt-engineer/SKILL.md) *model-aware* | Creates, adapts and fixes prompts for AI music models in each model's own format: Suno v6, Flow Music, ACE, Mureka, ElevenLabs and more. |
 | [genre-translator](skills/genre-translator/SKILL.md) *model-aware* | Turns 'like that artist' or a niche genre name into the instruments, tempo and production words an AI model or a producer can use. |
 | [mood-to-music](skills/mood-to-music/SKILL.md) *model-aware* | Converts a feeling, a scene or a picture into tempo, key, instruments and texture, then into a prompt you can generate. |
 | [instrument-selector](skills/instrument-selector/SKILL.md) | Picks the right instruments and gives each a job, register and articulation so the track sounds full without clashing. |
-| [ai-song-formatter](skills/ai-song-formatter/SKILL.md) *model-aware* | Formats lyrics so each AI music model sings them right: its own section tags, performance cues, line lengths and limits, no sung stage directions. |
+| [ai-song-formatter](skills/ai-song-formatter/SKILL.md) *model-aware* | Formats lyrics for each AI music model without changing the song: its own tags, cue syntax and limits, plus validation and repair. |
 
 ### Music for creators
 
@@ -70,7 +75,6 @@ produce model-specific formats. Comparison: https://skills.vocaler.ai/models/
 | [genre-expert](skills/genre-expert/SKILL.md) | Explains any genre or subgenre: where it came from, what defines the sound, the records to hear and how to make it yourself. |
 | [music-theory-tutor](skills/music-theory-tutor/SKILL.md) | Teaches music theory at your level, from intervals to modes and harmony, with clear examples, practice questions and no jargon left unexplained. |
 | [instrument-expert](skills/instrument-expert/SKILL.md) | Knows the instruments: range, tuning and technique, how to write a part a player can actually play, and how to start learning. |
-| [songwriting-coach](skills/songwriting-coach/SKILL.md) | A coach, not a ghostwriter: honest notes on your song, exercises when you're stuck and a plan to finish more songs in your own voice. |
 
 ### Release & publishing
 
@@ -84,8 +88,6 @@ produce model-specific formats. Comparison: https://skills.vocaler.ai/models/
 
 ## Planned
 
-- **lyric-translator**: Singable lyric translation that keeps syllable count, stress and rhyme, not just meaning.
-- **song-title-generator**: Titles that are hooks: short, searchable, and true to the song.
 - **reference-track-describer**: Describes the sound of a reference song in model-safe words, without naming the artist.
 - **vocal-style-designer**: Defines a voice: register, timbre, delivery, accent and effects, in prompt language.
 - **short-form-sound**: Designs 15 to 30 second sounds built to loop and trend on TikTok, Reels and Shorts.
@@ -100,6 +102,10 @@ produce model-specific formats. Comparison: https://skills.vocaler.ai/models/
 - **playlist-pitch-writer**: Editorial and curator pitches that fit the character limits and get read.
 - **release-social-plan**: A post-by-post plan for the four weeks around a release.
 - **ai-music-disclosure**: How each platform asks you to label AI-assisted music, kept current.
+- **rap-flow-designer**: Flow patterns, rhyme pockets, cadence and breath placement for rap verses.
+- **vocal-harmony-writer**: Backing harmonies, doubles and responses around an existing melody.
+- **song-idea-generator**: Song concepts from a memory, an object or a feeling, for when you don't know where to start.
+- **concept-album-planner**: Stories, recurring themes and connections across the songs of an EP or album.
 
 ## Contributing
 

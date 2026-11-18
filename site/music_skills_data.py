@@ -34,8 +34,6 @@ CATEGORIES = [
 # Ideas we have not written yet. Shown on the site as the roadmap; each one is
 # an open invitation to contribute.
 ROADMAP = [
-    ("songwriting", "lyric-translator", "Singable lyric translation that keeps syllable count, stress and rhyme, not just meaning."),
-    ("songwriting", "song-title-generator", "Titles that are hooks: short, searchable, and true to the song."),
     ("generation", "reference-track-describer", "Describes the sound of a reference song in model-safe words, without naming the artist."),
     ("generation", "vocal-style-designer", "Defines a voice: register, timbre, delivery, accent and effects, in prompt language."),
     ("creators", "short-form-sound", "Designs 15 to 30 second sounds built to loop and trend on TikTok, Reels and Shorts."),
@@ -90,7 +88,14 @@ SKILLS = [
             "Write natively in the requested language; do not draft in English and translate.",
             "Match the rhythmic shape of lines that share a melody. Matching syllable counts can still produce different stresses and breath demands.",
             "Use rhymes that sound natural in the intended pronunciation. Preserve normal word order unless the inversion belongs to the character's voice.",
-            "Use plain section labels when they help navigation. For model-ready output, follow the target's format and keep commentary outside the lyrics.",
+            "Use plain section labels ([Verse], [Chorus]) when they help navigation and keep commentary outside the lyrics. Detailed model formatting belongs to ai-song-formatter.",
+            "Write original lines. Do not reuse or lightly paraphrase lyrics from existing songs, and avoid stock phrases unless the line twists them.",
+            "Match the language register to the brief: plain and conversational by default; experimental or dense imagery only when the genre or user asks for it.",
+            "When a reveal is held for a later verse, write the first chorus so it reads convincingly one way on first hearing and gains its second meaning only after the reveal. Do not let the chorus give the secret away early.",
+            "Keep lines that share a melody within about two syllables of each other, and recount after editing.",
+            "Keep the first chorus free of words that give away a held-back reveal; let the same words change meaning later, or change one line in the last chorus at most.",
+            "For a held-back reveal, keep the chorus words the same (or change at most one late line): verse two does the flipping, not new chorus words. Any closing note must describe the lyrics exactly as written.",
+            "A held-back reveal stays hidden in every section before it, including the pre-chorus and the first chorus: no hint words (cracks, underneath, the ache) that give it away.",
         ],
         output="""[Requested lyrics or revised section]
 
@@ -137,7 +142,13 @@ Example section labels for a full song
             "Judge by sound. For example, 'should have read' can rhyme with 'bed', while 'need to read' can rhyme with 'seed'.",
             "Keep deliberate slant rhymes, repetitions and delivery choices that work in context.",
             "Point out stock pairs (fire/desire, heart/apart) when they make a line predictable; keep them when the line earns them.",
+            "Name the rhyme device when it matters: multisyllabic and internal rhyme (central to rap), assonance (shared vowels: building / children), consonance (shared consonants). Treat these as craft, not errors.",
+            "Mark counts that depend on accent, contraction or delivery (I'ma, been, fire as one or two syllables) instead of presenting them as certain.",
+            "Verify sound and count as facts; do not claim a line is emotionally strong or weak as if it were measurable. Label taste as an opinion.",
             "Match the depth of the review to the request. A count-only request needs counts and relevant pronunciation variants.",
+            "Be exact about vowels: a perfect rhyme needs the same stressed vowel and everything after it (building / yielding is a slant rhyme, not perfect). Recount every line you change.",
+            "Write out the syllables of every line you count (grind-ing all night), and count with code if you can. Map internal rhyme chains across bars (night / sight, vision / win it / in it), not only line endings.",
+            "Judge rhyme on the stressed vowels. In rap and most pop, unstressed endings need not match: BUILD-ing / CHIL-dren (same stressed vowel and l) is a standard slant rhyme, not an error. Call a rhyme weak only relative to the style and the rhymes around it, and never 'fix' a working slant rhyme by default.",
         ],
         output="""| Line | Syllables | Stress or phrasing | End rhyme |
 |------|-----------|--------------------|-----------|
@@ -176,6 +187,11 @@ For a rhyme search, list usable matches by rhyme closeness instead.""",
             "Keep the title and other fixed lines verbatim. Use the requested chorus length or follow the song's phrasing.",
             "Keep later revelations in their intended sections. A repeated chorus can take on a new meaning after the next verse.",
             "Put sustained notes on singable vowel sounds and leave room for breath. Use the given melody when assessing register or range.",
+            "Pick the chorus type that fits the song instead of defaulting to an anthem: anthemic, understated (lift by space or a held note), question-and-answer, refrain (one repeated line closing each verse) or chant. Give exactly the number of options asked for.",
+            "Label options by the emotional angle (what the singer feels, wants or admits), not by the technique used.",
+            "Land the title line on a strong sound: a rhyme, a held open vowel or a deliberate repeat.",
+            "Each option must carry its lift and hook in the lyric itself (a repeated title, a returning line), not only in the explanation.",
+            "Recommend one option and commit to it. Avoid filler rhymes that exist only to rhyme.",
         ],
         output="""**Chorus**
 [Complete chorus]
@@ -215,7 +231,9 @@ When asked for options, label each by its emotional angle and recommend one.""",
         rules=[
             "Show the timing calculation and label any assumed meter, beat unit or tempo. For free or changing tempo without enough timing information, label the timestamps as estimates or use supplied section times.",
             "Use the phrase lengths the music needs. Four-, eight- and sixteen-bar sections are useful defaults in many styles.",
+            "Do not default to verse/chorus pop form. Match the form to the idea: AABA, strophic or verse-and-refrain (folk, storytelling ballads), through-composed, progressive (movements with returning motifs), club and DJ forms (intro and outro for mixing, breakdown, drop), or songs with no chorus.",
             "Treat hook timing by listening context as a preference unless the user gives a deadline.",
+            "Hit requested moments: a section the user times (a climax at 5:30, a drop at 1:00) starts within one bar of that time. Keep phrases regular and add any ring-out or tail as its own short section.",
         ],
         output="""| Section | Bars | Start | Purpose and energy |
 |---------|------|-------|--------------------|
@@ -253,6 +271,12 @@ When asked for options, label each by its emotional angle and recommend one.""",
             "Keep the phrase as short as its idea allows and give the singer space to breathe between repeats.",
             "Use a clear repeat point. Repetition can come from the rhythm, melody, wording or a response from another voice.",
             "Do not borrow a recognisable hook from an existing song.",
+            "Hooks are not only words: riffs, bass lines, drum patterns, synth motifs and vocal sounds (ad-libs, chants, call-and-response) all count. For an instrumental hook give notes or scale degrees, the instrument and where each note falls in the bar.",
+            "Check the hook still feels distinctive on the fourth repeat, and vary something small on repeats if it doesn't. Never promise that a hook will be remembered or go viral.",
+            "Make the rhythm add up: within a bar, notes never overlap and durations plus rests fill the meter exactly. Use correct degree names (in E minor, F# is the 2nd; the leading tone would be D#).",
+            "Give an instrumental hook one signature (a syncopated cell, a leap, a repeated rhythmic figure) rather than a plain scale run, and name one instrument that plays it.",
+            "Give an octave number for every note (E2, G2, E3) and name intervals correctly (D to E is a step, not a fifth).",
+            "Keep every note inside the named instrument's practical range (a trumpet's lowest written note is F#3; write funk horn riffs in the middle and upper register). Count semitones before naming an interval.",
         ],
         output="""**Hook** — [phrase or motif]
 **As performed** — [rhythm and repeat point, plus pitch contour for a melodic hook]
@@ -265,13 +289,254 @@ For a shortlist, give the requested number and identify the strongest fit.""",
         ),
         vocaler="If the user wants to hear a hook sung, you may mention once that {V} can generate it as a short track.",
     ),
+    dict(
+        name="melody-writer",
+        title="Melody Writer",
+        cat="songwriting",
+        desc="Writes vocal melodies and toplines as notes you can play: from lyrics, a chord progression, an existing instrumental, or just a feeling. Gives note names, scale degrees and rhythm per syllable, plus a file you can turn into MIDI. Use when the user asks for a melody, a topline, a tune for their lyrics, or how a line should be sung.",
+        card="Writes vocal melodies and toplines as real notes: every syllable gets a pitch and a beat, shaped to the chords and the singer's range.",
+        use=[
+            "The user has lyrics and needs a melody for them.",
+            "The user has chords or an instrumental and needs a topline.",
+            "A melody exists but a section needs more lift or a stronger peak.",
+        ],
+        inputs=[
+            "Lyrics (or the section to set), key, tempo, meter and chords if known.",
+            "Voice type or comfortable range; genre and reference feel (described, not named songs).",
+            "For a topline: where the instrumental is busy or sparse.",
+        ],
+        steps=[
+            "Fix the frame: key, meter, tempo, chords per bar and the singer's range (default: about an octave and a third, e.g. A3-C5 for a mid voice).",
+            "Mark the natural stress of every lyric line and put stressed syllables on strong beats; put the most important word of each section on the highest or longest note.",
+            "Write a short motif (2-4 bars) and build the section from repetition and variation of it. Verses sit lower and move more by step; the chorus rises, opens up and repeats more.",
+            "On strong beats use chord tones; passing and neighbour notes go on weak beats. End phrases on stable notes (1, 3 or 5) when the line resolves, on 2 or 7 when it should feel open.",
+            "Check singability: leaps above a sixth are rare and are followed by a step back the other way; leave breaths between phrases; hold notes only on open vowels.",
+            "For a topline, leave space where the instrumental is busy and contrast its rhythm (if the beat is dense, sing longer notes, and the reverse).",
+            "Write it out per syllable, then as one line of notes in the bundled format so the user can make a MIDI file with `python scripts/melody_to_midi.py melody.txt`.",
+            "Before sharing, run the melody file through scripts/melody_to_midi.py if you can run code: it prints where each syllable starts (bar.beat) and flags notes crossing a barline. Make your table match its output.",
+        ],
+        rules=[
+            "You cannot hear the result: call it a sketch and invite the user to sing or play it and report what feels awkward.",
+            "Write original melodies; do not reproduce or closely imitate a known song's tune.",
+            "Every note must fit the stated key and chord unless it is a deliberate passing or chromatic note, and then say so.",
+            "Keep note names with octave numbers (C4 = middle C) and durations in beats so the melody is unambiguous.",
+            "Rhythm first, pitch second: list the syllables, mark the stressed ones, place every stressed syllable on a strong beat (1 or 3 in 4/4; 2 and 4 too in backbeat styles) and let weak syllables fall as pickups before them. Only then choose notes.",
+            "Compute each start position from the durations before it; never place a note by eye.",
+        ],
+        output="""**Frame:** key · tempo · meter · range · chords
+| Bar.beat | Syllable | Note | Degree | Beats |
+|----------|----------|------|--------|-------|
+
+**Melody file** (for scripts/melody_to_midi.py)
+```
+tempo 90
+C4 1 "hold" ...
+```
+**Shape:** [where it rises, the peak note and word, how it resolves]""",
+        example=(
+            "Melody for 'Hold on, the night is long' over C - G - Am at 90 BPM, one chord per bar.",
+            "Bar 1: Hold (G4, 1.5 beats, on beat 1) · on (E4, 0.5) · the (D4, 0.5) · night (E4, 1, beat 3) ... Peak on 'long' (A4 held 2 beats over Am).",
+        ),
+        vocaler="If the user wants to hear it sung, you may mention once that {V} can generate a sung demo from the lyrics and a style description.",
+        scripts={
+            "melody_to_midi.py": """#!/usr/bin/env python3
+\"\"\"Turn a melody sketch into a MIDI file. No dependencies.
+
+Usage: python melody_to_midi.py melody.txt [out.mid]
+
+melody.txt, one note per line (blank lines and # comments ignored):
+    tempo 90
+    G4 1.5 hold
+    E4 0.5 on
+    R 1          (a rest of one beat)
+Fields: note (C4 = middle C, sharps as C#4, flats as Eb4) or R, length in beats, optional syllable.
+Optional line: meter 3 (beats per bar, default 4).
+It also prints where every note starts (bar.beat) and warns when a note crosses a barline,
+so you can check the stresses land where you meant before you share the melody.
+\"\"\"
+import struct
+import sys
+
+NAMES = {"C": 0, "D": 2, "E": 4, "F": 5, "G": 7, "A": 9, "B": 11}
+
+
+def pitch(n):
+    base, rest = NAMES[n[0].upper()], n[1:]
+    while rest and rest[0] in "#b":
+        base += 1 if rest[0] == "#" else -1
+        rest = rest[1:]
+    return 12 * (int(rest) + 1) + base
+
+
+def vlq(n):
+    out = [n & 0x7F]
+    while n > 0x7F:
+        n >>= 7
+        out.insert(0, (n & 0x7F) | 0x80)
+    return bytes(out)
+
+
+def main():
+    if len(sys.argv) < 2:
+        sys.exit(__doc__)
+    tpq, tempo, events, wait = 480, 120.0, [], 0
+    meter, pos, report = 4.0, 0.0, []
+    for line in open(sys.argv[1], encoding="utf-8"):
+        line = line.split("#")[0].strip()
+        if not line:
+            continue
+        f = line.split()
+        if f[0].lower() == "tempo":
+            tempo = float(f[1])
+            continue
+        if f[0].lower() == "meter":
+            meter = float(f[1])
+            continue
+        beats = float(f[1])
+        bar, beat = int(pos // meter) + 1, pos % meter + 1
+        cross = " <- crosses the barline" if (pos % meter) + beats > meter + 1e-9 else ""
+        report.append(f"{bar}.{beat:g}\\t{f[0]}\\t{beats:g}\\t{' '.join(f[2:])}{cross}")
+        pos += beats
+        ticks = round(beats * tpq)
+        if f[0].upper() == "R":
+            wait += ticks
+            continue
+        p = pitch(f[0])
+        events += [vlq(wait) + bytes([0x90, p, 90]), vlq(ticks) + bytes([0x80, p, 0])]
+        wait = 0
+    us = round(60_000_000 / tempo)
+    track = vlq(0) + b"\\xff\\x51\\x03" + us.to_bytes(3, "big") + b"".join(events) + vlq(0) + b"\\xff\\x2f\\x00"
+    out = sys.argv[2] if len(sys.argv) > 2 else sys.argv[1].rsplit(".", 1)[0] + ".mid"
+    with open(out, "wb") as fh:
+        fh.write(b"MThd" + struct.pack(">IHHH", 6, 0, 1, tpq) + b"MTrk" + struct.pack(">I", len(track)) + track)
+    print("start\\tnote\\tbeats\\tsyllable")
+    print("\\n".join(report))
+    if pos % meter:
+        print(f"note: the melody ends {pos % meter:g} beats into a bar")
+    print(f"wrote {out} ({len(events) // 2} notes at {tempo:g} BPM)")
+
+
+if __name__ == "__main__":
+    main()
+""",
+        },
+    ),
+    dict(
+        name="prosody-checker",
+        title="Prosody Checker",
+        cat="songwriting",
+        desc="Checks how lyrics sit on a melody or beat: word stress on strong beats, held notes on singable vowels, tongue-twisting consonants on fast notes, breaths, and whether the music's shape matches what the words mean. Use when the user asks if a line sings well, why a line sounds awkward when sung, or to check lyrics against a melody.",
+        card="Checks lyrics against the melody or beat: stress on strong beats, singable held vowels, breaths, and music that means what the words say.",
+        use=[
+            "A line looks fine on paper but sounds awkward when sung.",
+            "Lyrics have been set to a melody or a beat and need checking before recording.",
+            "A section's music and meaning feel at odds.",
+        ],
+        inputs=[
+            "The lyrics and how they sit on the music: notes, beat positions, a rhythm marked with CAPS for strong beats, or a description of where the long and high notes fall.",
+            "Tempo and meter if known. With text alone the check is limited to natural stress and line shape; say so.",
+        ],
+        steps=[
+            "Mark the natural stress of each word and phrase as spoken (de-TER-mined, not DE-ter-mined).",
+            "Compare with the music: stressed syllables should land on strong beats or long or high notes; weak syllables and small words (the, a, of, it) should not.",
+            "Check held and high notes: open vowels (ah, oh, ay) carry; closed vowels (ee, oo) and words ending in hard consonants are harder to hold. Flag important words that fall on throwaway notes.",
+            "Check speed: consonant clusters (strengths, sixths) on fast notes, and phrases with no place to breathe.",
+            "Check meaning against shape: stable sections (resolving chords, matched line lengths, closed rhymes) for certainty; unstable ones (unresolved chords, uneven lines, open rhymes) for doubt or longing. Flag where they contradict the words.",
+            "For each problem give the line, the cause and a fix that keeps the meaning: move the word, swap it for one with the right stress, or change the note.",
+        ],
+        rules=[
+            "Separate verified problems (stress on the wrong syllable, no breath) from judgement calls (shape vs meaning), and label which is which.",
+            "Fix the smallest thing: move a note or a word before rewriting a line.",
+            "Allow genre conventions: rap and some pop deliberately displace stress for rhythm; flag it, don't forbid it.",
+            "Use the Type column honestly: 'verified' only for checkable facts (dictionary stress, a weak word on a long note, no breath); a fix that changes words or notes is always a suggestion.",
+            "When you flag several problems in one phrase (two clusters), fix all of them, not the first.",
+            "Check that every fix you propose produces the stress you intend: write the fixed line with its stressed syllables in capitals and confirm they sit on the strong beats.",
+        ],
+        output="""| Line | Problem | Where | Type | Fix |
+|------|---------|-------|------|-----|
+
+**Biggest win:** [the one change that helps most]""",
+        example=(
+            "Chorus rhythm (CAPS on the downbeat): 'I'm DE-ter-mined to LEAVE' and the long high note is on 'it' in 'I can't take IT'.",
+            "Mis-stress (verified): 'determined' is de-TER-mined; make 'I'm de-' the pickup so TER lands on the downbeat. Weak word on the peak (verified): 'it' carries no meaning; try 'I can't take ONE more DAY' with the peak on 'day'.",
+        ),
+        vocaler="",
+    ),
+    dict(
+        name="song-title-generator",
+        title="Song Title Generator",
+        cat="songwriting",
+        desc="Generates song titles that work as hooks: short, singable, true to the song and easy to find, then shows how the best ones would sit in the chorus. Use when the user needs a song title, wants better title options, or asks what to call a song or single.",
+        card="Titles that work as hooks: short, singable and true to the song, each shown in the chorus line where it would be sung.",
+        use=["A song needs a title, or the working title is weak.", "Choosing a single's title from lyrics already written."],
+        inputs=["The song's idea or lyrics, genre and mood.", "Any words the title must or must not include."],
+        steps=[
+            "Find the song's central idea in one line, and any phrase in the lyrics that already carries it.",
+            "Write 10-15 options across types: a phrase from the lyrics, a twist on a common phrase, a concrete image, a name or place, a question, a command, a single word, a number.",
+            "Check each: easy to sing, says the song, short (1-5 words is usual), and not identical to a very famous song in the same genre.",
+            "Pick the top three and show each in the chorus line where it would be sung.",
+        ],
+        rules=[
+            "Titles are not copyrighted, but a title shared with a well-known song makes yours hard to find: tell the user to search the main streaming services before deciding.",
+            "Prefer a title that is sung in the song; if it is not, say why it still works.",
+            "Do not invent claims about which titles exist; you cannot search streaming services.",
+            "Every chorus line you show must work as a real lyric: natural word order, a singable rhythm and, in rhyming genres, a rhyme. Keep the title word for word inside it.",
+        ],
+        output="""**Central idea:** ...
+| Title | Type | Why it works |
+|-------|------|--------------|
+
+**Top 3, in the chorus:**
+1. [title] — "[chorus line with the title]"
+**Before you decide:** search it on the main streaming services.""",
+        example=(
+            "Titles for a bittersweet folk song about selling my grandmother's house and its garden.",
+            "Top pick: 'Somebody Else's Roses' (concrete image, says the loss without saying it) — sung: 'Now they're somebody else's roses / but I know who planted them'.",
+        ),
+        vocaler="",
+    ),
+    dict(
+        name="lyric-translator",
+        title="Lyric Translator",
+        cat="songwriting",
+        desc="Translates song lyrics so they can be sung to the same melody: matching syllable counts and stress, keeping the rhyme scheme where it can, and adapting idioms naturally, with a literal translation alongside. Use when the user wants lyrics translated for singing, a cover in another language, or a multilingual version of a song.",
+        card="Translates lyrics you can sing to the same melody: matching syllables and stress, rhymes where they fit, and a literal version beside it.",
+        use=["A song needs a singable version in another language.", "A cover or a bilingual version is planned."],
+        inputs=["The lyrics, source and target language, and the melody's syllable counts if known (otherwise count the original).", "What must stay: the title, a hook line, names, the rhyme scheme."],
+        steps=[
+            "Count the syllables and mark the stresses of every original line; this is the melody's shape.",
+            "Write a literal translation first, line by line, to fix the meaning.",
+            "Write the singable version: match each line's syllable count (within one, absorbed by a held note) and land stressed syllables where the original's are. Count the way the target language is sung (Spanish and Italian merge vowels across words; Japanese counts morae).",
+            "Keep the title and hook if they translate singably; otherwise find an equivalent that hits the same notes and feeling, and say so.",
+            "Keep the rhyme scheme where it comes naturally; never force one at the cost of natural phrasing.",
+            "Adapt idioms and cultural references to ones native speakers would use, and list each adaptation.",
+        ],
+        rules=[
+            "Priority order: singable on the melody, then meaning, then rhyme.",
+            "Write as a native lyricist would; flag any line you are unsure sounds natural.",
+            "For tonal languages (Mandarin, Cantonese) note where the melody may fight the word tones.",
+            "Show the sung syllable split for every singable line (with merged vowels joined, e.g. que-da-tes-ta-no-che) and apply merging consistently.",
+            "Match line endings: a line that ends on a stressed syllable in the original (END, NIGHT) ends on a stressed syllable in the translation (Spanish words like fi-NAL, a-MOR). Mark stress by the target language's own rules (Spanish É-ra, not e-RA).",
+            "Natural word order comes first: never invert a line just to land a stress or rhyme. If a line cannot match the original's stressed ending naturally, say so and offer the closest natural option.",
+        ],
+        output="""| Original | Syll. | Literal | Singable | Syll. |
+|----------|-------|---------|----------|-------|
+
+**Adaptations:** ...
+**Counting notes:** [vowel merging, morae, held notes]""",
+        example=(
+            "Translate into Spanish for singing: 'Stay with me tonight' (5 syllables, stress on STAY, ME, NIGHT).",
+            "Literal: 'Quédate conmigo esta noche'. Singable: 'Quédate esta noche' — QUÉ-da-tes-ta-NO-che, 6 sung syllables ('-te es-' merge); stresses land on 1 and 5 like STAY and NIGHT, and the extra 'che' rides the held last note.",
+        ),
+        vocaler="",
+    ),
     # ------------------------------------------------------------------ generation
     dict(
         name="music-prompt-engineer",
         title="Music Prompt Engineer",
         cat="generation",
-        desc="Writes and improves prompts for AI music models, in the exact format each one expects: Suno v6, Udio, Google Flow Music (Lyria 3.5), ACE Music and ACE-Step, Mureka, ElevenLabs Eleven Music, MiniMax Music 3 and YuE2. Covers style, instrumentation, tempo, vocals, structure and exclusions. Use when the user wants a prompt for an AI song, says the AI music output is wrong, or wants to adapt a prompt to another model.",
-        card="Writes prompts AI music models follow, shaped for each model: Suno v6, Flow Music, ACE, Mureka, ElevenLabs, MiniMax and more.",
+        desc="Writes, adapts and fixes prompts for AI music models in the format each one expects: Suno v6, Udio, Google Flow Music (Lyria 3.5), ACE Music and ACE-Step, Mureka, ElevenLabs Eleven Music, MiniMax Music 3 and YuE2. Three workflows: create a prompt from an idea, adapt one to another model, or diagnose a generation that came out wrong and make the smallest useful change. Use when the user wants a prompt for an AI song, says the output is wrong, or wants to move a prompt to another model.",
+        card="Creates, adapts and fixes prompts for AI music models in each model's own format: Suno v6, Flow Music, ACE, Mureka, ElevenLabs and more.",
         use=[
             "The user wants a prompt for an AI music model.",
             "A generated track came out wrong (wrong genre, muddy, wrong vocals) and the user wants a better prompt.",
@@ -283,29 +548,38 @@ For a shortlist, give the requested number and identify the strongest fit.""",
             "What went wrong last time, if it is a fix.",
         ],
         steps=[
-            "Identify the target model and version. If none is named, write a model-neutral prompt and ask in one line which model they use.",
-            "Translate the idea into six slots: genre and subgenre, mood, tempo (BPM) and feel, key instruments (3-5), vocal (gender, register, delivery) or 'instrumental', production and era.",
-            "Order the prompt with the most important words first: models weight the beginning.",
-            "Replace artist names with descriptions of their sound; most models block or ignore artist names.",
-            "Write it in the target model's shape and within its limits (see Model compatibility), with lyrics and section tags if vocals are wanted.",
-            "Add two or three exclusions only where the model has a place for them (e.g. no autotune, no EDM drop).",
-            "For a fix, name the likely cause and change only what addresses it.",
+            "Identify the workflow: **Create** (idea to prompt), **Adapt** (an existing prompt to another model) or **Fix** (a generation came out wrong). Identify the target model and version; if none is named, write a model-neutral prompt and ask in one line which model they use.",
+            "**Create:** fill the slots that matter for this brief: genre (one primary, up to two influences with a stated role each, e.g. 'trap drums under a bossa nova guitar'), mood, tempo and feel, 3-5 key instruments, vocal or 'instrumental', production and era. Leave out slots that would only add noise.",
+            "Write it in the target model's shape and within its limits (see Model compatibility): fields, tags, settings and where exclusions go. Use the model's own strengths: Suno v6 edits, remixes and audio, image or video references; ElevenLabs composition plans; ACE-Step BPM, key and duration settings; Lyria timestamps.",
+            "**Adapt:** keep the musical intent and change only the format: move each element to the field the new model reads, convert negatives to the new model's mechanism or to positive wording, and check its limits.",
+            "**Fix:** diagnose before rewriting. Name the likely cause: an ambiguous word, conflicting instructions, an over-long or over-stuffed prompt, a model limitation, plain take-to-take randomness, or something better solved by editing the audio (Suno v6 section edits, extend, stem separation). If the prompt is sound, recommend 2-3 more takes before changing it; otherwise change only what addresses the cause.",
+            "Return one strong prompt by default. Offer variations only when the brief is open or the user asks.",
         ],
         rules=[
+            "Never put an artist, band or song name in any field, not even as 'X-inspired' or 'in the style of X'. Describe the sound instead (era, instruments, vocal texture, production). Most models block or ignore names, and some reject the prompt.",
             "Concrete beats poetic: '808 sub bass, sparse trap hi-hats' beats 'deep dark vibes'.",
-            "Do not stack conflicting genres; pick one primary and at most one influence.",
-            "State BPM as a number and the feel as a word (half-time, swung, four-on-the-floor).",
-            "Never claim a prompt guarantees a result; models are stochastic. Suggest 2-3 variations to try.",
-            "Use model-specific syntax only for the named model; never mix two models' formats.",
+            "Blend genres on purpose: each influence gets a role (rhythm, harmony, vocal style, production). Never list several genres with no roles; they cancel out.",
+            "Give BPM as a number when tempo matters to the brief or the model has a tempo setting; describe the feel in a word (half-time, swung, four-on-the-floor).",
+            "Never claim a prompt guarantees a result; models are stochastic.",
+            "Use model-specific syntax only for the named model; never mix two models' formats. Ordering advice is model-specific: Suno weights the start of the style box; other models read the whole description.",
+            "In lyrics, put performance cues in the model's cue syntax (Suno and most models: [square brackets]; ElevenLabs: {curly braces} for short inline cues); parentheses are for sung backing vocals or vocal sounds.",
+            "Keep the vocal description consistent: one register and timbre per voice, with contrasts placed in specific sections.",
+            "Put things to avoid only in the model's negative field, never more than three, and drop any that fights the requested sound. In the main prompt, describe what you want ('beatless' rather than 'no drums').",
+            "Put every attribute the user explicitly asked for in the first third of the style text.",
+            "State a character count only if you counted it (with code if you can); otherwise say it is within the limit.",
+            "Write each exclusion as 'no X'.",
+            "In Fix mode the smallest change must actually remove the conflict: keep one primary genre and at most two influences with roles, and drop the rest; never just relabel every element. Explain in one line why each setting you recommend matters (Variety rewrites the style; Style Influence sets how much it counts), and say that some drift between takes is normal.",
+            "Put sound and ambience cues in the model's cue syntax ([Intro | city ambience] for Suno), never in parentheses.",
         ],
-        output="""**Model:** [model + version]
-**[Field as the model names it]** ([N] / [limit] chars)
+        output="""**Model:** [model + version] · **Workflow:** Create / Adapt / Fix
+(Fix: **Likely cause** — ... · **Smallest change** — ...)
+**[Field as the model names it]**
 ```
 ...
 ```
 (one block per field the model has: style, lyrics, exclude, settings, composition plan)
 **Settings:** [e.g. BPM, key, duration, Variety, Style Influence]
-**Variations to try:** 1) ... 2) ...""",
+**Variations:** only if useful""",
         example=(
             "Prompt for a chill track like late-night city driving.",
             "Model: Suno v6 · Style: \"synthwave, nocturnal, 96 BPM, steady driving groove, analog arpeggiated synths, warm sub bass, gated reverb drums, airy female vocal pads, wide stereo, 1980s production, instrumental\" · Exclude: \"no guitar solo, no EDM drop\" · Settings: Variety Off, Style Influence 70%",
@@ -316,7 +590,7 @@ For a shortlist, give the requested number and identify the strongest fit.""",
         name="genre-translator",
         title="Genre Translator",
         cat="generation",
-        desc="Translates genre names, artist references and vague descriptions into precise, model-safe sound descriptions, and re-imagines a song in another genre. Use when the user names an artist or genre the model will not understand, asks what a genre sounds like in production terms, or wants a song flipped into a different genre.",
+        desc="Translates genre names, artist references and vague descriptions into precise, model-safe sound descriptions, as a short line, a detailed genre profile or a model-ready prompt, and re-imagines a song in another genre. Use when the user names an artist or genre a model won't understand, asks what a genre sounds like in production terms, or wants a song flipped into a different genre.",
         card="Turns 'like that artist' or a niche genre name into the instruments, tempo and production words an AI model or a producer can use.",
         use=[
             "The user writes 'make it sound like [artist]'.",
@@ -325,18 +599,24 @@ For a shortlist, give the requested number and identify the strongest fit.""",
         ],
         inputs=["The genre, artist or description.", "Target genre, if it is a flip."],
         steps=[
-            "Identify the genre's defining traits: tempo range, rhythm signature, core instruments, vocal style, production signature, era.",
-            "Write a sound description of 25-60 words with no artist names.",
-            "For a flip: list what to keep (melody, lyrics, title) and what to replace (rhythm, instruments, vocal delivery), then the new description.",
-            "Offer one adjacent genre if the request is ambiguous.",
+            "Pick the depth the request needs: a **short** line (one sentence), a **profile** (to understand or make the genre), or **model-ready** (for a named model, in its format).",
+            "For a profile, cover what defines this genre (it differs by genre: rhythm and groove for amapiano or drill, harmony and voicings for neo-soul, vocals and lyric delivery for some styles), plus characteristic instruments and sound design, vocals, production, regional or historical variants, and one common misconception.",
+            "For an artist reference, ask yourself which era or album the user means; if unclear, describe the best-known period and name one alternative period in a line. Never put the name in a prompt.",
+            "When a genre name is genuinely ambiguous (drill: Chicago, UK, Brooklyn), give two contrasting readings briefly and say which you used.",
+            "For a flip: list what stays (melody, lyrics, title, story) and what changes (rhythm, instruments, vocal delivery, production), then the new description.",
+            "Write the model-safe description with no artist names.",
         ],
         rules=[
             "Never put artist or song names into a generation prompt; describe the sound instead.",
-            "Be specific about rhythm: it defines most genres more than instruments do (e.g. amapiano log drum; reggaeton dembow; drill sliding 808s and triplet hats).",
-            "Respect regional genres: describe them accurately, without stereotypes.",
+            "Respect regional genres: describe them accurately, credit their origin, and avoid stereotypes.",
+            "Do not flatten a genre into one tempo, drum pattern or instrument list: give the common case and the range ('usually 110-115 BPM; often a steady kick under syncopated percussion').",
+            "Claim the origin of a specific sound only when you are sure; otherwise leave it out.",
+            "When the model accepts styles to avoid, list the neighbouring genres it is likely to drift into.",
+            "When the user names a model, deliver the description in that model's own format in this answer (for ElevenLabs: a composition plan with timed sections and styles to include and avoid).",
+            "Keep settings consistent with the content (no forced-instrumental flag next to vocal chants), and keep the explanation to a few lines when the user wants a model-ready result.",
         ],
-        output="""**Genre:** ... · **Tempo:** ... · **Rhythm:** ...
-**Core sound:** ...
+        output="""**Genre:** ... · **Depth:** short / profile / model-ready
+**Profile** (when asked): defining traits · instruments and sound design · vocals · production · variants · misconception
 **Model-safe description:**
 ```
 ...
@@ -359,20 +639,24 @@ For a shortlist, give the requested number and identify the strongest fit.""",
         ],
         inputs=["The mood, scene, image or memory.", "Use case and length, vocals or instrumental."],
         steps=[
-            "Name the core emotion and its energy (arousal 1-10) and colour (valence: dark to bright).",
-            "Map to music: tempo from energy; major, minor or modal from valence (Dorian for bittersweet, Lydian for wonder, Phrygian for tension); dynamics and density from intensity.",
-            "Choose 3-5 instruments whose timbre matches (e.g. felt piano for intimacy, low strings for weight, glassy synth for distance).",
-            "Describe how it moves over time (builds, stays still, breaks).",
-            "Give a final prompt and two alternates: one more literal, one more surprising.",
+            "Name the emotion precisely, including any mix (lonely but hopeful), its energy and its colour (dark to bright).",
+            "Decide whether it changes over time. If so, sketch an emotional journey: starting feeling, turn, peak, ending feeling.",
+            "Offer musical possibilities, not a formula: emotion comes from several cues together (tempo, rhythmic density, mode and harmony, register, dynamics, articulation, timbre). Pick a combination and say what each cue contributes. Mode associations (Dorian bittersweet, Lydian wonder) are starting points, not rules.",
+            "Consider contrast on purpose when it serves the brief: bright music under sad words, calm music with a thread of tension.",
+            "Choose a small sound palette with a clear foreground (what carries the feeling) and background (what supports it).",
+            "Write the prompt for the user's model (settings such as BPM and key where the model has them) and, only when it helps, one alternate direction.",
         ],
         rules=[
-            "Explain each choice in a few words so the user learns the mapping.",
-            "Avoid the obvious when it flattens the mood: sad does not always mean slow piano.",
+            "Explain each choice in a few words so the user learns how music carries feeling.",
+            "Avoid the obvious when it flattens the mood: sad does not always mean slow piano; energetic does not always mean fast.",
+            "Keep the palette small: three to five sound sources in total, including texture.",
+            "Phrase exclusions positively for models without a negative field ('beatless, ambient' rather than 'no drums').",
         ],
         output="""**Emotion:** ... · **Energy:** n/10 · **Colour:** ...
-| Choice | Pick | Why |
+**Journey** (if it changes): start → turn → peak → end
+| Cue | Choice | What it does |
 **Prompt:** ```...```
-**Alternates:** literal: ... / surprising: ...""",
+**Alternate direction:** only if useful""",
         example=(
             "The feeling of the last day of summer holiday.",
             "Bittersweet, energy 4/10 → 84 BPM, D Mixolydian, nylon guitar, soft brushed drums, distant vibraphone, tape-warm; ends on an unresolved chord.",
@@ -392,17 +676,23 @@ For a shortlist, give the requested number and identify the strongest fit.""",
         ],
         inputs=["Genre, mood, use case.", "Instruments already in the track, if any.", "Budget or live constraints (band, solo, orchestra)."],
         steps=[
-            "Fill five roles: rhythm, bass, harmony, lead, texture. One instrument can cover two.",
-            "Assign each a register (low / mid / high) and check no two leads share the same register at the same time.",
-            "Specify articulation and tone (e.g. palm-muted guitar, pizzicato strings, Rhodes with tremolo).",
-            "Mark what enters where: not everything plays all the time.",
+            "Pick the mode the brief needs: **minimal** (one to three instruments covering several roles, e.g. solo piano), **full ensemble** (a genre's standard line-up), or **hybrid** (acoustic and electronic, or a regional instrument inside a modern production).",
+            "Decide the foreground (the element the listener must hear) and the background, and give the roles that matter (rhythm, bass, harmony, lead, texture). Not every piece needs every role: ambient may have no drums; a solo instrument covers several.",
+            "Assign registers and articulation (palm-muted guitar, pizzicato strings, Rhodes with tremolo). Overlap on purpose: doubling a line in octaves or unison reinforces it or creates a new combined colour; two different lines in the same register at the same time compete.",
+            "Plan dynamic layering: what enters where and how the build happens.",
+            "For instruments AI models render poorly or a user can't record, suggest a substitution with a similar role and colour.",
             "Give the prompt-ready instrument line.",
         ],
         rules=[
-            "Fewer, well-chosen instruments beat many. Three to six is usual.",
-            "Authenticity matters for regional genres: name the traditional instrument (oud, kora, erhu, tar, bandoneon) and say what it plays.",
+            "Fewer, well-chosen instruments beat many.",
+            "Authenticity matters for regional genres: name the traditional instrument (oud, kora, erhu, tar, bandoneon), what it plays and how it is played.",
+            "For music outside 12-tone equal temperament (Persian dastgah, Arabic and Turkish maqam, Indian raga), address tuning: which notes are microtonal (e.g. Persian koron and sori), which instruments must be retuned or can bend, and the drone or reference note the bass should hold.",
+            "Explain when overlap blends and when it masks, instead of forbidding it.",
+            "Name only techniques and terms you are sure of; leave out anything you cannot verify.",
         ],
-        output="""| Role | Instrument | Register | Articulation / tone | Enters |
+        output="""**Mode:** minimal / full / hybrid · **Foreground:** ...
+| Instrument | Role | Register | Articulation / tone | Enters |
+**Substitutions:** (if any)
 **Prompt line:** ...""",
         example=(
             "Instruments for a cosy fantasy tavern scene.",
@@ -414,41 +704,43 @@ For a shortlist, give the requested number and identify the strongest fit.""",
         name="ai-song-formatter",
         title="AI Song Formatter",
         cat="generation",
-        desc="Formats lyrics for the AI music model the user generates with (Suno v6, Udio, Google Flow Music, ACE Music and ACE-Step, Mureka, ElevenLabs, MiniMax Music 3, YuE2): the right section tags and casing, performance cues, line lengths and character limits. Use when the user is about to paste lyrics into a music model, or when generated vocals skip lines, rush, or sing the tags.",
-        card="Formats lyrics so each AI music model sings them right: its own section tags, performance cues, line lengths and limits, no sung stage directions.",
+        desc="Formats lyrics for the AI music model the user generates with (Suno v6, Udio, Google Flow Music, ACE Music and ACE-Step, Mureka, ElevenLabs, MiniMax Music 3, YuE2) without changing the song: the model's section tags, cue syntax and limits, plus validation and repair. Use when the user is about to paste lyrics into a music model, wants them checked for a model, or when generated vocals skip lines, rush, repeat sections or sing the tags.",
+        card="Formats lyrics for each AI music model without changing the song: its own tags, cue syntax and limits, plus validation and repair.",
         use=[
             "Lyrics are ready and about to go into an AI music model.",
             "Generated vocals rush, skip lines, sing the stage directions, or end too early.",
         ],
         inputs=["The lyrics.", "Target model and its character limit, if known."],
         steps=[
-            "Identify the target model. If none is named, use plain [Verse] / [Chorus] tags, which most models read, and ask which model in one line.",
-            "Add one section tag per section on its own line, in the model's tag format.",
-            "Move any stage directions into the model's cue syntax (e.g. [Verse | whispered] for Suno) so they are not sung.",
-            "Break long lines: aim for 6-12 syllables a line; long lines get rushed.",
-            "Add [Intro] and [Outro] or [End] so the song starts and finishes cleanly.",
-            "Remove characters models misread (emoji, stray symbols); spell out numbers and abbreviations as they should be sung.",
-            "Check the total against the model's lyrics limit and trim repeats if over.",
+            "Pick the mode: **Format** (default: preserve every word, line and section; change only what the model requires), **Validate** (report invalid tags, conflicts between style and lyrics, over-length, likely mispronunciations, without editing), **Optimize** (suggest lyric or structure changes, listed separately, never applied silently) or **Repair** (the model sang instructions, skipped lines, repeated sections or mispronounced words: diagnose the cause, then format).",
+            "Identify the target model and version. If none is named, use plain [Verse] / [Chorus] tags, which most models read, and ask which model in one line.",
+            "Put one section tag per section on its own line, in the model's tag names and casing (see Model compatibility).",
+            "Move stage directions out of the sung text into the model's cue syntax: Suno [Verse | whispered]; ElevenLabs {curly braces} for short inline cues and (parentheses) only for vocal sounds; ACE-Step hints on tags [Chorus - anthemic]. Keep cues short; contradictions between cues and the style prompt confuse the model.",
+            "Keep the user's line breaks and sections by default. Add [Intro] or [Outro] only when asked or when the model is known to stop abruptly, with a cue, never empty.",
+            "Remove characters models misread (emoji, stray symbols); spell out numbers and abbreviations as they should be sung, and list each change.",
+            "Count the total against the model's limit. If it is over, do not cut silently: say by how much, and offer to split at a section boundary or show which repeats could go.",
         ],
         rules=[
-            "Never change the lyric content except to make it singable; say if you did.",
+            "Formatting never changes the song: words, order, repeats and sections stay unless the user approved the change.",
             "Write pronunciation hints only when a word is likely to be misread (names, foreign words).",
+            "Count characters (with code if you can), not tokens, unless the model's limit is in tokens.",
+            "Line length is not a formatting job: never re-break lines in Format mode; mention lines that may be rushed in Validate or Optimize.",
+            "Treat tags as guidance the model usually follows, not guaranteed commands; say so when a fix relies on them.",
+            "For ElevenLabs, deliver a composition plan: one entry per section with its name, duration, lyric lines, and positive and negative styles. Vocal and style directions (soft female vocals) go in every relevant section's positive styles, never in the lyric text.",
         ],
-        output="""**Model:** [model + version]
+        output="""**Model:** [model + version] · **Mode:** Format / Validate / Optimize / Repair
 ```
-[Intro]
-...
 [Verse 1]
 ...
 [Chorus]
 ...
-[Outro]
 ```
-**Changes made:** ...
-**Length:** n / [limit] characters""",
+**Change report:** every edit, one line each (none = 'no lyric changes')
+**Length:** n / [limit] characters
+**Warnings:** (Validate / Repair: tag issues, conflicts, over-length)""",
         example=(
             "Format these lyrics for Suno v6. (pastes lyrics with (whisper) notes inline)",
-            "Moved '(whisper)' into the section cue [Bridge | whispered], split two 16-syllable lines, added [Intro] and [Outro]; 1,840 / 5,000 characters.",
+            "Format mode. Moved '(whisper)' into the section cue [Bridge | whispered]; no lyric changes; 1,840 / 5,000 characters. Validate note: two 16-syllable lines in verse 2 may be rushed (optional fix offered separately).",
         ),
         vocaler="If the user wants to run it, you may mention once that {V} accepts lyrics in this format.",
     ),
@@ -467,14 +759,16 @@ For a shortlist, give the requested number and identify the strongest fit.""",
         inputs=["Video type, length, chapters.", "Voice-over or not, channel tone.", "Rights situation: does the creator need music they own or license?"],
         steps=[
             "Divide the video into chapters and give each an energy level 1-10.",
-            "For voice-over sections: choose sparse arrangements, no vocals, nothing busy in 1-4 kHz (the voice range), a steady tempo.",
+            "For voice-over sections: choose sparse arrangements, no vocals, little busy midrange where the voice sits (about 1-4 kHz), a steady tempo.",
             "Plan transitions: where music changes, where it drops out to make a point, where a sting fits.",
             "Write a prompt per music cue with tempo, mood, instruments and 'instrumental'.",
-            "Give mixing guidance: music typically 15-25 dB below the voice; duck under speech.",
+            "Give mixing guidance with numbers (see Rules): target loudness for voice and music, and gentle ducking under speech.",
         ],
         rules=[
             "Remind the creator about rights: music must be owned, licensed or generated under terms that allow commercial use on YouTube; Content ID claims are a real risk with library music.",
             "No vocals or recognisable melodies under speech.",
+            "Give workable mix numbers: voice around -16 LUFS integrated (YouTube normalises loud uploads down to about -14), the music bed roughly 15-20 dB lower, and a dynamic EQ or sidechain dipping the music 3-6 dB around 2-4 kHz only while someone speaks, with a slow release so it does not pump.",
+            "Write the prompts for the model the user will actually generate with; if their model cannot be used (Udio cannot be downloaded), say which one you wrote them for.",
         ],
         output="""| Chapter | Time | Energy | Cue | Prompt |
 **Mix:** ...
@@ -501,8 +795,11 @@ For a shortlist, give the requested number and identify the strongest fit.""",
         ],
         rules=[
             "Intros of 5-15 seconds keep listeners; longer intros get skipped.",
-            "If the host talks over it, leave the 1-4 kHz range clear and avoid vocals.",
+            "If the host talks over it, keep the midrange sparse in the arrangement, avoid vocals, and carve 2-4 kHz in the mix.",
             "Everything should share one motif, key and palette so the show sounds like itself.",
+            "Build every piece (intro, outro, sting, bed) from the signature motif so the show is recognisable from any of them.",
+            "Do not put mix instructions a music model cannot follow into prompts ('nothing above 1 kHz'); write 'sparse midrange' in the prompt and do the carving in the mix.",
+            "Deliver every piece in one answer: intro, outro, sting and bed, each with its prompt. For an exact length, give the method: a duration setting in milliseconds where the model has one (ElevenLabs), or generate longer and cut on the motif's last note, with a short fade.",
         ],
         output="""**Identity:** word, word, word · **Motif:** ...
 | Piece | Length | Structure | Prompt |""",
@@ -531,6 +828,9 @@ For a shortlist, give the requested number and identify the strongest fit.""",
             "Loops must not tire: 1-3 minutes for exploration; vary the instrumentation inside the loop.",
             "Keep all layers of one cue at the same tempo and key.",
             "Match the game's era and art style (8-bit chiptune, orchestral fantasy, synth noir).",
+            "Text-to-music models output full mixes and cannot add a layer to an existing track. For layered or adaptive music, generate the fullest version (e.g. combat), split it into stems with a stem separator, and build the calmer layer from a subset of those stems; or generate both at the same BPM and key and align them on bar 1, trimming to whole bars.",
+            "In the engine, start all layers on the same audio clock (Unity: AudioSource.PlayScheduled at the same dspTime) and crossfade volumes, never restart a layer mid-loop.",
+            "Say why the style suits the art direction and the game's feel.",
         ],
         output="""**Theme:** ...
 | Cue | Trigger | Length / loop | Layers | Prompt |
@@ -559,6 +859,11 @@ For a shortlist, give the requested number and identify the strongest fit.""",
             "The brand name must be easy to sing: put it on a strong beat and an open vowel if possible.",
             "One message per spot. Say the brand name at least twice in 30 seconds.",
             "Do not make claims the user has not confirmed (prices, 'best', health claims).",
+            "Pick a tempo where each spot length is whole bars (at 120 BPM one 4/4 bar is 2 s, so 6 s is 3 bars), and plan any leftover as a short tail.",
+            "End each version on the full tagline, and keep other words from colliding with the brand name's sound.",
+            "Build longer spots from even phrase groups (e.g. 4 + 2 bars) and put any half bar at the very end as the ring-out; cut the short version from the same lines.",
+            "Product attributes (hand-picked, organic, fresh daily) are claims too; use them only if the user gave them.",
+            "Write the sung rhythm of the tagline (which syllable lands on which beat) so the brand name's landing beat is explicit.",
         ],
         output="""**Tagline (sung):** ...
 | Length | Lyrics / script | Timing |
@@ -588,6 +893,8 @@ For a shortlist, give the requested number and identify the strongest fit.""",
         rules=[
             "Consistency is the product: one palette, one tempo range, one mood.",
             "Remind the creator of rights and platform rules on AI music disclosure.",
+            "Build the prompt family as a fixed core (genre, mix, ambience, tempo range) plus a per-track slot (lead instrument, key, energy), so a solo-piano track does not inherit the band.",
+            "Count the title's characters; keep it under 70. Tell the user to rebuild chapter times from the real track lengths after rendering.",
         ],
         output="""**Title:** ... · **Length:** h:mm · **Tracks:** n
 | # | Track / prompt | Start | Energy | Key |
@@ -618,6 +925,8 @@ For a shortlist, give the requested number and identify the strongest fit.""",
         rules=[
             "Show the formula with the numbers.",
             "Round BPM to one decimal place for detection, whole numbers for production choices.",
+            "Show every subdivision you give: 1/4 = 60000/BPM ms, 1/8 = 30000/BPM, dotted 1/8 = 45000/BPM, 1/16 = 15000/BPM, triplet 1/8 = 20000/BPM. Give values at the measured BPM and at the rounded BPM a DAW would use.",
+            "Present half-time and double-time as valid readings of the same taps that depend on the feel, not as errors.",
         ],
         output="""**Tempo:** n BPM (feel: ...) · **Confidence:** ...
 | Note | ms |  (1/4, 1/8, 1/8 dotted, 1/16, 1/4 triplet)
@@ -673,6 +982,11 @@ print(f"beats detected: {len(beats)}")
             "Write both Roman numerals and chord names.",
             "Name the feel each progression gives (hopeful, unresolved, nostalgic).",
             "Genre-true harmony: jazz uses ii-V-I and extensions; punk uses power chords; neo-soul uses 9ths and 11ths.",
+            "For keys, give real voicings for each chord (left hand and right hand notes); for guitar, give fret shapes. Say who covers the bass: the left hand, or a bass player.",
+            "Spell borrowed and chromatic chords correctly in the key (in Eb major, bII is Fbmaj7, not Emaj7) and describe their function accurately.",
+            "Spell every chord note by note and check it against the chord's quality before writing it down (Abm9 = Ab-Cb-Eb-Gb-Bb).",
+            "Voice-lead for keys: keep common tones and move other voices by step using inversions; do not stack every chord from its own root position. Check any claim that voices 'barely move' note by note.",
+            "Write the voicings first, then derive every voice-leading claim from the notes you listed (which note moves where); never describe movement the voicings don't contain.",
         ],
         output="""**Key:** ... · **Feel:** ...
 | Section | Numerals | Chords | Bars |
@@ -699,7 +1013,11 @@ print(f"beats detected: {len(beats)}")
             "Add transitions: risers, fills, reverse cymbals, a bar of silence, a drop to vocal only.",
             "Add one or two ear-candy moments per minute that reward listening.",
         ],
-        rules=["Subtraction is the strongest tool: removing the drums for 4 bars makes the return land.", "Each repeat of a section should change something."],
+        rules=["Subtraction is the strongest tool: removing the drums for 4 bars makes the return land.", "Each repeat of a section should change something.",
+            "Make the bars reach the target length and show it: bars = minutes x BPM / 4 in 4/4. Recount after changes.",
+            "For club tracks, make intro and outro DJ-friendly: 16-32 bars with kick and hats from bar 1, and keep the kick running to the end while other parts drop out.",
+            "Keep the map consistent: every transition sits at a section boundary in the table, and the text never contradicts the table. Re-read both against each other before answering.",
+        ],
         output="""| Instrument | Intro | V1 | Ch1 | V2 | Ch2 | Bridge | Ch3 |
 **Diagnosis:** ...
 **Changes:** ...
@@ -722,10 +1040,14 @@ print(f"beats detected: {len(beats)}")
             "Translate the complaint into a technical cause (muddy = buildup 200-500 Hz; harsh = 2-5 kHz; boomy = 80-200 Hz; thin = lacking 100-250 Hz; buried vocal = level or masking).",
             "Work in order: balance, low end, vocal, EQ, dynamics, space, stereo, loudness.",
             "For each note: the problem, the likely cause, a fix with starting settings, and how to check it.",
-            "Give loudness guidance: most streaming services normalise around -14 LUFS integrated; keep true peak below -1 dBTP.",
+            "Give loudness guidance for the genre (see Rules), noting that streaming services normalise playback (Spotify and YouTube around -14 LUFS).",
             "If you cannot hear the audio, say your notes are hypotheses based on the description.",
         ],
-        rules=["Starting values, not rules: give ranges and tell the user to trust ears and references.", "Prioritise: three notes that matter beat fifteen."],
+        rules=["Starting values, not rules: give ranges and tell the user to trust ears and references.", "Prioritise: three notes that matter beat fifteen.",
+            "In genres built on sub-bass (trap, drill, EDM, hip-hop), do not high-pass the kick or 808 low end. Solve kick-808 clashes by arrangement (they take turns), tuning the 808 to the key, and sidechain or dynamic EQ on the 808 keyed from the kick.",
+            "Judge loudness against the genre: loud genres commonly master around -10 to -6 LUFS integrated, acoustic and classical far lower. Platforms turn loud masters down; that only costs something if the master is over-compressed. Keep true peak below -1 dBTP.",
+            "Separate symptoms by cause: a mix that is muddy only on some speakers is a translation problem (low mids, mono low end, monitoring), not a loudness problem.",
+        ],
         output="""**Top 3 issues**
 1. Problem · cause · fix (settings) · how to check
 **Loudness:** ...
@@ -741,7 +1063,7 @@ print(f"beats detected: {len(beats)}")
         name="genre-expert",
         title="Genre Expert",
         cat="knowledge",
-        desc="Explains any music genre or subgenre: origins, defining sound, tempo and instruments, key records by era, subgenres, and how to make or recognise it. Use when the user asks what a genre is, how two genres differ, what to listen to, or how to make music in a style.",
+        desc="Answers any question about a music genre or subgenre: what it is, how two genres differ (e.g. drill vs trap, house vs techno), where it came from, its defining sound, tempo and instruments, the key producers, artists and records, its subgenres, and how to make or recognise it. Use for every genre question, comparison or listening request.",
         card="Explains any genre or subgenre: where it came from, what defines the sound, the records to hear and how to make it yourself.",
         use=["What is a genre, how is it different from another, what should I listen to.", "How to make music in a style."],
         inputs=["The genre(s).", "The user's angle: listening, making, writing about it."],
@@ -757,6 +1079,12 @@ print(f"beats detected: {len(beats)}")
             "Say when you are unsure about a fact or a date; do not invent records or release years.",
             "Credit the communities a genre came from.",
             "Genre borders are fuzzy; say so when they are.",
+            "Prefer three to five canonical examples you are certain of over a long list; never use a placeholder like 'early cuts' in place of a real record.",
+            "Name the places and communities a genre came from (neighbourhood, city, scene), and be precise about tempo and groove differences.",
+            "Name the producers who defined the sound alongside the artists, and the neighbourhoods behind the scene.",
+            "Give a year only when you are sure of it; otherwise give the era ('mid-2010s').",
+            "Keep neighbouring scenes apart (grime vs UK drill, trap vs drill, house vs techno) and never attach an artist to a scene they are not known for.",
+            "When comparing related genres, describe how each sounded where it started and how later regional versions changed it (e.g. the original city sound vs later variants), so a trait isn't credited to the wrong version.",
         ],
         output="""**In one line:** ...
 **Origins:** ... · **Sound:** ...
@@ -784,7 +1112,12 @@ print(f"beats detected: {len(beats)}")
             "Give 2-3 practice questions and the answers hidden at the end.",
             "Suggest the next concept to learn.",
         ],
-        rules=["Never quote copyrighted lyrics or full melodies as examples.", "Use letter names and, for guitarists, fret positions; for pianists, white and black keys."],
+        rules=["Never quote copyrighted lyrics or full melodies as examples.", "Use letter names and, for guitarists, fret positions; for pianists, white and black keys.",
+            "Use and define the standard term for each idea the first time (leading tone, tritone, cadence).",
+            "For guitarists, give the string and fret for the notes that move.",
+            "Work out the answers to your practice questions note by note before writing them; a wrong answer key undoes the lesson.",
+            "For guitarists, say early that a half step is one fret.",
+        ],
         output="""**Short answer:** ...
 **How it works:** ...
 **Example:** ...
@@ -811,7 +1144,10 @@ print(f"beats detected: {len(beats)}")
             "For learning: first month plan, practice routine, common mistakes.",
             "For buying: what matters at the beginner level and what does not; no brand favouritism.",
         ],
-        rules=["Flag transposing instruments clearly (e.g. B-flat clarinet, alto sax in E-flat).", "Do not quote prices as facts; give rough ranges and say they vary."],
+        rules=["Flag transposing instruments clearly (e.g. B-flat clarinet, alto sax in E-flat).", "Do not quote prices as facts; give rough ranges and say they vary.",
+            "Be precise about register zones: lowest notes, the break, the comfortable range, special keys and the true extreme range (for saxophone: palm keys written D6 to F6 or F#6 are standard; altissimo is above that).",
+            "For wind instruments and voice, give breathing and phrase-length advice and how dynamics behave in each register.",
+        ],
         output="""**At a glance:** family · range · tuning
 **Writing for it:** do / avoid
 **Learning:** ...""",
@@ -824,18 +1160,24 @@ print(f"beats detected: {len(beats)}")
     dict(
         name="songwriting-coach",
         title="Songwriting Coach",
-        cat="knowledge",
+        cat="songwriting",
         desc="Coaches songwriters: honest feedback on a song, exercises for writer's block, a practice plan, and help finishing songs, while keeping the writer's voice. Use when the user shares a song for feedback, is stuck, wants to improve as a songwriter, or asks how to finish more songs.",
         card="A coach, not a ghostwriter: honest notes on your song, exercises when you're stuck and a plan to finish more songs in your own voice.",
         use=["Feedback on a draft.", "Writer's block.", "A plan to improve or a writing habit."],
-        inputs=["The song (lyrics, chords, description) or the problem.", "The writer's goals and experience."],
+        inputs=["The song (lyrics, chords, description) or the problem.", "The writer's goals and experience (guess from the request when not given)."],
         steps=[
+            "Pick the mode from the request: **beginner** (encouraging, plain words, one idea at a time), **professional critique** (direct, line references, market and genre context), **co-write** (ask one question, offer two directions, let the writer choose) or **fix one problem** (stay on that problem only).",
             "Start with what works, specifically.",
             "Give at most three priority notes, each with the reason and a question that helps the writer fix it themselves.",
             "Offer one exercise matched to the problem (object writing, destination writing, title-first, rewrite in another POV, 10-minute timed draft).",
             "End with one next step.",
         ],
-        rules=["Do not rewrite the song unless asked; suggest and ask.", "Be honest and kind. Vague praise does not help."],
+        rules=["Do not rewrite the song unless asked; show at most one example line to illustrate a note.", "Be honest and kind. Vague praise does not help.",
+               "Explain every craft term the first time for beginners (e.g. 'show, don't tell', 'prosody').",
+               "Separate taste from craft: say 'I'd try' for opinions, and be definite only about things like stress, count and clarity.",
+            "Praise only what is really there: quote the line, never invent details about how it was written, and name rhyme schemes correctly (four lines on one rhyme sound is AAAA).",
+            "Call stock phrases what they are (clichés) and say why they lose a listener, in plain words.",
+        ],
         output="""**What works:** ...
 **Notes:** 1. ... (why) — Ask yourself: ...
 **Exercise:** ...
@@ -896,7 +1238,9 @@ print(f"beats detected: {len(beats)}")
             "List what is missing and who usually supplies it (ISRC: distributor or label; UPC: distributor).",
             "Flag anything that commonly triggers rejection.",
         ],
-        rules=["Never invent codes, names or credits.", "Rules vary by distributor and change: say which you applied and suggest checking the distributor's current guide."],
+        rules=["Never invent codes, names or credits.", "Rules vary by distributor and change: say which you applied and suggest checking the distributor's current guide.",
+            "Credit roles in their own fields: a remixer goes in the remixer (or version artist) field, not in writers, unless they also wrote. Say that exact fields and display rules differ between distributors and stores.",
+        ],
         output="""**Release:** title · type · artist · date · UPC · genre / subgenre · label · (P)/(C) lines
 | # | Track | Version | Feat. | Writers | Producers | ISRC | Explicit | Language |
 **Missing:** ...
@@ -922,7 +1266,10 @@ print(f"beats detected: {len(beats)}")
             "Plan release week and the four weeks after.",
             "Mark what is done and what is missing.",
         ],
-        rules=["Platform lead times change; say they are typical and recommend checking the distributor and platform.", "Keep it a checklist: dates, tasks, owner."],
+        rules=["Platform lead times change; say they are typical and recommend checking the distributor and platform.", "Keep it a checklist: dates, tasks, owner.",
+            "Be exact about pitching: Spotify editorial pitches must be submitted at least 7 days before release, and only after the release appears in Spotify for Artists, so upload immediately. When editorial matters more than the date, recommend moving the date 3-4 weeks out.",
+            "Answer the question first, then the plan; do not pad with steps far beyond the release week unless asked.",
+        ],
         output="""| Date | Task | Owner | Status |
 **Missing now:** ...
 **Release day:** ...
@@ -950,7 +1297,10 @@ print(f"beats detected: {len(beats)}")
             "Bios: 1 line, 50 words, 150 words.",
             "For names: 5-10 options, each checked for meaning, pronunciation, search clash (tell the user to search streaming services and socials) and handle availability to verify.",
         ],
-        rules=["Never invent facts about the artist.", "Do not imitate an existing artist's identity."],
+        rules=["Never invent facts about the artist.", "Do not imitate an existing artist's identity.",
+            "If the user has not described their sound and influences, spread name options across two or three directions (e.g. soft and ethereal, noisy and heavy) instead of assuming one.",
+            "Give every name its meaning and how it is pronounced, and keep options varied (no repeated words or endings).",
+        ],
         output="""**Positioning:** ...
 **Words:** are / are not
 **Story:** ...
@@ -978,7 +1328,10 @@ print(f"beats detected: {len(beats)}")
             "For loops: design a 4-8 second seamless loop where the last frame matches the first.",
             "Write AI video prompts per shot: subject, action, camera move, lens, light, style.",
         ],
-        rules=["Match energy: cut faster in choruses, hold in verses.", "Keep one visual motif that ties to the cover art."],
+        rules=["Match energy: cut faster in choruses, hold in verses.", "Keep one visual motif that ties to the cover art.",
+            "For a loop or canvas: one continuous shot described in one self-contained prompt, a locked or seamlessly cycling camera, and a concrete loop technique (match first and last frame, a short crossfade, or a ping-pong). Check the prompt does not contradict itself.",
+            "Spotify Canvas: 3-8 seconds, vertical 9:16, no text, no fast cuts.",
+        ],
         output="""**Idea:** ...
 **Treatment:** ...
 | Section | Time | Shot | Camera | Prompt |
@@ -1010,19 +1363,21 @@ MODELS = [
         rules=[
             "Put the most important style words first; the start of the style box weighs most.",
             "Negatives go only in Exclude, as 'no X', two or three at most. Typed into the style box, 'male vocal' is read as an instruction to include one.",
-            "Tell the user to set Variety to Off (at Normal, Suno rewrites the style prompt) and to raise Style Influence above its 50% default when the prompt is precise.",
+            "Tell the user to set the Variety slider to 0 (otherwise Suno rewrites the style prompt) and to raise Style Influence above its 50% default when the prompt is precise.",
+            "v6 can also edit an existing song in plain language (change one section, or one word of a lyric, keeping the rest), build mashups, and take audio, image and video references in one prompt; suggest these before regenerating from scratch.",
             "v6 for reliable results, v6-wild for experiments, v6-mini on free plans. Judge on several takes: two takes of one prompt can differ more than two prompts.",
             "Describe the sound instead of naming artists.",
         ],
         rights="Free plan: no commercial use. Paid plans: commercial use; downloads are capped per plan since Sep 2026.",
         sources=[("Suno: Introducing v6", "https://suno.com/blog/introducing-v6"),
+                 ("Suno v6 FAQ (official)", "https://help.suno.com/en/articles/13924481"),
                  ("Suno v6 prompt guide (Variety, Style Influence)", "https://hookgenius.app/learn/suno-v6-guide/"),
                  ("Suno character limits", "https://hookgenius.app/learn/suno-character-limits/")],
     ),
     dict(
         key="udio", provider="Udio", product="udio.com",
         models="v2 · v1.5 · v1.5 Allegro (faster, punchier, suits pop and electronic).",
-        input="A prompt (genres, tags and free text) and a lyrics box. Songs are built clip by clip and extended section by section.",
+        input="A prompt (topic or free text plus genres and tags) and a lyrics box; Manual Mode takes exact tags only, with no automatic refinement. Songs are built clip by clip and extended section by section.",
         limits=[
             "Lyrics tags: [Intro] [Verse] [Pre-chorus] [Chorus] [Post-chorus] [Hook] [Refrain] [Bridge] [Drop] [Interlude] [Instrumental Break] [Outro].",
         ],
@@ -1032,6 +1387,7 @@ MODELS = [
         ],
         rights="Downloads of audio, video and stems have been switched off on every plan since 29 Oct 2025 (after the Universal settlement); songs can only be played inside Udio. A licensed platform was announced for 2026. Do not recommend Udio when the user needs a file (YouTube, ads, games, release).",
         sources=[("Udio guidance tags", "https://help.udio.com/en/articles/11166249-level-up-your-creations-with-guidance-tags"),
+                 ("Udio: Prompt like a master", "https://help.udio.com/en/articles/10716541-prompt-like-a-master"),
                  ("Udio v1.5", "https://www.udio.com/blog/introducing-v1-5"),
                  ("What happened to Udio downloads", "https://music.loop.fans/ai/what-happened-to-udio")],
     ),
@@ -1094,7 +1450,8 @@ MODELS = [
         input="A simple prompt, or a composition plan: a list of sections, each with a duration, styles to include, styles to avoid and lyrics. Can force an instrumental.",
         limits=[
             "Total length 3 s to 10 min, exact to the millisecond; each section 3 s to 2 min.",
-            "Lyrics: at most 30 lines per section and 200 characters per line.",
+            "Lyrics: at most 30 lines per section and 200 characters per line. Section text conventions: [Verse 1] for section names, (ooh) parentheses only for vocal sounds, {guitar solo} curly braces for short inline cues.",
+            "Styles: up to 50 positive and 50 negative per section; the first section's styles set the tone, so give it at least 6-7 specific ones (e.g. '80 BPM', 'D minor', 'warm fingerpicked acoustic guitar'). context_adherence (low / medium / high, default high) sets how closely a section follows its neighbours.",
             "music_v1 takes global and per-section styles; v2 and v2.5 take a list of chunks and always respect section durations.",
         ],
         rules=[
@@ -1103,7 +1460,8 @@ MODELS = [
         ],
         rights="Commercial use depends on the ElevenLabs plan.",
         sources=[("Eleven Music compose API", "https://elevenlabs.io/docs/api-reference/music/compose"),
-                 ("Eleven Music quickstart", "https://elevenlabs.io/docs/eleven-api/guides/cookbooks/music")],
+                 ("Eleven Music quickstart", "https://elevenlabs.io/docs/eleven-api/guides/cookbooks/music"),
+                 ("Eleven Music composition plans", "https://elevenlabs.io/docs/eleven-api/guides/how-to/music/composition-plans")],
     ),
     dict(
         key="minimax", provider="MiniMax", product="MiniMax Music",
@@ -1158,7 +1516,7 @@ COMPAT = {
     ]),
     "lyrics-writer": ("light", [
         "Fit the length to the model: a 30-second Lyria 3 Clip or YuE2 default holds about one verse and one chorus.",
-        "Write section tags in the model's format (lowercase for YuE2).",
+        "Leave model-specific tag formatting to ai-song-formatter; write plain [Verse] / [Chorus] labels.",
         "If the language isn't one the model sings, say so before writing.",
         "If the requested lyrics exceed a single clip or input field, propose splitting at section boundaries or show a shorter cut and identify what it omits. Preserve lines the user has fixed.",
     ]),
@@ -1195,3 +1553,48 @@ COMPAT = {
         "Check downloads and commercial rights for a monetised channel (Udio cannot be downloaded; Suno and ACE Music free plans can't be used commercially).",
     ]),
 }
+
+
+# Handoffs: which skill to use next, and when. Rendered as "Works well with"
+# in each SKILL.md and on the skill's page.
+NEXT = {
+    "lyrics-writer": [("chorus-builder", "a stronger chorus"), ("rhyme-checker", "rhyme and meter"), ("prosody-checker", "checking the lyrics against a melody"), ("melody-writer", "a tune for the lyrics"), ("ai-song-formatter", "preparing them for a music model")],
+    "rhyme-checker": [("prosody-checker", "checking against the melody or beat"), ("lyrics-writer", "rewriting more than a line")],
+    "chorus-builder": [("hook-writer", "a sharper hook"), ("melody-writer", "the chorus melody"), ("prosody-checker", "checking how it sings")],
+    "song-structure": [("arrangement-advisor", "what plays in each section"), ("lyrics-writer", "writing the sections")],
+    "hook-writer": [("melody-writer", "a full melody around the hook"), ("chorus-builder", "the chorus around it")],
+    "melody-writer": [("prosody-checker", "checking the lyric setting"), ("chord-progression-builder", "harmony under the melody")],
+    "prosody-checker": [("melody-writer", "changing the melody"), ("rhyme-checker", "rhyme and syllable counts")],
+    "song-title-generator": [("chorus-builder", "building the chorus on the title"), ("hook-writer", "turning it into a hook")],
+    "lyric-translator": [("prosody-checker", "checking the translation on the melody"), ("ai-song-formatter", "preparing it for a music model")],
+    "songwriting-coach": [("lyrics-writer", "drafting when the writer asks for it"), ("rhyme-checker", "line-level sound checks")],
+    "music-prompt-engineer": [("ai-song-formatter", "formatting the lyrics"), ("genre-translator", "describing a reference sound")],
+    "genre-translator": [("music-prompt-engineer", "the full prompt for a model")],
+    "mood-to-music": [("music-prompt-engineer", "model-specific prompt format"), ("instrument-selector", "a fuller instrument plan")],
+    "instrument-selector": [("arrangement-advisor", "when each instrument plays"), ("music-prompt-engineer", "the prompt")],
+    "ai-song-formatter": [("music-prompt-engineer", "the style prompt")],
+    "youtube-background-music": [("music-prompt-engineer", "prompts for a specific model"), ("playlist-video-planner", "long compilation videos")],
+    "podcast-intro": [("music-prompt-engineer", "prompts for a specific model")],
+    "game-soundtrack": [("music-prompt-engineer", "prompts per cue"), ("bpm-finder", "loop and tempo math")],
+    "ad-jingle": [("hook-writer", "a stronger tagline"), ("music-prompt-engineer", "the production prompt")],
+    "playlist-video-planner": [("cover-art-director", "the thumbnail"), ("music-video-concept", "the loop video")],
+    "bpm-finder": [("arrangement-advisor", "section lengths"), ("song-structure", "timing a song")],
+    "chord-progression-builder": [("melody-writer", "a melody over the chords"), ("music-theory-tutor", "why the chords work")],
+    "arrangement-advisor": [("mixing-feedback", "the mix"), ("song-structure", "the form")],
+    "mixing-feedback": [("release-checklist", "getting ready to release")],
+    "genre-expert": [("genre-translator", "turning the genre into a prompt")],
+    "music-theory-tutor": [("chord-progression-builder", "trying it in a progression")],
+    "instrument-expert": [("instrument-selector", "choosing a whole instrumentation")],
+    "cover-art-director": [("music-video-concept", "a matching video or canvas"), ("artist-branding", "a consistent identity")],
+    "music-metadata": [("release-checklist", "the full release plan")],
+    "release-checklist": [("music-metadata", "the metadata sheet"), ("cover-art-director", "the artwork")],
+    "artist-branding": [("cover-art-director", "covers in the new identity")],
+    "music-video-concept": [("cover-art-director", "the matching cover")],
+}
+
+ROADMAP += [
+    ("songwriting", "rap-flow-designer", "Flow patterns, rhyme pockets, cadence and breath placement for rap verses."),
+    ("songwriting", "vocal-harmony-writer", "Backing harmonies, doubles and responses around an existing melody."),
+    ("songwriting", "song-idea-generator", "Song concepts from a memory, an object or a feeling, for when you don't know where to start."),
+    ("songwriting", "concept-album-planner", "Stories, recurring themes and connections across the songs of an EP or album."),
+]

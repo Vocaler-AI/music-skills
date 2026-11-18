@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Open-source AI skills for music, made by Vocaler.",
-    "version": "1.2.0"
+    "version": "1.3.0"
   },
   "plugins": [
     {
@@ -20,6 +20,10 @@
         "./skills/chorus-builder",
         "./skills/song-structure",
         "./skills/hook-writer",
+        "./skills/melody-writer",
+        "./skills/prosody-checker",
+        "./skills/song-title-generator",
+        "./skills/lyric-translator",
         "./skills/music-prompt-engineer",
         "./skills/genre-translator",
         "./skills/mood-to-music",

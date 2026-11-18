@@ -4,7 +4,7 @@ description: "Checks lyrics for rhyme, syllable count, stress and flow, or finds
 license: MIT
 metadata:
   author: Vocaler
-  version: "1.2.0"
+  version: "1.3.0"
   category: songwriting
   homepage: https://skills.vocaler.ai/rhyme-checker/
   repository: https://github.com/Vocaler-AI/music-skills
@@ -26,7 +26,11 @@ Checks rhyme, syllable count, stress and flow, finds rhymes by sound, and fixes 
 - Language, accent and delivery when relevant. A beat, melody, target count or matching section can give a line its intended shape.
 - Any constraints on what the fix must preserve, such as meaning, end word or scheme.
 
-Do not interview the user. If something is missing, make a sensible assumption, state it in one line, and deliver. Ask only when the answer would change the result completely.
+Do not interview the user. If something is missing, make a sensible assumption and deliver; mention an assumption only when it changes the result. Ask only when the answer would change the result completely.
+
+Lead with the deliverable and skip closing notes that only restate it. Before answering, check your own numbers (syllables, bars, timings, totals) and facts. Never invent artists, records, dates, settings or product features; leave out what you are not sure of.
+
+Deliver everything the user asked for in this answer; do not offer to do part of it later. Follow explicit requests exactly (named attributes, counts, limits). Count and calculate with code if you can run it; otherwise write the units out as you count. Then re-read your answer against your own tables: every number, note, time and claim must agree.
 
 ## Workflow
 
@@ -41,7 +45,13 @@ Do not interview the user. If something is missing, make a sensible assumption, 
 - Judge by sound. For example, 'should have read' can rhyme with 'bed', while 'need to read' can rhyme with 'seed'.
 - Keep deliberate slant rhymes, repetitions and delivery choices that work in context.
 - Point out stock pairs (fire/desire, heart/apart) when they make a line predictable; keep them when the line earns them.
+- Name the rhyme device when it matters: multisyllabic and internal rhyme (central to rap), assonance (shared vowels: building / children), consonance (shared consonants). Treat these as craft, not errors.
+- Mark counts that depend on accent, contraction or delivery (I'ma, been, fire as one or two syllables) instead of presenting them as certain.
+- Verify sound and count as facts; do not claim a line is emotionally strong or weak as if it were measurable. Label taste as an opinion.
 - Match the depth of the review to the request. A count-only request needs counts and relevant pronunciation variants.
+- Be exact about vowels: a perfect rhyme needs the same stressed vowel and everything after it (building / yielding is a slant rhyme, not perfect). Recount every line you change.
+- Write out the syllables of every line you count (grind-ing all night), and count with code if you can. Map internal rhyme chains across bars (night / sight, vision / win it / in it), not only line endings.
+- Judge rhyme on the stressed vowels. In rap and most pop, unstressed endings need not match: BUILD-ing / CHIL-dren (same stressed vowel and l) is a standard slant rhyme, not an error. Call a rhyme weak only relative to the style and the rhymes around it, and never 'fix' a working slant rhyme by default.
 
 ## Output format
 
@@ -66,3 +76,10 @@ For a rhyme search, list usable matches by rhyme closeness instead.
 
 Try 'I left your key in driving rain' (8). The main phrase stresses can fall on LEFT, KEY, DRIV- and RAIN. It keeps the end rhyme and the heavy rain.
 ```
+
+## Works well with
+
+- `prosody-checker` for checking against the melody or beat
+- `lyrics-writer` for rewriting more than a line
+
+Suggest one of these only when the user's next step needs it.

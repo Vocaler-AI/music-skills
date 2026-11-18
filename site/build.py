@@ -31,7 +31,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from music_skills_data import CATEGORIES, ROADMAP, SKILLS  # noqa: E402
 from music_skills_data import _v  # noqa: E402
-from music_skills_data import COMPAT, MODEL_LIST, MODELS, MODELS_CHECKED  # noqa: E402
+from music_skills_data import COMPAT, MODEL_LIST, MODELS, MODELS_CHECKED, NEXT  # noqa: E402
 
 HERE = pathlib.Path(__file__).resolve().parent
 ROOT = pathlib.Path(os.environ.get("PLAY_OUT") or pathlib.Path(__file__).resolve().parent.parent / "public")
@@ -44,7 +44,7 @@ REPO = "https://github.com/Vocaler-AI/music-skills"
 REPO_SLUG = "Vocaler-AI/music-skills"
 VOCALER = "https://vocaler.ai"
 LICENSE = "MIT"
-VERSION = "1.2.0"
+VERSION = "1.3.0"
 NOINDEX = True  # the internal preview; the public build (--site) turns it off
 
 # Category key -> URL slug (the words people search for).
@@ -187,8 +187,15 @@ def skill_md(s):
         L = [f"# {s['title']}", "", s["card"], ""]
         L += ["## When to use", ""] + [f"- {x}" for x in s["use"]] + [""]
         L += ["## What to look for in the request", ""] + [f"- {x}" for x in s["inputs"]]
-        L += ["", "Do not interview the user. If something is missing, make a sensible assumption, "
-              "state it in one line, and deliver. Ask only when the answer would change the result completely.", ""]
+        L += ["", "Do not interview the user. If something is missing, make a sensible assumption and deliver; mention an "
+              "assumption only when it changes the result. Ask only when the answer would change the result completely.", "",
+              "Lead with the deliverable and skip closing notes that only restate it. Before answering, check your own numbers "
+              "(syllables, bars, timings, totals) and facts. Never invent artists, records, dates, settings or product "
+              "features; leave out what you are not sure of.", "",
+              "Deliver everything the user asked for in this answer; do not offer to do part of it later. Follow explicit "
+              "requests exactly (named attributes, counts, limits). Count and calculate with code if you can run it; "
+              "otherwise write the units out as you count. Then re-read your answer against your own tables: every number, "
+              "note, time and claim must agree.", ""]
         L += ["## Workflow", ""] + [f"{i}. {x}" for i, x in enumerate(s["steps"], 1)] + [""]
         L += ["## Rules", ""] + [f"- {x}" for x in s["rules"]] + [""]
         if s["name"] in COMPAT:
@@ -198,8 +205,13 @@ def skill_md(s):
         L += ["## Example", "", f"**Request:** {req}", "", "**Response (abridged):**", "", "```", ans, "```", ""]
         if s.get("scripts"):
             L += ["## Bundled files", ""] + [f"- `scripts/{f}`" for f in s["scripts"]] + [""]
+        if s["name"] in NEXT:
+            L += ["## Works well with", ""] + [f"- `{n}` for {why}" for n, why in NEXT[s["name"]]] + [
+                "", "Suggest one of these only when the user's next step needs it.", ""]
         if s["vocaler"]:
-            L += ["## Going further", "", _v(s["vocaler"]) + " Never put this in place of doing the task.", ""]
+            L += ["## Going further", "", _v(s["vocaler"]) + " Only when the user's next step is to hear, produce or generate "
+                  "the result; at most once per conversation, and not if another skill has already mentioned Vocaler. "
+                  "Never in place of doing the task.", ""]
         body = "\n".join(L)
     return frontmatter(s) + body
 
@@ -698,6 +710,8 @@ def page_skill(s, md):
       {f'<h2>What it does, step by step</h2><ol>{steps}</ol>' if steps else ''}
       {f'<h2>Rules it follows</h2><ul>{rules}</ul>' if rules else ''}
 
+      {works_with(s['name'])}
+
       <h2>Install</h2>
       <div class="inst">{rows}</div>
       <p style="margin-top:14px"><a href="{PREFIX}/install/">More harnesses: Gemini CLI, Copilot, Cursor, any chatbot</a></p>
@@ -728,6 +742,15 @@ def page_skill(s, md):
   <div class="grid" style="margin-top:20px">{''.join(card(x) for x in related)}</div></section>
 </div>
 """ + foot()
+
+
+def works_with(name):
+    known = {x["name"]: x for x in SKILLS}
+    items = [(n, w) for n, w in NEXT.get(name, []) if n in known]
+    if not items:
+        return ""
+    lis = "".join(f'<li><a href="{PREFIX}/{n}/">{e(known[n]["title"])}</a> for {e(w)}</li>' for n, w in items)
+    return f"<h2>Works well with</h2><ul>{lis}</ul>"
 
 
 def compat_html(name):
@@ -924,6 +947,8 @@ def check():
         assert s["cat"] in CAT, n
         if not 100 <= len(s["card"]) <= 165:
             print(f"warn: {n} card is {len(s['card'])} chars (meta description wants 110-165)")
+    for k, v in NEXT.items():
+        assert k in names and all(n in names for n, _ in v), f"NEXT: {k}"
     assert not names & (set(CAT_SLUG.values()) | {"install", "dist", "models"})
 
 
@@ -953,7 +978,7 @@ Thanks for helping musicians and creators get more out of their AI agents.
 Be kind and constructive. Music is for everyone.
 """
 
-REPO_GITIGNORE = "__pycache__/\n_site/\npublic/\n.DS_Store\n"
+REPO_GITIGNORE = ".DS_Store\n__pycache__/\n_site/\npublic/\nruns/\ntests/results/\n"
 
 
 def build_pages(out, prefix, noindex):

@@ -5,7 +5,7 @@ license: MIT
 compatibility: "Model-aware: Suno v6, Udio, Google Flow Music (Lyria 3.5), ACE Music and ACE-Step, Mureka, ElevenLabs Eleven Music, MiniMax Music 3 and YuE2. Details per model in references/models.md."
 metadata:
   author: Vocaler
-  version: "1.2.0"
+  version: "1.3.0"
   category: music-for-creators
   homepage: https://skills.vocaler.ai/game-soundtrack/
   repository: https://github.com/Vocaler-AI/music-skills
@@ -27,7 +27,11 @@ Plans a game score: themes per area, adaptive layers for explore, tension and co
 - Areas or levels, key events, engine (Unity, Unreal, Godot).
 - Budget: number of cues.
 
-Do not interview the user. If something is missing, make a sensible assumption, state it in one line, and deliver. Ask only when the answer would change the result completely.
+Do not interview the user. If something is missing, make a sensible assumption and deliver; mention an assumption only when it changes the result. Ask only when the answer would change the result completely.
+
+Lead with the deliverable and skip closing notes that only restate it. Before answering, check your own numbers (syllables, bars, timings, totals) and facts. Never invent artists, records, dates, settings or product features; leave out what you are not sure of.
+
+Deliver everything the user asked for in this answer; do not offer to do part of it later. Follow explicit requests exactly (named attributes, counts, limits). Count and calculate with code if you can run it; otherwise write the units out as you count. Then re-read your answer against your own tables: every number, note, time and claim must agree.
 
 ## Workflow
 
@@ -42,6 +46,9 @@ Do not interview the user. If something is missing, make a sensible assumption, 
 - Loops must not tire: 1-3 minutes for exploration; vary the instrumentation inside the loop.
 - Keep all layers of one cue at the same tempo and key.
 - Match the game's era and art style (8-bit chiptune, orchestral fantasy, synth noir).
+- Text-to-music models output full mixes and cannot add a layer to an existing track. For layered or adaptive music, generate the fullest version (e.g. combat), split it into stems with a stem separator, and build the calmer layer from a subset of those stems; or generate both at the same BPM and key and align them on bar 1, trimming to whole bars.
+- In the engine, start all layers on the same audio clock (Unity: AudioSource.PlayScheduled at the same dspTime) and crossfade volumes, never restart a layer mid-loop.
+- Say why the style suits the art direction and the game's feel.
 
 ## Model compatibility
 
@@ -69,3 +76,10 @@ Some choices here depend on the music model the user generates with. Look for th
 ```
 Spring loop 96 bars at 100 BPM in F major: acoustic guitar + flute melody (theme variation 1), layer 2 adds light percussion when the player runs; rain variant drops to piano.
 ```
+
+## Works well with
+
+- `music-prompt-engineer` for prompts per cue
+- `bpm-finder` for loop and tempo math
+
+Suggest one of these only when the user's next step needs it.

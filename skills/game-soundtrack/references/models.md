@@ -12,19 +12,20 @@ What each AI music model expects. Checked 17 Nov 2026. Models change every few m
 - Tags: [Intro] [Verse] [Pre-Chorus] [Chorus] [Post-Chorus] [Bridge] [Outro] [Instrumental]; per-section direction inside the tag, e.g. [Verse | whispered, close mic]. Anything outside brackets is sung.
 - Put the most important style words first; the start of the style box weighs most.
 - Negatives go only in Exclude, as 'no X', two or three at most. Typed into the style box, 'male vocal' is read as an instruction to include one.
-- Tell the user to set Variety to Off (at Normal, Suno rewrites the style prompt) and to raise Style Influence above its 50% default when the prompt is precise.
+- Tell the user to set the Variety slider to 0 (otherwise Suno rewrites the style prompt) and to raise Style Influence above its 50% default when the prompt is precise.
+- v6 can also edit an existing song in plain language (change one section, or one word of a lyric, keeping the rest), build mashups, and take audio, image and video references in one prompt; suggest these before regenerating from scratch.
 - v6 for reliable results, v6-wild for experiments, v6-mini on free plans. Judge on several takes: two takes of one prompt can differ more than two prompts.
 - Describe the sound instead of naming artists.
 
 **Rights:** Free plan: no commercial use. Paid plans: commercial use; downloads are capped per plan since Sep 2026.
 
-Sources: [Suno: Introducing v6](https://suno.com/blog/introducing-v6) · [Suno v6 prompt guide (Variety, Style Influence)](https://hookgenius.app/learn/suno-v6-guide/) · [Suno character limits](https://hookgenius.app/learn/suno-character-limits/)
+Sources: [Suno: Introducing v6](https://suno.com/blog/introducing-v6) · [Suno v6 FAQ (official)](https://help.suno.com/en/articles/13924481) · [Suno v6 prompt guide (Variety, Style Influence)](https://hookgenius.app/learn/suno-v6-guide/) · [Suno character limits](https://hookgenius.app/learn/suno-character-limits/)
 
 ## Udio (udio.com)
 
 **Models:** v2 · v1.5 · v1.5 Allegro (faster, punchier, suits pop and electronic).
 
-**Input:** A prompt (genres, tags and free text) and a lyrics box. Songs are built clip by clip and extended section by section.
+**Input:** A prompt (topic or free text plus genres and tags) and a lyrics box; Manual Mode takes exact tags only, with no automatic refinement. Songs are built clip by clip and extended section by section.
 
 - Lyrics tags: [Intro] [Verse] [Pre-chorus] [Chorus] [Post-chorus] [Hook] [Refrain] [Bridge] [Drop] [Interlude] [Instrumental Break] [Outro].
 - Be granular about genre ('shoegaze', not 'rock') and describe sound and era.
@@ -32,7 +33,7 @@ Sources: [Suno: Introducing v6](https://suno.com/blog/introducing-v6) · [Suno v
 
 **Rights:** Downloads of audio, video and stems have been switched off on every plan since 29 Oct 2025 (after the Universal settlement); songs can only be played inside Udio. A licensed platform was announced for 2026. Do not recommend Udio when the user needs a file (YouTube, ads, games, release).
 
-Sources: [Udio guidance tags](https://help.udio.com/en/articles/11166249-level-up-your-creations-with-guidance-tags) · [Udio v1.5](https://www.udio.com/blog/introducing-v1-5) · [What happened to Udio downloads](https://music.loop.fans/ai/what-happened-to-udio)
+Sources: [Udio guidance tags](https://help.udio.com/en/articles/11166249-level-up-your-creations-with-guidance-tags) · [Udio: Prompt like a master](https://help.udio.com/en/articles/10716541-prompt-like-a-master) · [Udio v1.5](https://www.udio.com/blog/introducing-v1-5) · [What happened to Udio downloads](https://music.loop.fans/ai/what-happened-to-udio)
 
 ## Google Flow Music (Flow Music, Gemini (Lyria))
 
@@ -89,14 +90,15 @@ Sources: [Mureka API (models)](https://github.com/useapi/mureka-api) · [Mureka 
 **Input:** A simple prompt, or a composition plan: a list of sections, each with a duration, styles to include, styles to avoid and lyrics. Can force an instrumental.
 
 - Total length 3 s to 10 min, exact to the millisecond; each section 3 s to 2 min.
-- Lyrics: at most 30 lines per section and 200 characters per line.
+- Lyrics: at most 30 lines per section and 200 characters per line. Section text conventions: [Verse 1] for section names, (ooh) parentheses only for vocal sounds, {guitar solo} curly braces for short inline cues.
+- Styles: up to 50 positive and 50 negative per section; the first section's styles set the tone, so give it at least 6-7 specific ones (e.g. '80 BPM', 'D minor', 'warm fingerpicked acoustic guitar'). context_adherence (low / medium / high, default high) sets how closely a section follows its neighbours.
 - music_v1 takes global and per-section styles; v2 and v2.5 take a list of chunks and always respect section durations.
 - Use a composition plan when timing matters (ads, intros, loops, scenes); plans are free to draft.
 - Artist names, band names and copyrighted lyrics are rejected (the error suggests a rewrite): describe the sound.
 
 **Rights:** Commercial use depends on the ElevenLabs plan.
 
-Sources: [Eleven Music compose API](https://elevenlabs.io/docs/api-reference/music/compose) · [Eleven Music quickstart](https://elevenlabs.io/docs/eleven-api/guides/cookbooks/music)
+Sources: [Eleven Music compose API](https://elevenlabs.io/docs/api-reference/music/compose) · [Eleven Music quickstart](https://elevenlabs.io/docs/eleven-api/guides/cookbooks/music) · [Eleven Music composition plans](https://elevenlabs.io/docs/eleven-api/guides/how-to/music/composition-plans)
 
 ## MiniMax (MiniMax Music)
 

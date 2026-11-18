@@ -4,7 +4,7 @@ description: "Creates cover art concepts and production-ready text-to-image prom
 license: MIT
 metadata:
   author: Vocaler
-  version: "1.2.0"
+  version: "1.3.0"
   category: release-and-publishing
   homepage: https://skills.vocaler.ai/cover-art-director/
   repository: https://github.com/Vocaler-AI/music-skills
@@ -723,6 +723,14 @@ Only include relevant negatives.
 
 Do not use giant generic negative-prompt lists.
 
+Put negatives where the model reads them:
+
+- Stable Diffusion / SDXL: the negative prompt field
+- Midjourney: the `--no` parameter (e.g. `--no text, watermark, letters`)
+- GPT Image / DALL-E and other models without a negative field: describe the wanted result instead ("clean, empty sky")
+
+Never write "no text" or "without X" inside the main prompt; image models often add the thing named.
+
 ---
 
 ## Model Adaptation
@@ -759,6 +767,8 @@ Prefer:
 - restrained parameter use
 
 Do not overload with disconnected keywords.
+
+End with parameters: `--ar 1:1` for a cover, the version the user names (otherwise the current default, `--v 7` at the time of writing), exclusions in `--no`, and `--style raw` or a lower `--stylize` when the look should stay restrained.
 
 ---
 
@@ -877,6 +887,9 @@ Before finalizing, check:
 - Is negative space intentional?
 
 ### Prompt
+
+- Does the final prompt describe exactly the chosen concept (same subject, shapes and colours)?
+- Does it avoid assuming the artist's gender, age or appearance when they were not given?
 
 - Is the subject clear?
 - Is the mood clear?

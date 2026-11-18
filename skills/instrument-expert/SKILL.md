@@ -4,7 +4,7 @@ description: "Answers questions about instruments: range, tuning, techniques, so
 license: MIT
 metadata:
   author: Vocaler
-  version: "1.2.0"
+  version: "1.3.0"
   category: music-knowledge
   homepage: https://skills.vocaler.ai/instrument-expert/
   repository: https://github.com/Vocaler-AI/music-skills
@@ -25,7 +25,11 @@ Knows the instruments: range, tuning and technique, how to write a part a player
 - The instrument.
 - The goal: writing, learning, buying, sound.
 
-Do not interview the user. If something is missing, make a sensible assumption, state it in one line, and deliver. Ask only when the answer would change the result completely.
+Do not interview the user. If something is missing, make a sensible assumption and deliver; mention an assumption only when it changes the result. Ask only when the answer would change the result completely.
+
+Lead with the deliverable and skip closing notes that only restate it. Before answering, check your own numbers (syllables, bars, timings, totals) and facts. Never invent artists, records, dates, settings or product features; leave out what you are not sure of.
+
+Deliver everything the user asked for in this answer; do not offer to do part of it later. Follow explicit requests exactly (named attributes, counts, limits). Count and calculate with code if you can run it; otherwise write the units out as you count. Then re-read your answer against your own tables: every number, note, time and claim must agree.
 
 ## Workflow
 
@@ -38,6 +42,8 @@ Do not interview the user. If something is missing, make a sensible assumption, 
 
 - Flag transposing instruments clearly (e.g. B-flat clarinet, alto sax in E-flat).
 - Do not quote prices as facts; give rough ranges and say they vary.
+- Be precise about register zones: lowest notes, the break, the comfortable range, special keys and the true extreme range (for saxophone: palm keys written D6 to F6 or F#6 are standard; altissimo is above that).
+- For wind instruments and voice, give breathing and phrase-length advice and how dynamics behave in each register.
 
 ## Output format
 
@@ -56,3 +62,9 @@ Do not interview the user. If something is missing, make a sensible assumption, 
 ```
 Strings C2-G2-D3-A3; comfortable to about A5. Written in bass clef, tenor/treble for high passages. Long legato lines and double stops in fifths are idiomatic.
 ```
+
+## Works well with
+
+- `instrument-selector` for choosing a whole instrumentation
+
+Suggest one of these only when the user's next step needs it.
