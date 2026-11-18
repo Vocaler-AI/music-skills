@@ -19,6 +19,7 @@ and anything else that reads the format.
 """
 
 import html
+import hashlib
 import json
 import os
 import pathlib
@@ -26,6 +27,7 @@ import re
 import shutil
 import sys
 import zipfile
+from datetime import datetime
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -290,6 +292,14 @@ a{color:inherit}
 .nav a.cta:hover{background:var(--cta); filter:brightness(1.08)}
 @media(max-width:720px){.nav .hide-s{display:none}}
 .nav a{white-space:nowrap}
+@media(max-width:440px){
+  .top .w{gap:8px}
+  .top .brand{flex-wrap:wrap; column-gap:6px; row-gap:0; min-width:0; line-height:1.2}
+  .top .brand small{flex-basis:100%; margin-left:24px; font-size:9px}
+  .nav{flex-shrink:0}
+  .nav a{padding:8px}
+  .nav a.cta{padding:8px 10px}
+}
 
 /* type */
 .eyebrow{font:500 12px var(--mono); letter-spacing:.12em; text-transform:uppercase; color:var(--fg-3); display:flex; gap:10px; flex-wrap:wrap; align-items:center}
@@ -395,8 +405,8 @@ ol.how{padding:0; margin:0}
 .box h3{font:500 11px var(--mono); letter-spacing:.12em; text-transform:uppercase; color:var(--fg-3); margin:0 0 12px}
 .box .btn{width:100%; justify-content:center}
 .box .btn + .btn{margin-top:8px}
-.meta{display:grid; grid-template-columns:auto 1fr; gap:6px 14px; font-size:13.5px; margin:0}
-.meta dt{color:var(--fg-3)}.meta dd{margin:0; color:var(--fg-2); font-family:var(--mono); font-size:13px}
+.meta{display:grid; grid-template-columns:auto minmax(0,1fr); gap:6px 14px; font-size:13.5px; margin:0}
+.meta dt{color:var(--fg-3)}.meta dd{margin:0; color:var(--fg-2); font-family:var(--mono); font-size:13px; overflow-wrap:anywhere}
 @media(max-width:900px){.sk{grid-template-columns:minmax(0,1fr)}.side{position:static}}
 .prose h2{font-size:22px; margin:44px 0 12px}
 .prose p, .prose li{color:var(--fg-2)}
@@ -444,9 +454,33 @@ def copybox(cmd, raw=False):
             f'<button class="copy" type="button" aria-label="Copy command">{icon("copy", 15)}<span>Copy</span></button></div>')
 
 
-def head(title, desc, path, ld, og_type="website"):
+def asset_path(name):
+    source = HERE / "assets" / name
+    digest = hashlib.sha256(source.read_bytes()).hexdigest()[:12]
+    return f"assets/{source.stem}.{digest}{source.suffix}"
+
+
+def stylesheet():
+    return (
+        "@font-face{font-family:Geist;font-style:normal;font-weight:100 900;"
+        f"font-display:swap;src:url('{PREFIX}/{asset_path('fonts/geist.woff2')}') format('woff2')}}\n"
+        "@font-face{font-family:'Geist Mono';font-style:normal;font-weight:100 900;"
+        f"font-display:swap;src:url('{PREFIX}/{asset_path('fonts/geist-mono.woff2')}') format('woff2')}}\n"
+        + CSS
+    )
+
+
+def stylesheet_path():
+    digest = hashlib.sha256(stylesheet().encode()).hexdigest()[:12]
+    return f"assets/site.{digest}.css"
+
+
+def head(title, desc, path, ld, og_type="website", indexable=True):
     url = f"{BASE}{path}"
-    robots = '<meta name="robots" content="noindex, nofollow">\n' if NOINDEX else ""
+    robots = '<meta name="robots" content="noindex, nofollow">\n' if NOINDEX else (
+        '<meta name="robots" content="noindex">\n' if not indexable else "")
+    canonical = f'<link rel="canonical" href="{url}">\n' if indexable else ""
+    social_image = f"{BASE}/{asset_path('social.png')}"
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -454,19 +488,23 @@ def head(title, desc, path, ld, og_type="website"):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{e(title)}</title>
 <meta name="description" content="{e(desc)}">
-<link rel="canonical" href="{url}">
-{robots}<meta property="og:type" content="{og_type}">
+{canonical}{robots}<meta property="og:type" content="{og_type}">
 <meta property="og:site_name" content="Vocaler Music Skills">
 <meta property="og:title" content="{e(title)}">
 <meta property="og:description" content="{e(desc)}">
 <meta property="og:url" content="{url}">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="{social_image}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Vocaler Music Skills — open-source music skills for your AI agent">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{social_image}">
+<meta name="twitter:image:alt" content="Vocaler Music Skills — open-source music skills for your AI agent">
 <meta name="theme-color" content="#0A0A0B">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='12' fill='%23FF2D1F'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400..700&family=Geist+Mono:wght@400..600&display=swap">
-<style>{CSS}</style>
+<link rel="icon" href="{PREFIX}/favicon.svg" type="image/svg+xml" sizes="any">
+<link rel="icon" href="{PREFIX}/favicon.png" type="image/png" sizes="96x96">
+<link rel="preload" href="{PREFIX}/{asset_path('fonts/geist.woff2')}" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="{PREFIX}/{stylesheet_path()}">
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False, separators=(",", ":"))}</script>
 </head>
 <body>
@@ -649,7 +687,10 @@ def page_category(c):
     <p class="lead">{e(c['blurb'])}</p>
     {copybox(f"npx skills add {REPO_SLUG}")}
   </section>
-  <div class="grid" style="margin-top:40px">{''.join(card(s) for s in skills)}</div>
+  <section style="margin-top:40px" aria-labelledby="available-skills">
+    <h2 id="available-skills">Available skills</h2>
+    <div class="grid" style="margin-top:20px">{''.join(card(s) for s in skills)}</div>
+  </section>
   {soon_html}
   {band_small(c['key'])}
 </div>
@@ -776,7 +817,9 @@ def page_models():
     ld = {"@context": "https://schema.org", "@graph": [
         ORG, crumbs_ld([("Music Skills", "/"), ("Models", "/models/")]),
         {"@type": "TechArticle", "headline": "AI music models compared for prompting", "description": desc,
-         "dateModified": "2026-11-17", "author": {"@id": ORG["@id"]}, "url": f"{BASE}/models/"}]}
+         "dateModified": datetime.strptime(MODELS_CHECKED, "%d %b %Y").date().isoformat(),
+         "author": {"@id": ORG["@id"]}, "publisher": {"@id": ORG["@id"]},
+         "image": f"{BASE}/{asset_path('social.png')}", "url": f"{BASE}/models/"}]}
     jump = "".join(f'<a class="pill" href="#{m["key"]}" style="text-decoration:none">{e(m["provider"])}</a>' for m in MODELS)
     rows = "".join(f'<tr><td><a href="#{m["key"]}">{e(m["provider"])}</a></td><td>{e(m["models"])}</td><td>{e(m["rights"])}</td></tr>' for m in MODELS)
     blocks = "".join(
@@ -987,6 +1030,15 @@ def build_pages(out, prefix, noindex):
     OUT, PREFIX, NOINDEX = pathlib.Path(out), prefix, noindex
     if OUT.exists():
         shutil.rmtree(OUT)
+    for source in (HERE / "assets").rglob("*"):
+        if source.is_file():
+            name = source.relative_to(HERE / "assets").as_posix()
+            target = OUT / asset_path(name)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source, target)
+    for name in ("favicon.svg", "favicon.png"):
+        shutil.copyfile(HERE / "assets" / name, OUT / name)
+    write(stylesheet_path(), stylesheet())
     mds = {s["name"]: skill_md(s) for s in SKILLS}
     for s in SKILLS:
         for rel, text in skill_files(s, mds[s["name"]]):
@@ -1013,12 +1065,25 @@ def build_pages(out, prefix, noindex):
     if not noindex:  # the public site: let search engines in, and tell them what is here
         urls = ["/", "/install/", "/models/"] + [f"/{c['slug']}/" for c in CAT.values()] + [f"/{s['name']}/" for s in SKILLS]
         write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-              + "".join(f"  <url><loc>{BASE}{u}</loc></url>\n" for u in urls) + "</urlset>\n")
+              + "".join(
+                  f"  <url><loc>{BASE}{u}</loc>"
+                  + (f"<lastmod>{datetime.strptime(MODELS_CHECKED, '%d %b %Y').date().isoformat()}</lastmod>"
+                     if u == "/models/" else "")
+                  + "</url>\n" for u in urls) + "</urlset>\n")
         write("robots.txt", f"User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n")
         write("_headers", "/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n"
+              "  Content-Security-Policy: base-uri 'self'; object-src 'none'; frame-ancestors 'self'\n"
+              "  X-Frame-Options: SAMEORIGIN\n"
+              f"{BASE}/*\n  Strict-Transport-Security: max-age=31536000\n"
+              "https://vocaler-skills.pages.dev/*\n  X-Robots-Tag: noindex\n"
+              "https://:preview.vocaler-skills.pages.dev/*\n  X-Robots-Tag: noindex\n"
               "/*.md\n  Content-Type: text/markdown; charset=utf-8\n  Access-Control-Allow-Origin: *\n"
-              "/dist/*\n  Access-Control-Allow-Origin: *\n  Cache-Control: no-cache\n")
-        write("404.html", head("Page not found | Vocaler Music Skills", "This page does not exist. Browse the open-source music skills for AI agents.", "/404", {"@context": "https://schema.org", "@graph": [ORG]})
+              "  X-Robots-Tag: noindex\n"
+              "/dist/*\n  Access-Control-Allow-Origin: *\n  Cache-Control: no-cache\n  X-Robots-Tag: noindex\n"
+              "/assets/*\n  Cache-Control: public, max-age=31536000, immutable\n"
+              "/404\n  X-Robots-Tag: noindex\n"
+              "/404.html\n  X-Robots-Tag: noindex\n")
+        write("404.html", head("Page not found | Vocaler Music Skills", "This page does not exist. Browse the open-source music skills for AI agents.", "/404", {"@context": "https://schema.org", "@graph": [ORG]}, indexable=False)
               + f'<div class="w"><section class="hero"><h1 class="sm">This page is not here.</h1><p class="lead">The skill may have moved.</p>'
               + f'<div class="btns"><a class="btn" href="/">All music skills {icon("arrow", 16)}</a></div></section></div>' + foot())
     return sum(1 for _ in OUT.rglob("index.html"))
